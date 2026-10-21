@@ -75,8 +75,11 @@ describe('Phase 10 Trips + realtime (e2e)', () => {
     app.useGlobalInterceptors(new ResponseInterceptor());
     await app.init();
     await app.listen(0);
-    const addr = app.getHttpServer().address();
-    const port = typeof addr === 'object' && addr ? addr.port : 3000;
+    const server = app.getHttpServer() as {
+      address: () => string | { port: number } | null;
+    };
+    const addr = server.address();
+    const port = typeof addr === 'object' && addr !== null ? addr.port : 3000;
     baseUrl = `http://127.0.0.1:${port}`;
     prisma = app.get(PrismaService);
 
@@ -116,9 +119,7 @@ describe('Phase 10 Trips + realtime (e2e)', () => {
         vehiclePlate: 'LES-P10',
       })
       .expect(201);
-    driverId = (
-      driver.body as Envelope<{ user: { id: string } }>
-    ).data.user.id;
+    driverId = (driver.body as Envelope<{ user: { id: string } }>).data.user.id;
 
     const driverLogin = await request(app.getHttpServer())
       .post('/api/v1/auth/login')
@@ -195,9 +196,8 @@ describe('Phase 10 Trips + realtime (e2e)', () => {
       .send({ driverId })
       .expect(201);
 
-    const tripId = (
-      approved.body as Envelope<{ trip: { id: string } }>
-    ).data.trip.id;
+    const tripId = (approved.body as Envelope<{ trip: { id: string } }>).data
+      .trip.id;
 
     return { dispatchId, tripId };
   }
@@ -246,9 +246,9 @@ describe('Phase 10 Trips + realtime (e2e)', () => {
         .set('Authorization', `Bearer ${driverToken}`)
         .send({ status })
         .expect(201);
-      expect(
-        (res.body as Envelope<{ status: string }>).data.status,
-      ).toBe(status);
+      expect((res.body as Envelope<{ status: string }>).data.status).toBe(
+        status,
+      );
     }
 
     // Idempotent complete
@@ -287,9 +287,8 @@ describe('Phase 10 Trips + realtime (e2e)', () => {
         vehiclePlate: 'LES-TH',
       })
       .expect(201);
-    const throttleDriverId = (
-      other.body as Envelope<{ user: { id: string } }>
-    ).data.user.id;
+    const throttleDriverId = (other.body as Envelope<{ user: { id: string } }>)
+      .data.user.id;
     const tLogin = await request(app.getHttpServer())
       .post('/api/v1/auth/login')
       .send({
@@ -320,9 +319,8 @@ describe('Phase 10 Trips + realtime (e2e)', () => {
       .post(`/api/v1/dispatches/${d2}/routes/generate`)
       .set('Authorization', `Bearer ${customerToken}`)
       .expect(201);
-    const r2 = (
-      g2.body as Envelope<{ routeOptions: Array<{ id: string }> }>
-    ).data.routeOptions[0].id;
+    const r2 = (g2.body as Envelope<{ routeOptions: Array<{ id: string }> }>)
+      .data.routeOptions[0].id;
     await request(app.getHttpServer())
       .post(`/api/v1/dispatches/${d2}/routes/${r2}/select`)
       .set('Authorization', `Bearer ${customerToken}`)

@@ -17,7 +17,11 @@ import { UpdateLocationDto } from '../trips/dto/update-location.dto';
 import { TripsService } from '../trips/trips.service';
 import { RealtimePublisher } from './realtime.publisher';
 
-type SocketUser = AuthUser & { email: string };
+type SocketUser = AuthUser;
+
+type AuthedSocketData = {
+  user?: SocketUser;
+};
 
 @WebSocketGateway({
   namespace: '/realtime',
@@ -57,7 +61,7 @@ export class RealtimeGateway
         email: payload.email,
         role: payload.role,
       };
-      client.data.user = user;
+      this.socketData(client).user = user;
 
       await client.join(`user:${user.id}`);
       if (user.role === UserRole.ADMIN) {
@@ -81,7 +85,7 @@ export class RealtimeGateway
   }
 
   handleDisconnect(client: Socket) {
-    const user = client.data.user as SocketUser | undefined;
+    const user = this.socketData(client).user;
     if (user) {
       this.logger.debug(`Socket disconnected user=${user.id}`);
     }
@@ -92,7 +96,7 @@ export class RealtimeGateway
     @ConnectedSocket() client: Socket,
     @MessageBody() body: { tripId?: string },
   ) {
-    const user = client.data.user as SocketUser | undefined;
+    const user = this.socketData(client).user;
     if (!user || !body?.tripId) {
       return {
         ok: false,
@@ -132,7 +136,7 @@ export class RealtimeGateway
     @ConnectedSocket() client: Socket,
     @MessageBody() body: UpdateLocationDto & { tripId?: string },
   ) {
-    const user = client.data.user as SocketUser | undefined;
+    const user = this.socketData(client).user;
     if (!user || !body?.tripId) {
       return {
         ok: false,
@@ -164,6 +168,10 @@ export class RealtimeGateway
       };
     }
     return { ok: false, code: 'TRIP_002', message: fallback };
+  }
+
+  private socketData(client: Socket): AuthedSocketData {
+    return client.data as AuthedSocketData;
   }
 
   private extractToken(client: Socket): string | null {
