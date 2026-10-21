@@ -21,6 +21,7 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule, {
+    rawBody: true, // Stripe webhook signature verification (Phase 13)
     logger:
       config.nodeEnv === 'production'
         ? ['error', 'warn', 'log']

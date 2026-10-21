@@ -484,10 +484,12 @@ Before moving on, all must be true:
 - Refunds → **out of scope** unless explicitly added later (document exclusion)
 
 ### Exit checklist
-- [ ] Test mode pay success + decline paths
-- [ ] Webhook signature failure → 400
-- [ ] Cash flow works without Stripe
-- [ ] Paid amount always equals server `totalBill`
+- [x] Test mode pay success + decline paths
+- [x] Webhook signature failure → 400
+- [x] Cash flow works without Stripe
+- [x] Paid amount always equals server `totalBill`
+
+**Refunds:** out of scope for FYP.
 
 **Depends on:** Phase 9+ (bill known); Stripe test keys
 
@@ -623,11 +625,12 @@ Before moving on, all must be true:
 | 9 | Complete |
 | 10 | Complete |
 | 11 | Complete |
-| 12 | Complete (exit checklist green) — awaiting approval to start Phase 13 |
-| 13–16 | Not started |
+| 12 | Complete |
+| 13 | Complete (exit checklist green) — awaiting approval to start Phase 14 |
+| 14–16 | Not started |
 
 ---
 
 ## Next action (waiting on you)
 
-Approve Phase 12 to start **Phase 13** (Cash-on-Pickup + Stripe Test Mode).
+Approve Phase 13 to start **Phase 14** (commission ledger & reconciliation).

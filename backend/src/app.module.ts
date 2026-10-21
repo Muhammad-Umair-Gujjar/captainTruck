@@ -16,6 +16,7 @@ import { MediaModule } from './modules/media/media.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { DispatchesModule } from './modules/dispatches/dispatches.module';
 import { OsmModule } from './modules/osm/osm.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 import { PricingModule } from './modules/pricing/pricing.module';
 import { RealtimeModule } from './modules/realtime/realtime.module';
 import { RealtimePublisherModule } from './modules/realtime/realtime-publisher.module';
@@ -36,6 +37,7 @@ import { UsersModule } from './modules/users/users.module';
     TruckTypesModule,
     OsmModule,
     PricingModule,
+    PaymentsModule,
     MediaModule,
     ChatModule,
     TripsModule,

@@ -20,8 +20,23 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 9 — Admin review / assign | Complete |
 | 10 — Trips + Socket.IO GPS | Complete |
 | 11 — Media + chat | Complete |
-| 12 — Chat 90-day TTL | Complete (awaiting sign-off) |
-| 13 — Payments | Next |
+| 12 — Chat 90-day TTL | Complete |
+| 13 — Payments (cash + Stripe test) | Complete (awaiting sign-off) |
+| 14 — Commission ledger | Next |
+
+### Payments (Phase 13)
+
+| Method | Path | Notes |
+|--------|------|--------|
+| GET | `/api/v1/payments/stripe/status` | Test-mode configured? |
+| POST | `/api/v1/payments` | `{ requestId\|tripId, provider, idempotencyKey, clientAmountCents? }` |
+| GET | `/api/v1/payments/by-request/:requestId` | List payments |
+| GET | `/api/v1/payments/:id` | Payment detail |
+| POST | `/api/v1/payments/:id/cash/collect` | Driver/admin: cash collected (idempotent) |
+| POST | `/api/v1/payments/webhook/stripe` | Public; Stripe-Signature + raw body |
+
+Cash: `CASH_PENDING` → `CASH_COLLECTED`. Stripe: PaymentIntent + webhook → `PAID`/`FAILED`/`CANCELLED`.  
+Amount always = server `totalBillCents`. **Refunds out of scope.** Set `STRIPE_SECRET_KEY` (`sk_test_…`) + `STRIPE_WEBHOOK_SECRET`.
 
 ### Chat retention (Phase 12)
 
