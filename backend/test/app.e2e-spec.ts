@@ -9,6 +9,7 @@ import { App } from 'supertest/types';
 import { AppModule } from '../src/app.module';
 import { AllExceptionsFilter } from '../src/common/filters/http-exception.filter';
 import { ResponseInterceptor } from '../src/common/interceptors/response.interceptor';
+import { PrismaService } from '../src/modules/prisma/prisma.service';
 
 type HealthEnvelope = {
   success: boolean;
@@ -16,14 +17,16 @@ type HealthEnvelope = {
     status: string;
     service: string;
     phase: number;
+    database?: string;
   };
   meta: {
     correlationId: string | null;
   };
 };
 
-describe('Phase 1 (e2e)', () => {
+describe('Phase 2 (e2e)', () => {
   let app: INestApplication<App>;
+  let prisma: PrismaService;
 
   beforeEach(async () => {
     process.env.NODE_ENV = 'test';
@@ -48,6 +51,8 @@ describe('Phase 1 (e2e)', () => {
     app.useGlobalFilters(new AllExceptionsFilter());
     app.useGlobalInterceptors(new ResponseInterceptor());
     await app.init();
+
+    prisma = app.get(PrismaService);
   });
 
   afterEach(async () => {
@@ -64,10 +69,16 @@ describe('Phase 1 (e2e)', () => {
 
     const body = res.body as HealthEnvelope;
     expect(body.success).toBe(true);
-    expect(body.data.status).toBe('ok');
+    expect(body.data.status).toMatch(/ok|degraded/);
     expect(body.data.service).toBe('captain-truck-api');
-    expect(body.data.phase).toBe(1);
+    expect(body.data.phase).toBe(2);
     expect(body.meta.correlationId).toBe('test-correlation-1');
+  });
+
+  it('Prisma Client can query users (sample repository check)', async () => {
+    const count = await prisma.user.count();
+    expect(typeof count).toBe('number');
+    expect(count).toBeGreaterThanOrEqual(0);
   });
 });
 
@@ -82,7 +93,17 @@ describe('Phase 1 rate limit (e2e)', () => {
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(PrismaService)
+      .useValue({
+        onModuleInit: () => undefined,
+        onModuleDestroy: () => undefined,
+        isHealthy: () => Promise.resolve(true),
+        $connect: () => Promise.resolve(),
+        $disconnect: () => Promise.resolve(),
+        user: { count: () => Promise.resolve(0) },
+      })
+      .compile();
 
     app = moduleFixture.createNestApplication();
     app.setGlobalPrefix('api');

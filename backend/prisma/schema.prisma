@@ -1,0 +1,347 @@
+// Captain Truck — Phase 2 schema
+// Money: integer cents (PKR). Live GPS: Redis later; Trip stores last-known only.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_DIRECT")
+}
+
+enum UserRole {
+  CUSTOMER
+  DRIVER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  DISABLED
+  PENDING
+  REJECTED
+}
+
+enum DispatchStatus {
+  DRAFT
+  AWAITING_ROUTE_SELECTION
+  PENDING_ADMIN
+  APPROVED_ASSIGNED
+  REJECTED
+  CANCELLED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum PaymentMethod {
+  CASH
+  STRIPE
+}
+
+enum PaymentProvider {
+  CASH
+  STRIPE
+}
+
+enum PaymentStatus {
+  PENDING
+  REQUIRES_ACTION
+  PAID
+  FAILED
+  CANCELLED
+  CASH_PENDING
+  CASH_COLLECTED
+}
+
+enum TripStatus {
+  ASSIGNED
+  EN_ROUTE_PICKUP
+  ARRIVED_PICKUP
+  IN_TRANSIT
+  DELIVERED
+  COMPLETED
+  CANCELLED
+}
+
+enum MessageType {
+  TEXT
+  IMAGE
+  VOICE
+  PRESET
+}
+
+enum ChatThreadType {
+  DRIVER_CUSTOMER
+  DRIVER_ADMIN
+}
+
+model User {
+  id           String     @id @default(cuid())
+  email        String     @unique
+  phone        String?    @unique
+  passwordHash String
+  fullName     String
+  role         UserRole
+  status       UserStatus @default(ACTIVE)
+  fcmTokens    String[]   @default([])
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  deletedAt    DateTime?
+
+  driverProfile      DriverProfile?
+  refreshTokens      RefreshToken[]
+  dispatchRequests   DispatchRequest[] @relation("CustomerDispatches")
+  assignedTrips      Trip[]            @relation("DriverTrips")
+  chatParticipations ChatParticipant[]
+  messages           Message[]
+  commissionLedger   CommissionLedger[]
+  auditLogs          AuditLog[]        @relation("AuditActor")
+
+  @@index([role, status])
+  @@index([createdAt])
+  @@index([deletedAt])
+  @@map("users")
+}
+
+model DriverProfile {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  licenseNumber  String?
+  docsUrls       String[] @default([])
+  isAvailable    Boolean  @default(true)
+  adminNotes     String?
+  vehiclePlate   String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("driver_profiles")
+}
+
+model TruckType {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  capacity  String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  baseRates        BaseRate[]
+  dispatchRequests DispatchRequest[]
+
+  @@index([isActive])
+  @@map("truck_types")
+}
+
+model BaseRate {
+  id            String   @id @default(cuid())
+  truckTypeId   String
+  amountCents   Int
+  effectiveFrom DateTime @default(now())
+  createdAt     DateTime @default(now())
+
+  truckType TruckType @relation(fields: [truckTypeId], references: [id], onDelete: Cascade)
+
+  @@index([truckTypeId, effectiveFrom])
+  @@map("base_rates")
+}
+
+model DispatchRequest {
+  id                  String         @id @default(cuid())
+  customerId          String
+  truckTypeId         String
+  status              DispatchStatus @default(DRAFT)
+  truckCount          Int            @default(1)
+  pickupAddress       String
+  dropoffAddress      String
+  pickupLat           Float?
+  pickupLng           Float?
+  dropoffLat          Float?
+  dropoffLng          Float?
+  pickupAt            DateTime?
+  notes               String?
+  lockedBaseRateCents Int?
+  paymentMethod       PaymentMethod  @default(CASH)
+  rejectionReason     String?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+
+  customer    User           @relation("CustomerDispatches", fields: [customerId], references: [id])
+  truckType   TruckType      @relation(fields: [truckTypeId], references: [id])
+  routeOptions RouteOption[]
+  trip        Trip?
+  payments    Payment[]
+
+  @@index([customerId, status])
+  @@index([status, createdAt])
+  @@map("dispatch_requests")
+}
+
+model RouteOption {
+  id             String   @id @default(cuid())
+  requestId      String
+  polyline       String
+  distanceMeters Int
+  durationSeconds Int
+  aiCostCents    Int      @default(0)
+  isRecommended  Boolean  @default(false)
+  isSelected     Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  request DispatchRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+  @@map("route_options")
+}
+
+model Trip {
+  id              String     @id @default(cuid())
+  requestId       String     @unique
+  driverId        String
+  status          TripStatus @default(ASSIGNED)
+  finalBillCents  Int?
+  lastLat         Float?
+  lastLng         Float?
+  lastLocationAt  DateTime?
+  startedAt       DateTime?
+  completedAt     DateTime?
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  request          DispatchRequest   @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  driver           User              @relation("DriverTrips", fields: [driverId], references: [id])
+  chatThreads      ChatThread[]
+  commissionLedger CommissionLedger?
+  payments         Payment[]
+
+  @@index([driverId, status])
+  @@index([status, createdAt])
+  @@map("trips")
+}
+
+model ChatThread {
+  id        String         @id @default(cuid())
+  tripId    String?
+  type      ChatThreadType
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  trip         Trip?             @relation(fields: [tripId], references: [id], onDelete: SetNull)
+  participants ChatParticipant[]
+  messages     Message[]
+
+  @@index([tripId])
+  @@index([type, createdAt])
+  @@map("chat_threads")
+}
+
+model ChatParticipant {
+  id       String   @id @default(cuid())
+  threadId String
+  userId   String
+  joinedAt DateTime @default(now())
+
+  thread ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([threadId, userId])
+  @@index([userId])
+  @@map("chat_participants")
+}
+
+model Message {
+  id        String      @id @default(cuid())
+  threadId  String
+  senderId  String
+  type      MessageType @default(TEXT)
+  body      String?
+  mediaUrl  String?
+  reported  Boolean     @default(false)
+  createdAt DateTime    @default(now())
+
+  thread ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  sender User       @relation(fields: [senderId], references: [id])
+
+  @@index([threadId, createdAt])
+  @@index([createdAt])
+  @@map("messages")
+}
+
+model CommissionLedger {
+  id                String    @id @default(cuid())
+  driverId          String
+  tripId            String    @unique
+  expectedCents     Int
+  collectedCents    Int       @default(0)
+  pendingCents      Int
+  commissionPercent Int
+  adminConfirmedAt  DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  driver User @relation(fields: [driverId], references: [id])
+  trip   Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([driverId, adminConfirmedAt])
+  @@map("commission_ledger")
+}
+
+model Payment {
+  id                    String          @id @default(cuid())
+  requestId             String?
+  tripId                String?
+  provider              PaymentProvider
+  status                PaymentStatus   @default(PENDING)
+  amountCents           Int
+  currency              String          @default("PKR")
+  stripeSessionId       String?
+  stripePaymentIntentId String?
+  idempotencyKey        String          @unique
+  createdAt             DateTime        @default(now())
+  updatedAt             DateTime        @updatedAt
+
+  request DispatchRequest? @relation(fields: [requestId], references: [id], onDelete: SetNull)
+  trip    Trip?            @relation(fields: [tripId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([requestId])
+  @@index([tripId])
+  @@map("payments")
+}
+
+model RefreshToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  familyId  String
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, familyId])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String?
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  actor User? @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([actorId, createdAt])
+  @@index([createdAt])
+  @@map("audit_logs")
+}

@@ -155,11 +155,11 @@ Before moving on, all must be true:
 - Decimal money fields: use `Decimal` / integer **cents** (prefer cents to avoid float bugs)
 
 ### Exit checklist
-- [ ] Migrate succeeds against Neon
-- [ ] Seed creates 1 admin + sample truck types
-- [ ] Prisma Client usable in a sample repository test
-- [ ] Money stored as integer cents
-- [ ] Connection pooling documented in README
+- [x] Migrate succeeds against Neon (`20261021182740_phase2_init`)
+- [x] Seed creates 1 admin + sample truck types (idempotent)
+- [x] Prisma Client usable in a sample repository test (e2e `user.count`)
+- [x] Money stored as integer cents (`*Cents` fields)
+- [x] Connection pooling documented in README (pooled vs directUrl)
 
 **Depends on:** Phase 0–1 + Neon credentials  
 **Blocks:** Auth and all domains
@@ -601,8 +601,8 @@ Before moving on, all must be true:
 | Phase | Status |
 |------:|--------|
 | 0 | Complete |
-| 1 | Complete (exit checklist green) — awaiting approval to start Phase 2 |
-| 2 | Unblocked — Neon pooled URL saved in local `.env` |
+| 1 | Complete |
+| 2 | Complete (exit checklist green) — awaiting approval to start Phase 3 |
 | 3–16 | Not started |
 
 ---

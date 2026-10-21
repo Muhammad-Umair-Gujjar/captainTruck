@@ -7,10 +7,12 @@ import { APP_CONFIG } from './config/config.constants';
 import { AppConfigModule } from './config/config.module';
 import type { AppConfig } from './config/env.schema';
 import { HealthModule } from './modules/health/health.module';
+import { PrismaModule } from './modules/prisma/prisma.module';
 
 @Module({
   imports: [
     AppConfigModule,
+    PrismaModule,
     ThrottlerModule.forRootAsync({
       inject: [APP_CONFIG],
       useFactory: (config: AppConfig) => [

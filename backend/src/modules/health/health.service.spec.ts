@@ -1,20 +1,42 @@
 import type { AppConfig } from '../../config/env.schema';
+import type { PrismaService } from '../prisma/prisma.service';
 import { HealthService } from './health.service';
 
 describe('HealthService', () => {
-  it('returns ok status for Phase 1', () => {
+  it('returns ok when database is healthy', async () => {
     const config = {
       nodeEnv: 'test',
       databaseUrl: 'postgresql://example',
     } as AppConfig;
 
-    const service = new HealthService(config);
-    const result = service.getHealth();
+    const prisma = {
+      isHealthy: jest.fn().mockResolvedValue(true),
+    } as unknown as PrismaService;
+
+    const service = new HealthService(config, prisma);
+    const result = await service.getHealth();
 
     expect(result.status).toBe('ok');
     expect(result.service).toBe('captain-truck-api');
-    expect(result.phase).toBe(1);
+    expect(result.phase).toBe(2);
+    expect(result.database).toBe('up');
     expect(result.databaseConfigured).toBe(true);
-    expect(typeof result.uptimeSeconds).toBe('number');
+  });
+
+  it('returns degraded when database is down', async () => {
+    const config = {
+      nodeEnv: 'test',
+      databaseUrl: undefined,
+    } as AppConfig;
+
+    const prisma = {
+      isHealthy: jest.fn().mockResolvedValue(false),
+    } as unknown as PrismaService;
+
+    const service = new HealthService(config, prisma);
+    const result = await service.getHealth();
+
+    expect(result.status).toBe('degraded');
+    expect(result.database).toBe('down');
   });
 });

@@ -9,10 +9,28 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | Phase | Status |
 |------:|--------|
 | 0 — Scaffold & baseline | Complete |
-| 1 — Config / security / rate limit | Complete (awaiting sign-off) |
-| 2 — Neon + Prisma | Ready (DATABASE_URL in local `.env`) |
+| 1 — Config / security / rate limit | Complete |
+| 2 — Neon + Prisma | Complete (awaiting sign-off) |
+| 3 — Auth JWT | Next |
 
 Full plan: [PHASE_PLAN.md](./PHASE_PLAN.md)
+
+### Database (Neon + Prisma)
+
+| Env var | Use |
+|---------|-----|
+| `DATABASE_URL` | **Pooled** Neon URL — runtime NestJS / Prisma Client |
+| `DATABASE_URL_DIRECT` | **Direct** (non-pooler) Neon URL — `prisma migrate` |
+
+Money is stored as **integer cents** (PKR), never floats.
+
+```bash
+npm run prisma:generate
+npm run prisma:migrate        # uses directUrl
+npm run prisma:seed           # idempotent admin + truck types
+```
+
+Seeded admin (change after demos): `admin@captaintruck.local` / `Admin@12345`
 
 ### Rate-limit policy (Phase 1)
 
