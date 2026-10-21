@@ -1,10 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import {
-  DispatchStatus,
-  Prisma,
-  TripStatus,
-  UserRole,
-} from '@prisma/client';
+import { DispatchStatus, Prisma, TripStatus, UserRole } from '@prisma/client';
 import { TripErrorCode } from '../../common/constants/error-codes';
 import { AuthUser } from '../../common/decorators/current-user.decorator';
 import { appHttpError } from '../../common/utils/http-error';
@@ -14,11 +9,7 @@ import { RealtimePublisher } from '../realtime/realtime.publisher';
 import { RedisService } from '../redis/redis.service';
 import { UpdateLocationDto } from './dto/update-location.dto';
 import { UpdateTripStatusDto } from './dto/update-trip-status.dto';
-import {
-  GPS_ALLOWED,
-  GPS_SEALED,
-  canTransitionTrip,
-} from './trip-status';
+import { GPS_ALLOWED, GPS_SEALED, canTransitionTrip } from './trip-status';
 
 const ACTIVE_TRIP_STATUSES: TripStatus[] = [
   TripStatus.ASSIGNED,
@@ -117,11 +108,7 @@ export class TripsService {
     return { ...this.toPublic(trip), liveLocation };
   }
 
-  async updateStatus(
-    actor: AuthUser,
-    id: string,
-    dto: UpdateTripStatusDto,
-  ) {
+  async updateStatus(actor: AuthUser, id: string, dto: UpdateTripStatusDto) {
     const trip = await this.loadTripOrThrow(id);
     this.assertCanDriveOrAdmin(actor, trip);
 
@@ -138,10 +125,7 @@ export class TripsService {
       );
     }
 
-    if (
-      actor.role === UserRole.DRIVER &&
-      dto.status === TripStatus.CANCELLED
-    ) {
+    if (actor.role === UserRole.DRIVER && dto.status === TripStatus.CANCELLED) {
       throw appHttpError(
         HttpStatus.FORBIDDEN,
         TripErrorCode.FORBIDDEN,
@@ -153,10 +137,7 @@ export class TripsService {
       async (tx) => {
         const data: Prisma.TripUpdateInput = { status: dto.status };
 
-        if (
-          dto.status === TripStatus.EN_ROUTE_PICKUP &&
-          !trip.startedAt
-        ) {
+        if (dto.status === TripStatus.EN_ROUTE_PICKUP && !trip.startedAt) {
           data.startedAt = new Date();
         }
 
@@ -473,10 +454,7 @@ export class TripsService {
     );
   }
 
-  private assertCanDriveOrAdmin(
-    actor: AuthUser,
-    trip: { driverId: string },
-  ) {
+  private assertCanDriveOrAdmin(actor: AuthUser, trip: { driverId: string }) {
     if (actor.role === UserRole.ADMIN) return;
     if (actor.role === UserRole.DRIVER && trip.driverId === actor.id) return;
     throw appHttpError(

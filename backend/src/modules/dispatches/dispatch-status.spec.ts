@@ -40,10 +40,7 @@ describe('dispatch status transitions', () => {
 
   it('allows approved_assigned → rejected (admin unassign)', () => {
     expect(
-      canTransition(
-        DispatchStatus.APPROVED_ASSIGNED,
-        DispatchStatus.REJECTED,
-      ),
+      canTransition(DispatchStatus.APPROVED_ASSIGNED, DispatchStatus.REJECTED),
     ).toBe(true);
   });
 });

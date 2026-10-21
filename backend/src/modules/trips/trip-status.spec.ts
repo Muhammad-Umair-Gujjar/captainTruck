@@ -9,20 +9,20 @@ describe('trip status transitions', () => {
   });
 
   it('allows delivered → completed', () => {
-    expect(
-      canTransitionTrip(TripStatus.DELIVERED, TripStatus.COMPLETED),
-    ).toBe(true);
+    expect(canTransitionTrip(TripStatus.DELIVERED, TripStatus.COMPLETED)).toBe(
+      true,
+    );
   });
 
   it('rejects completed → assigned', () => {
-    expect(
-      canTransitionTrip(TripStatus.COMPLETED, TripStatus.ASSIGNED),
-    ).toBe(false);
+    expect(canTransitionTrip(TripStatus.COMPLETED, TripStatus.ASSIGNED)).toBe(
+      false,
+    );
   });
 
   it('rejects skipping steps', () => {
-    expect(
-      canTransitionTrip(TripStatus.ASSIGNED, TripStatus.IN_TRANSIT),
-    ).toBe(false);
+    expect(canTransitionTrip(TripStatus.ASSIGNED, TripStatus.IN_TRANSIT)).toBe(
+      false,
+    );
   });
 });

@@ -256,9 +256,7 @@ export class DispatchesService {
     const dispatch = await this.findOwnedOrAdmin(actor, id);
 
     const allowed =
-      actor.role === UserRole.ADMIN
-        ? ADMIN_CANCELLABLE
-        : CUSTOMER_CANCELLABLE;
+      actor.role === UserRole.ADMIN ? ADMIN_CANCELLABLE : CUSTOMER_CANCELLABLE;
 
     if (!allowed.includes(dispatch.status)) {
       throw appHttpError(

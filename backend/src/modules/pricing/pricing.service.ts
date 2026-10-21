@@ -76,10 +76,7 @@ export class PricingService {
     truckCount: number;
     flaggedOutlier?: boolean;
   }): BillBreakdown {
-    if (
-      input.lockedBaseRateCents == null ||
-      input.lockedBaseRateCents < 1
-    ) {
+    if (input.lockedBaseRateCents == null || input.lockedBaseRateCents < 1) {
       throw appHttpError(
         HttpStatus.BAD_REQUEST,
         PricingErrorCode.MISSING_BASE_RATE,
@@ -87,8 +84,7 @@ export class PricingService {
       );
     }
 
-    const perTruckCents =
-      input.lockedBaseRateCents + input.aiTripCostCents;
+    const perTruckCents = input.lockedBaseRateCents + input.aiTripCostCents;
     const totalBillCents = perTruckCents * input.truckCount;
 
     return {

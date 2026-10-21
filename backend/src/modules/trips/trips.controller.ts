@@ -19,10 +19,7 @@ export class TripsController {
   @Get('mine')
   @Roles(UserRole.DRIVER)
   @ApiOperation({ summary: 'List my trip assignments (driver only)' })
-  listMine(
-    @CurrentUser() user: AuthUser,
-    @Query() query: ListTripsQueryDto,
-  ) {
+  listMine(@CurrentUser() user: AuthUser, @Query() query: ListTripsQueryDto) {
     return this.tripsService.listMine(user, query);
   }
 

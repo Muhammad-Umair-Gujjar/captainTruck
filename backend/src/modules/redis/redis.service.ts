@@ -17,7 +17,10 @@ import type { AppConfig } from '../../config/env.schema';
 export class RedisService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(RedisService.name);
   private client: Redis | null = null;
-  private readonly memory = new Map<string, { value: string; expiresAt?: number }>();
+  private readonly memory = new Map<
+    string,
+    { value: string; expiresAt?: number }
+  >();
   private usingMemory = true;
 
   constructor(@Inject(APP_CONFIG) private readonly config: AppConfig) {}
@@ -84,9 +87,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     }
     this.memory.set(key, {
       value,
-      expiresAt: ttlSeconds
-        ? Date.now() + ttlSeconds * 1000
-        : undefined,
+      expiresAt: ttlSeconds ? Date.now() + ttlSeconds * 1000 : undefined,
     });
   }
 
@@ -99,7 +100,11 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   }
 
   /** SET key NX EX ttl — returns true if set. Used for throttle locks. */
-  async setNxEx(key: string, value: string, ttlSeconds: number): Promise<boolean> {
+  async setNxEx(
+    key: string,
+    value: string,
+    ttlSeconds: number,
+  ): Promise<boolean> {
     if (this.client && !this.usingMemory) {
       const result = await this.client.set(key, value, 'EX', ttlSeconds, 'NX');
       return result === 'OK';

@@ -107,9 +107,7 @@ describe('Phase 9 Admin assign (e2e)', () => {
         vehiclePlate: 'LES-P9-1',
       })
       .expect(201);
-    driverId = (
-      driver.body as Envelope<{ user: { id: string } }>
-    ).data.user.id;
+    driverId = (driver.body as Envelope<{ user: { id: string } }>).data.user.id;
 
     const driverLogin = await request(app.getHttpServer())
       .post('/api/v1/auth/login')
@@ -131,9 +129,8 @@ describe('Phase 9 Admin assign (e2e)', () => {
         vehiclePlate: 'LES-P9-2',
       })
       .expect(201);
-    otherDriverId = (
-      other.body as Envelope<{ user: { id: string } }>
-    ).data.user.id;
+    otherDriverId = (other.body as Envelope<{ user: { id: string } }>).data.user
+      .id;
   });
 
   afterAll(async () => {

@@ -142,7 +142,11 @@ describe('Phase 7 Routing (e2e)', () => {
 
     const selBody = selected.body as Envelope<{
       status: string;
-      routeOptions: Array<{ id: string; isSelected: boolean; aiCostCents: number }>;
+      routeOptions: Array<{
+        id: string;
+        isSelected: boolean;
+        aiCostCents: number;
+      }>;
       billBreakdown: {
         lockedBaseRateCents: number;
         aiTripCostCents: number;
