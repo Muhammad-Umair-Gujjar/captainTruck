@@ -1,0 +1,55 @@
+---
+description: Captain Truck FYP — locked stack; this repo is admin + NestJS backend only
+alwaysApply: true
+---
+
+# Captain Truck — Locked Stack & Repo Scope
+
+## This repository builds ONLY
+- NestJS custom backend (TypeScript)
+- React admin dashboard (Vite + Tailwind), hosted on Vercel
+
+## Do NOT build in this repo
+- Flutter Customer app
+- Flutter Driver app  
+(Those live in separate repositories.)
+
+## Locked technologies (do not substitute)
+| Layer | Choice |
+|-------|--------|
+| Backend | NestJS + TypeScript |
+| Realtime | Socket.IO |
+| Database | PostgreSQL (Neon free) |
+| Cache | Redis (Upstash free or on Oracle VM) |
+| Auth | Custom JWT + refresh tokens (roles: customer, driver, admin) |
+| Push | FCM only (not full Firebase) |
+| Files | Cloudinary |
+| Maps/routing | OSM: Nominatim, Photon, OSRM (mobile uses flutter_map) |
+| On-device AI | TFLite cost prediction + ML Kit Smart Reply (mobile repos) |
+| Payments | Cash-on-Pickup **and** Stripe **Test Mode** |
+| API host | Oracle Cloud Always Free VM |
+| Admin host | Vercel |
+| Language | TypeScript everywhere in this repo |
+
+## Product surfaces (system-wide)
+1. Customer Flutter app — Android only — separate repo  
+2. Driver Flutter app — Android only — separate repo  
+3. Admin web panel — this repo  
+4. Shared NestJS API — this repo  
+
+## In-scope features (do not remove)
+- Admin-mediated driver/truck assignment
+- 2–3 OSM route options + AI trip cost
+- Realtime GPS tracking (Socket.IO)
+- Chat: text, image, voice + Smart Reply (mobile) + 90-day auto-delete
+- Cash-on-Pickup + commission ledger
+- Stripe Test Mode payments
+- Role-based auth (customer / driver / admin)
+
+## Constraints
+- Prefer free tiers only (FYP budget = $0)
+- Optimize for low latency (no cold-start PaaS for the API)
+- Keep APIs mobile-ready (REST + Socket.IO) for the separate Flutter repos
+
+## When unsure
+Ask before adding paid services, Firebase (beyond FCM), MongoDB, GraphQL, or a third client in this repo.
