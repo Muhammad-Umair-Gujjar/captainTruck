@@ -3,6 +3,7 @@ import { DispatchStatus, Prisma, TripStatus, UserRole } from '@prisma/client';
 import { TripErrorCode } from '../../common/constants/error-codes';
 import { AuthUser } from '../../common/decorators/current-user.decorator';
 import { appHttpError } from '../../common/utils/http-error';
+import { CommissionsService } from '../commissions/commissions.service';
 import { PricingService } from '../pricing/pricing.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { RealtimePublisher } from '../realtime/realtime.publisher';
@@ -43,6 +44,7 @@ export class TripsService {
     private readonly redis: RedisService,
     private readonly pricing: PricingService,
     private readonly realtime: RealtimePublisher,
+    private readonly commissions: CommissionsService,
   ) {}
 
   static readonly ACTIVE_STATUSES = ACTIVE_TRIP_STATUSES;
@@ -141,9 +143,16 @@ export class TripsService {
           data.startedAt = new Date();
         }
 
+        let finalBillCents: number | null = null;
         if (dto.status === TripStatus.COMPLETED) {
+          await this.commissions.assertPaymentSettledForRequest(
+            tx,
+            trip.requestId,
+            id,
+          );
+          finalBillCents = this.computeFinalBill(trip);
           data.completedAt = new Date();
-          data.finalBillCents = this.computeFinalBill(trip);
+          data.finalBillCents = finalBillCents;
         }
 
         await tx.trip.update({ where: { id }, data });
@@ -158,7 +167,13 @@ export class TripsService {
           });
         }
 
-        if (dto.status === TripStatus.COMPLETED) {
+        if (dto.status === TripStatus.COMPLETED && finalBillCents != null) {
+          await this.commissions.createOnTripComplete(tx, {
+            tripId: id,
+            driverId: trip.driverId,
+            finalBillCents,
+          });
+
           await tx.dispatchRequest.updateMany({
             where: {
               id: trip.requestId,

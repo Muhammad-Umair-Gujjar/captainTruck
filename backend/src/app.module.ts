@@ -11,6 +11,7 @@ import { AppConfigModule } from './config/config.module';
 import type { AppConfig } from './config/env.schema';
 import { AuthModule } from './modules/auth/auth.module';
 import { ChatModule } from './modules/chat/chat.module';
+import { CommissionsModule } from './modules/commissions/commissions.module';
 import { HealthModule } from './modules/health/health.module';
 import { MediaModule } from './modules/media/media.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
@@ -38,6 +39,7 @@ import { UsersModule } from './modules/users/users.module';
     OsmModule,
     PricingModule,
     PaymentsModule,
+    CommissionsModule,
     MediaModule,
     ChatModule,
     TripsModule,

@@ -21,8 +21,23 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 10 — Trips + Socket.IO GPS | Complete |
 | 11 — Media + chat | Complete |
 | 12 — Chat 90-day TTL | Complete |
-| 13 — Payments (cash + Stripe test) | Complete (awaiting sign-off) |
-| 14 — Commission ledger | Next |
+| 13 — Payments (cash + Stripe test) | Complete |
+| 14 — Commission ledger | Complete (awaiting sign-off) |
+| 15 — FCM push | Next |
+
+### Commissions (Phase 14)
+
+| Method | Path | Notes |
+|--------|------|--------|
+| GET | `/api/v1/commissions/mine` | Driver ledger |
+| GET | `/api/v1/commissions/admin` | Admin list (`driverId`, `unconfirmedOnly`) |
+| GET | `/api/v1/commissions/admin/summary` | Per-driver totals |
+| GET | `/api/v1/commissions/:id` | Detail |
+| POST | `/api/v1/commissions/:id/confirm` | Admin only — drivers cannot self-confirm |
+
+On trip **complete**: ledger row with snapshotted `COMMISSION_PERCENT`.  
+**Rule:** driver owes platform `%` of `finalBill` whether fare was cash or Stripe.  
+Complete is **blocked** until payment is `PAID` or `CASH_COLLECTED`.
 
 ### Payments (Phase 13)
 

@@ -513,9 +513,13 @@ Before moving on, all must be true:
 - Double complete → one ledger row only
 
 ### Exit checklist
-- [ ] Ledger math tested with fixtures
-- [ ] Admin confirmation audited
-- [ ] Driver cannot confirm their own commission as received
+- [x] Ledger math tested with fixtures
+- [x] Admin confirmation audited
+- [x] Driver cannot confirm their own commission as received
+
+**Business rule:** Commission is owed by the driver to the platform on every completed trip; customer fare settlement (cash/Stripe) does not clear commission.
+
+**Complete policy:** trip cannot complete without settled payment (`PAID` / `CASH_COLLECTED`).
 
 **Depends on:** Phase 13
 
@@ -626,11 +630,12 @@ Before moving on, all must be true:
 | 10 | Complete |
 | 11 | Complete |
 | 12 | Complete |
-| 13 | Complete (exit checklist green) — awaiting approval to start Phase 14 |
-| 14–16 | Not started |
+| 13 | Complete |
+| 14 | Complete (exit checklist green) — awaiting approval to start Phase 15 |
+| 15–16 | Not started |
 
 ---
 
 ## Next action (waiting on you)
 
-Approve Phase 13 to start **Phase 14** (commission ledger & reconciliation).
+Approve Phase 14 to start **Phase 15** (FCM push notifications).

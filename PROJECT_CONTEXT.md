@@ -44,7 +44,7 @@ This file preserves locked product/tech decisions from that conversation.
 
 - Implement **phase by phase**; previous phase must pass exit checklist and get approval before the next.
 - Plan: `backend/PHASE_PLAN.md` (Phases 0–16)
-- Phases 0–12: **complete**; Phase 13 (cash + Stripe test): implemented — awaiting sign-off before Phase 14 (commission)
+- Phases 0–13: **complete**; Phase 14 (commission ledger): implemented — awaiting sign-off before Phase 15 (FCM)
 
 ## Accounts still needed
 

@@ -60,6 +60,7 @@ export const TripErrorCode = {
   GPS_SEALED: 'TRIP_004',
   LOCATION_THROTTLED: 'TRIP_005',
   INVALID_LOCATION: 'TRIP_006',
+  PAYMENT_REQUIRED: 'TRIP_007',
 } as const;
 
 export const OsmErrorCode = {
@@ -104,4 +105,11 @@ export const PaymentErrorCode = {
   NO_BILL: 'PAY_008',
   IDEMPOTENCY_CONFLICT: 'PAY_009',
   METHOD_LOCKED: 'PAY_010',
+} as const;
+
+export const CommissionErrorCode = {
+  NOT_FOUND: 'COMM_001',
+  FORBIDDEN: 'COMM_002',
+  ALREADY_CONFIRMED: 'COMM_003',
+  INVALID_AMOUNT: 'COMM_004',
 } as const;
