@@ -9,7 +9,9 @@ import { APP_CONFIG } from './config/config.constants';
 import { AppConfigModule } from './config/config.module';
 import type { AppConfig } from './config/env.schema';
 import { AuthModule } from './modules/auth/auth.module';
+import { ChatModule } from './modules/chat/chat.module';
 import { HealthModule } from './modules/health/health.module';
+import { MediaModule } from './modules/media/media.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { DispatchesModule } from './modules/dispatches/dispatches.module';
 import { OsmModule } from './modules/osm/osm.module';
@@ -32,6 +34,8 @@ import { UsersModule } from './modules/users/users.module';
     TruckTypesModule,
     OsmModule,
     PricingModule,
+    MediaModule,
+    ChatModule,
     TripsModule,
     RealtimeModule,
     DispatchesModule,

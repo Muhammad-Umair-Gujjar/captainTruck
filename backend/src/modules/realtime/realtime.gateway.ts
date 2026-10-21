@@ -13,6 +13,7 @@ import { UserRole } from '@prisma/client';
 import { Server, Socket } from 'socket.io';
 import type { AuthUser } from '../../common/decorators/current-user.decorator';
 import { TokenService } from '../auth/token.service';
+import { ChatService } from '../chat/chat.service';
 import { UpdateLocationDto } from '../trips/dto/update-location.dto';
 import { TripsService } from '../trips/trips.service';
 import { RealtimePublisher } from './realtime.publisher';
@@ -38,6 +39,7 @@ export class RealtimeGateway
   constructor(
     private readonly tokens: TokenService,
     private readonly trips: TripsService,
+    private readonly chat: ChatService,
     private readonly publisher: RealtimePublisher,
   ) {}
 
@@ -151,6 +153,41 @@ export class RealtimeGateway
     } catch (error: unknown) {
       return this.wsError(error, 'Location update failed');
     }
+  }
+
+  @SubscribeMessage('chat:join')
+  async joinChat(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() body: { threadId?: string },
+  ) {
+    const user = this.socketData(client).user;
+    if (!user || !body?.threadId) {
+      return {
+        ok: false,
+        code: 'CHAT_002',
+        message: 'Unauthorized or missing threadId',
+      };
+    }
+
+    try {
+      await this.chat.assertSocketCanJoinThread(user, body.threadId);
+      await client.join(`chat:${body.threadId}`);
+      return { ok: true, room: `chat:${body.threadId}` };
+    } catch (error: unknown) {
+      return this.wsError(error, 'Cannot join chat room');
+    }
+  }
+
+  @SubscribeMessage('chat:leave')
+  async leaveChat(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() body: { threadId?: string },
+  ) {
+    if (!body?.threadId) {
+      return { ok: false, message: 'threadId required' };
+    }
+    await client.leave(`chat:${body.threadId}`);
+    return { ok: true };
   }
 
   private wsError(error: unknown, fallback: string) {

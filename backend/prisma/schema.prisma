@@ -234,6 +234,7 @@ model ChatThread {
   participants ChatParticipant[]
   messages     Message[]
 
+  @@unique([tripId, type])
   @@index([tripId])
   @@index([type, createdAt])
   @@map("chat_threads")

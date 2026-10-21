@@ -18,8 +18,26 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 7 — OSM routing | Complete |
 | 8 — AI cost / bill | Complete |
 | 9 — Admin review / assign | Complete |
-| 10 — Trips + Socket.IO GPS | Complete (awaiting sign-off) |
-| 11 — Media + chat | Next |
+| 10 — Trips + Socket.IO GPS | Complete |
+| 11 — Media + chat | Complete (awaiting sign-off) |
+| 12 — Chat 90-day TTL | Next |
+
+### Media + chat (Phase 11)
+
+| Method | Path | Notes |
+|--------|------|--------|
+| GET | `/api/v1/media/status` | `{ configured }` |
+| POST | `/api/v1/media/sign` | Signed Cloudinary upload params (`CLOUDINARY_*` required) |
+| POST | `/api/v1/chat/trips/:tripId/threads` | Body `{ type: DRIVER_CUSTOMER \| DRIVER_ADMIN }` |
+| GET | `/api/v1/chat/threads/mine` | My threads |
+| GET | `/api/v1/chat/threads/:id/messages` | Cursor pagination (`cursor`, `limit`) |
+| POST | `/api/v1/chat/threads/:id/messages` | `TEXT`/`PRESET` need `body`; `IMAGE`/`VOICE` need Cloudinary `mediaUrl` |
+| POST | `/api/v1/chat/messages/:id/report` | Abuse flag |
+
+Policy: chat becomes **read-only immediately** when trip is `COMPLETED` or `CANCELLED`.  
+Media URLs must be `https://res.cloudinary.com/{cloudName}/…` (or `test-cloud` host in local tests without credentials).
+
+Socket: `chat:join` / `chat:leave` `{ threadId }`; server emits `chat:message` to `chat:{id}`, trip room, participants, `admin:ops`.
 
 ### Trips + realtime GPS (Phase 10)
 
@@ -40,6 +58,8 @@ Auth: `auth: { token }` or `Authorization: Bearer` or `?token=`
 | `location:update` | client→server | `{ tripId, lat, lng, heading?, speedMps? }` |
 | `location:updated` | server→room | Broadcast to `trip:{id}` + `admin:ops` |
 | `trip:status` | server→room | On status change |
+| `chat:join` / `chat:leave` | client→server | `{ threadId }` |
+| `chat:message` | server→room | New chat message |
 
 `REDIS_URL` optional — in-memory fallback for local/test (not multi-instance). Prefer Upstash `rediss://` for deploy.
 

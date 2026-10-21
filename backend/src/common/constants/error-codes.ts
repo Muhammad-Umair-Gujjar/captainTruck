@@ -76,3 +76,19 @@ export const PricingErrorCode = {
   MISSING_BASE_RATE: 'PRICE_003',
   NO_SELECTED_ROUTE: 'PRICE_004',
 } as const;
+
+export const MediaErrorCode = {
+  NOT_CONFIGURED: 'MEDIA_001',
+  INVALID_TYPE: 'MEDIA_002',
+  INVALID_URL: 'MEDIA_003',
+} as const;
+
+export const ChatErrorCode = {
+  THREAD_NOT_FOUND: 'CHAT_001',
+  FORBIDDEN: 'CHAT_002',
+  READ_ONLY: 'CHAT_003',
+  INVALID_MESSAGE: 'CHAT_004',
+  MESSAGE_NOT_FOUND: 'CHAT_005',
+  INVALID_CURSOR: 'CHAT_006',
+  TRIP_REQUIRED: 'CHAT_007',
+} as const;

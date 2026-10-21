@@ -429,9 +429,11 @@ Before moving on, all must be true:
 - Chat after trip completed → read-only window policy (define: 24h or lock immediately)
 
 ### Exit checklist
-- [ ] Only participants can read/write
-- [ ] Media URL validation (Cloudinary host allowlist)
-- [ ] Pagination stable ordering
+- [x] Only participants can read/write
+- [x] Media URL validation (Cloudinary host allowlist)
+- [x] Pagination stable ordering
+
+**Read-only policy:** lock chat immediately when trip is `COMPLETED` or `CANCELLED`.
 
 **Depends on:** Phase 10 (trip context) + Cloudinary account
 
@@ -619,11 +621,12 @@ Before moving on, all must be true:
 | 7 | Complete |
 | 8 | Complete |
 | 9 | Complete |
-| 10 | Complete (exit checklist green) — awaiting approval to start Phase 11 |
-| 11–16 | Not started |
+| 10 | Complete |
+| 11 | Complete (exit checklist green) — awaiting approval to start Phase 12 |
+| 12–16 | Not started |
 
 ---
 
 ## Next action (waiting on you)
 
-Approve Phase 10 to start **Phase 11** (Cloudinary media + chat foundations). Set `REDIS_URL` (Upstash) before multi-instance deploy.
+Approve Phase 11 to start **Phase 12** (90-day chat TTL cleanup job). Set `CLOUDINARY_*` for real signed uploads.
