@@ -10,6 +10,9 @@ import { AuthUser } from '../../common/decorators/current-user.decorator';
 import { appHttpError } from '../../common/utils/http-error';
 import { GeocodeService } from '../osm/geocode.service';
 import { OsrmService } from '../osm/osrm.service';
+import { SelectRouteDto } from '../pricing/dto/select-route.dto';
+import { PricingService } from '../pricing/pricing.service';
+import type { BillBreakdown } from '../pricing/pricing.types';
 import { PrismaService } from '../prisma/prisma.service';
 import { TruckTypesService } from '../truck-types/truck-types.service';
 import { CUSTOMER_CANCELLABLE, canTransition } from './dispatch-status';
@@ -19,7 +22,7 @@ import { ListDispatchesQueryDto } from './dto/list-dispatches.query.dto';
 /**
  * lockedBaseRateCents is snapshotted at **create** time from the truck type's
  * current base rate. Later admin rate changes do not affect this request.
- * Phase 7/8 may use the locked value when computing the final bill.
+ * Bill uses locked base + on-device AI cost (Phase 8).
  */
 @Injectable()
 export class DispatchesService {
@@ -28,6 +31,7 @@ export class DispatchesService {
     private readonly truckTypes: TruckTypesService,
     private readonly osrm: OsrmService,
     private readonly geocode: GeocodeService,
+    private readonly pricing: PricingService,
   ) {}
 
   async create(actor: AuthUser, dto: CreateDispatchDto) {
@@ -307,11 +311,16 @@ export class DispatchesService {
   }
 
   /**
-   * Select a route option → PENDING_ADMIN.
-   * Idempotent: selecting the already-selected route while PENDING_ADMIN succeeds.
-   * Re-select only allowed while AWAITING_ROUTE_SELECTION.
+   * Select a route option + persist on-device AI cost → PENDING_ADMIN.
+   * Server recomputes bill; clientTotalBillCents is ignored.
+   * Idempotent: same selected route while PENDING_ADMIN returns current bill.
    */
-  async selectRoute(actor: AuthUser, id: string, routeOptionId: string) {
+  async selectRoute(
+    actor: AuthUser,
+    id: string,
+    routeOptionId: string,
+    dto: SelectRouteDto,
+  ) {
     const dispatch = await this.findOwnedOrThrow(actor, id);
 
     const option = await this.prisma.routeOption.findFirst({
@@ -337,6 +346,11 @@ export class DispatchesService {
       );
     }
 
+    const { flaggedOutlier } = this.pricing.validateAiCostCents(
+      dto.aiCostCents,
+      option.distanceMeters,
+    );
+
     this.assertTransition(dispatch.status, DispatchStatus.PENDING_ADMIN);
 
     await this.prisma.$transaction(async (tx) => {
@@ -346,7 +360,10 @@ export class DispatchesService {
       });
       await tx.routeOption.update({
         where: { id: routeOptionId },
-        data: { isSelected: true },
+        data: {
+          isSelected: true,
+          aiCostCents: dto.aiCostCents,
+        },
       });
       await tx.dispatchRequest.update({
         where: { id },
@@ -354,7 +371,17 @@ export class DispatchesService {
       });
     });
 
-    return this.getById(actor, id);
+    const result = await this.getById(actor, id);
+    return {
+      ...result,
+      billBreakdown: this.pricing.computeBill({
+        lockedBaseRateCents: dispatch.lockedBaseRateCents,
+        aiTripCostCents: dto.aiCostCents,
+        truckCount: dispatch.truckCount,
+        flaggedOutlier,
+      }),
+      clientTotalIgnored: dto.clientTotalBillCents ?? null,
+    };
   }
 
   private async findOwnedOrThrow(actor: AuthUser, id: string) {
@@ -492,7 +519,11 @@ export class DispatchesService {
       fullName: string;
       phone: string | null;
     };
-    routeOptions?: unknown[];
+    routeOptions?: Array<{
+      isSelected: boolean;
+      aiCostCents: number;
+      distanceMeters: number;
+    }>;
   }) {
     return {
       id: dispatch.id,
@@ -516,8 +547,40 @@ export class DispatchesService {
       truckType: dispatch.truckType ?? null,
       customer: dispatch.customer ?? null,
       routeOptions: dispatch.routeOptions ?? undefined,
+      billBreakdown: this.buildBillBreakdown(dispatch),
       lockNote:
         'lockedBaseRateCents was snapshotted at create time and is immutable',
+      pricingNote:
+        'totalBillCents is computed server-side; client totals are ignored',
     };
+  }
+
+  private buildBillBreakdown(dispatch: {
+    lockedBaseRateCents: number | null;
+    truckCount: number;
+    routeOptions?: Array<{
+      isSelected: boolean;
+      aiCostCents: number;
+      distanceMeters: number;
+    }>;
+  }): BillBreakdown | null {
+    const selected = dispatch.routeOptions?.find((r) => r.isSelected);
+    if (!selected || dispatch.lockedBaseRateCents == null) {
+      return null;
+    }
+    try {
+      const { flaggedOutlier } = this.pricing.validateAiCostCents(
+        selected.aiCostCents,
+        selected.distanceMeters,
+      );
+      return this.pricing.computeBill({
+        lockedBaseRateCents: dispatch.lockedBaseRateCents,
+        aiTripCostCents: selected.aiCostCents,
+        truckCount: dispatch.truckCount,
+        flaggedOutlier,
+      });
+    } catch {
+      return null;
+    }
   }
 }

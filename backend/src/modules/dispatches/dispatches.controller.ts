@@ -5,6 +5,7 @@ import { UserRole } from '@prisma/client';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import type { AuthUser } from '../../common/decorators/current-user.decorator';
 import { Roles } from '../../common/decorators/roles.decorator';
+import { SelectRouteDto } from '../pricing/dto/select-route.dto';
 import { DispatchesService } from './dispatches.service';
 import { CreateDispatchDto } from './dto/create-dispatch.dto';
 import { ListDispatchesQueryDto } from './dto/list-dispatches.query.dto';
@@ -74,13 +75,15 @@ export class DispatchesController {
   @Post(':id/routes/:routeOptionId/select')
   @Roles(UserRole.CUSTOMER)
   @ApiOperation({
-    summary: 'Select a route → pending_admin (idempotent if already selected)',
+    summary:
+      'Select route + AI cost → pending_admin; server computes bill (client total ignored)',
   })
   selectRoute(
     @CurrentUser() user: AuthUser,
     @Param('id') id: string,
     @Param('routeOptionId') routeOptionId: string,
+    @Body() dto: SelectRouteDto,
   ) {
-    return this.dispatchesService.selectRoute(user, id, routeOptionId);
+    return this.dispatchesService.selectRoute(user, id, routeOptionId, dto);
   }
 }

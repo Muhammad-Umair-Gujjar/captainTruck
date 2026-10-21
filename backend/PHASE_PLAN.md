@@ -335,9 +335,9 @@ Before moving on, all must be true:
 - Recalculation after admin rate change → must use locked rate only
 
 ### Exit checklist
-- [ ] Server bill is authoritative (client total ignored if mismatch)
-- [ ] Breakdown returned: base, ai, per truck, total
-- [ ] Outlier rejection tested
+- [x] Server bill is authoritative (client total ignored if mismatch)
+- [x] Breakdown returned: base, ai, per truck, total
+- [x] Outlier rejection tested
 
 **Depends on:** Phase 7
 
@@ -612,13 +612,12 @@ Before moving on, all must be true:
 | 4 | Complete |
 | 5 | Complete |
 | 6 | Complete |
-| 7 | Complete (exit checklist green) — awaiting approval to start Phase 8 |
-| 8–16 | Not started |
+| 7 | Complete |
+| 8 | Complete (exit checklist green) — awaiting approval to start Phase 9 |
+| 9–16 | Not started |
 
 ---
 
 ## Next action (waiting on you)
 
-1. Create Neon project and keep the connection strings ready (pooled + direct).  
-2. Tell me to **start Phase 0** (scaffold NestJS in `backend/`) when you want coding to begin.  
-3. Do **not** start Phase 2 until Neon is ready; Phases 0–1 can proceed without it.
+Approve Phase 8 to start **Phase 9** (admin review, approve/reject, driver assignment).

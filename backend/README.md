@@ -15,8 +15,22 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 4 — Users / profiles | Complete |
 | 5 — Truck types & rates | Complete |
 | 6 — Dispatch create | Complete |
-| 7 — OSM routing | Complete (awaiting sign-off) |
-| 8 — AI cost / bill | Next |
+| 7 — OSM routing | Complete |
+| 8 — AI cost / bill | Complete (awaiting sign-off) |
+| 9 — Admin review / assign | Next |
+
+### Pricing (Phase 8) — Flutter contract
+
+| Method | Path | Notes |
+|--------|------|--------|
+| POST | `/api/v1/dispatches/:id/routes/:routeOptionId/select` | Body: `{ aiCostCents, clientTotalBillCents? }` → `PENDING_ADMIN` + `billBreakdown` |
+| GET | `/api/v1/pricing/training-samples?limit=` | Last ≤20 completed trips for on-device TFLite retrain |
+
+Bill formula (server-authoritative, PKR cents):  
+`perTruck = lockedBaseRateCents + aiTripCostCents`; `totalBill = perTruck * truckCount`.  
+`clientTotalBillCents` is ignored if sent. Outlier AI cost vs distance → `PRICE_002`.
+
+`billBreakdown`: `{ currency, lockedBaseRateCents, aiTripCostCents, perTruckCents, truckCount, totalBillCents, authoritative, flaggedOutlier }`
 
 ### Routing (Phase 7) — Flutter contract
 
@@ -24,7 +38,7 @@ Package manager: **npm** (locked — do not switch without team agreement).
 |--------|------|--------|
 | GET | `/api/v1/osm/autocomplete?q=` | Photon proxy (auth + throttle) |
 | POST | `/api/v1/dispatches/:id/routes/generate` | Needs coords or geocodes addresses; returns `routeOptions` |
-| POST | `/api/v1/dispatches/:id/routes/:routeOptionId/select` | → `PENDING_ADMIN`; idempotent if already selected |
+| POST | `/api/v1/dispatches/:id/routes/:routeOptionId/select` | Body requires `aiCostCents` (Phase 8); → `PENDING_ADMIN` |
 
 `routeOptions[]`: `{ id, polyline, distanceMeters, durationSeconds, aiCostCents, isRecommended, isSelected }`  
 Prefer sending map-pin `lat/lng` on create to skip geocode. Fastest duration is `isRecommended`.

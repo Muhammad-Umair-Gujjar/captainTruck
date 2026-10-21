@@ -134,22 +134,46 @@ describe('Phase 7 Routing (e2e)', () => {
     const selected = await request(app.getHttpServer())
       .post(`/api/v1/dispatches/${dispatchId}/routes/${recommended!.id}/select`)
       .set('Authorization', `Bearer ${token}`)
+      .send({
+        aiCostCents: 50_000,
+        clientTotalBillCents: 1, // ignored — server bill is authoritative
+      })
       .expect(201);
 
     const selBody = selected.body as Envelope<{
       status: string;
-      routeOptions: Array<{ id: string; isSelected: boolean }>;
+      routeOptions: Array<{ id: string; isSelected: boolean; aiCostCents: number }>;
+      billBreakdown: {
+        lockedBaseRateCents: number;
+        aiTripCostCents: number;
+        perTruckCents: number;
+        truckCount: number;
+        totalBillCents: number;
+        authoritative: boolean;
+      };
+      clientTotalIgnored: number | null;
     }>;
     expect(selBody.data.status).toBe(DispatchStatus.PENDING_ADMIN);
     expect(
       selBody.data.routeOptions.find((r) => r.id === recommended!.id)
         ?.isSelected,
     ).toBe(true);
+    expect(
+      selBody.data.routeOptions.find((r) => r.id === recommended!.id)
+        ?.aiCostCents,
+    ).toBe(50_000);
+    expect(selBody.data.billBreakdown.authoritative).toBe(true);
+    expect(selBody.data.billBreakdown.aiTripCostCents).toBe(50_000);
+    expect(selBody.data.billBreakdown.totalBillCents).toBe(
+      selBody.data.billBreakdown.perTruckCents,
+    );
+    expect(selBody.data.clientTotalIgnored).toBe(1);
 
     // Idempotent re-select of same route
     const again = await request(app.getHttpServer())
       .post(`/api/v1/dispatches/${dispatchId}/routes/${recommended!.id}/select`)
       .set('Authorization', `Bearer ${token}`)
+      .send({ aiCostCents: 50_000 })
       .expect(201);
     expect((again.body as Envelope<{ status: string }>).data.status).toBe(
       DispatchStatus.PENDING_ADMIN,

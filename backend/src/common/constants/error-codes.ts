@@ -53,3 +53,10 @@ export const OsmErrorCode = {
   TIMEOUT: 'OSM_004',
   POLYLINE_TOO_LARGE: 'OSM_005',
 } as const;
+
+export const PricingErrorCode = {
+  INVALID_AI_COST: 'PRICE_001',
+  OUTLIER_AI_COST: 'PRICE_002',
+  MISSING_BASE_RATE: 'PRICE_003',
+  NO_SELECTED_ROUTE: 'PRICE_004',
+} as const;
