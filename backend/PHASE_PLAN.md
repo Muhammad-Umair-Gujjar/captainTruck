@@ -191,12 +191,12 @@ Before moving on, all must be true:
 - JWT `alg=none` / wrong issuer → reject
 
 ### Exit checklist
-- [ ] Customer register + login works
-- [ ] Admin login works (seeded)
-- [ ] Driver login works only after admin-created account
-- [ ] Refresh rotation works; reuse rejected
-- [ ] Role guard blocks cross-role routes
-- [ ] e2e tests for happy path + 4+ failure paths
+- [x] Customer register + login works
+- [x] Admin login works (seeded)
+- [x] Driver login works only after admin-created account
+- [x] Refresh rotation works; reuse rejected
+- [x] Role guard blocks cross-role routes
+- [x] e2e tests for happy path + 4+ failure paths (duplicate email, bad password, role forbidden, disabled user, refresh reuse)
 
 **Depends on:** Phase 2
 
@@ -602,8 +602,9 @@ Before moving on, all must be true:
 |------:|--------|
 | 0 | Complete |
 | 1 | Complete |
-| 2 | Complete (exit checklist green) — awaiting approval to start Phase 3 |
-| 3–16 | Not started |
+| 2 | Complete |
+| 3 | Complete (exit checklist green) — awaiting approval to start Phase 4 |
+| 4–16 | Not started |
 
 ---
 

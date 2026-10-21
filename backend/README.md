@@ -10,8 +10,20 @@ Package manager: **npm** (locked — do not switch without team agreement).
 |------:|--------|
 | 0 — Scaffold & baseline | Complete |
 | 1 — Config / security / rate limit | Complete |
-| 2 — Neon + Prisma | Complete (awaiting sign-off) |
-| 3 — Auth JWT | Next |
+| 2 — Neon + Prisma | Complete |
+| 3 — Auth JWT | Complete (awaiting sign-off) |
+| 4 — Users / profiles | Next |
+
+### Auth endpoints (Phase 3)
+
+| Method | Path | Access |
+|--------|------|--------|
+| POST | `/api/v1/auth/register` | Public (customer only) |
+| POST | `/api/v1/auth/login` | Public |
+| POST | `/api/v1/auth/refresh` | Public |
+| POST | `/api/v1/auth/logout` | Public (refresh body) |
+| GET | `/api/v1/auth/me` | Bearer |
+| POST | `/api/v1/auth/drivers` | Admin Bearer |
 
 Full plan: [PHASE_PLAN.md](./PHASE_PLAN.md)
 
