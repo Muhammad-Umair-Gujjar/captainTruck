@@ -3,7 +3,9 @@ import {
   DispatchStatus,
   PaymentMethod,
   Prisma,
+  TripStatus,
   UserRole,
+  UserStatus,
 } from '@prisma/client';
 import { DispatchErrorCode } from '../../common/constants/error-codes';
 import { AuthUser } from '../../common/decorators/current-user.decorator';
@@ -14,15 +16,24 @@ import { SelectRouteDto } from '../pricing/dto/select-route.dto';
 import { PricingService } from '../pricing/pricing.service';
 import type { BillBreakdown } from '../pricing/pricing.types';
 import { PrismaService } from '../prisma/prisma.service';
+import { TripsService } from '../trips/trips.service';
 import { TruckTypesService } from '../truck-types/truck-types.service';
-import { CUSTOMER_CANCELLABLE, canTransition } from './dispatch-status';
+import {
+  ADMIN_CANCELLABLE,
+  CUSTOMER_CANCELLABLE,
+  canTransition,
+} from './dispatch-status';
+import { ApproveDispatchDto } from './dto/approve-dispatch.dto';
 import { CreateDispatchDto } from './dto/create-dispatch.dto';
 import { ListDispatchesQueryDto } from './dto/list-dispatches.query.dto';
+import { RejectDispatchDto } from './dto/reject-dispatch.dto';
 
 /**
  * lockedBaseRateCents is snapshotted at **create** time from the truck type's
  * current base rate. Later admin rate changes do not affect this request.
  * Bill uses locked base + on-device AI cost (Phase 8).
+ *
+ * Multi-truck (truckCount > 1): one lead driver is assigned (FYP policy).
  */
 @Injectable()
 export class DispatchesService {
@@ -32,6 +43,7 @@ export class DispatchesService {
     private readonly osrm: OsrmService,
     private readonly geocode: GeocodeService,
     private readonly pricing: PricingService,
+    private readonly trips: TripsService,
   ) {}
 
   async create(actor: AuthUser, dto: CreateDispatchDto) {
@@ -175,6 +187,25 @@ export class DispatchesService {
           select: { id: true, email: true, fullName: true, phone: true },
         },
         routeOptions: true,
+        trip: {
+          include: {
+            driver: {
+              select: {
+                id: true,
+                fullName: true,
+                phone: true,
+                email: true,
+                driverProfile: {
+                  select: {
+                    vehiclePlate: true,
+                    licenseNumber: true,
+                    isAvailable: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
@@ -186,15 +217,16 @@ export class DispatchesService {
       );
     }
 
-    if (actor.role !== UserRole.ADMIN && dispatch.customerId !== actor.id) {
-      throw appHttpError(
-        HttpStatus.FORBIDDEN,
-        DispatchErrorCode.FORBIDDEN,
-        'You cannot access this dispatch request',
-      );
-    }
-
+    this.assertCanViewDispatch(actor, dispatch);
     return this.toPublic(dispatch);
+  }
+
+  /** Admin queue of requests waiting for review. */
+  async listPendingAdmin(query: ListDispatchesQueryDto) {
+    return this.listAdmin({
+      ...query,
+      status: DispatchStatus.PENDING_ADMIN,
+    });
   }
 
   async submitDraft(actor: AuthUser, id: string) {
@@ -223,7 +255,12 @@ export class DispatchesService {
   async cancel(actor: AuthUser, id: string) {
     const dispatch = await this.findOwnedOrAdmin(actor, id);
 
-    if (!CUSTOMER_CANCELLABLE.includes(dispatch.status)) {
+    const allowed =
+      actor.role === UserRole.ADMIN
+        ? ADMIN_CANCELLABLE
+        : CUSTOMER_CANCELLABLE;
+
+    if (!allowed.includes(dispatch.status)) {
       throw appHttpError(
         HttpStatus.BAD_REQUEST,
         DispatchErrorCode.INVALID_TRANSITION,
@@ -233,10 +270,281 @@ export class DispatchesService {
 
     this.assertTransition(dispatch.status, DispatchStatus.CANCELLED);
 
-    await this.prisma.dispatchRequest.update({
-      where: { id },
-      data: { status: DispatchStatus.CANCELLED },
+    await this.prisma.$transaction(async (tx) => {
+      const existingTrip = await tx.trip.findUnique({
+        where: { requestId: id },
+      });
+      if (existingTrip && existingTrip.status !== TripStatus.CANCELLED) {
+        await tx.trip.update({
+          where: { id: existingTrip.id },
+          data: { status: TripStatus.CANCELLED },
+        });
+        await this.maybeMarkDriverAvailable(tx, existingTrip.driverId);
+      }
+
+      await tx.dispatchRequest.update({
+        where: { id },
+        data: { status: DispatchStatus.CANCELLED },
+      });
+
+      await tx.auditLog.create({
+        data: {
+          actorId: actor.id,
+          action: 'DISPATCH_CANCEL',
+          entityType: 'DispatchRequest',
+          entityId: id,
+          metadata: { previousStatus: dispatch.status },
+        },
+      });
     });
+
+    return this.getById(actor, id);
+  }
+
+  /**
+   * Approve + assign lead driver atomically → APPROVED_ASSIGNED + Trip(ASSIGNED).
+   * Uses row lock to prevent double-assign races between admins.
+   */
+  async approve(actor: AuthUser, id: string, dto: ApproveDispatchDto) {
+    if (actor.role !== UserRole.ADMIN) {
+      throw appHttpError(
+        HttpStatus.FORBIDDEN,
+        DispatchErrorCode.FORBIDDEN,
+        'Only admins can approve dispatches',
+      );
+    }
+
+    // Optimistic status guard (Neon pooler-safe; avoids FOR UPDATE disconnects)
+    await this.prisma.$transaction(
+      async (tx) => {
+        const dispatch = await tx.dispatchRequest.findUnique({
+          where: { id },
+          include: {
+            routeOptions: true,
+            trip: true,
+          },
+        });
+
+        if (!dispatch) {
+          throw appHttpError(
+            HttpStatus.NOT_FOUND,
+            DispatchErrorCode.NOT_FOUND,
+            'Dispatch request not found',
+          );
+        }
+
+        if (dispatch.trip) {
+          throw appHttpError(
+            HttpStatus.CONFLICT,
+            DispatchErrorCode.ALREADY_ASSIGNED,
+            'Dispatch already has an assignment',
+          );
+        }
+
+        if (dispatch.status !== DispatchStatus.PENDING_ADMIN) {
+          throw appHttpError(
+            HttpStatus.BAD_REQUEST,
+            DispatchErrorCode.INVALID_TRANSITION,
+            `Cannot approve dispatch in status ${dispatch.status}`,
+          );
+        }
+
+        this.assertTransition(
+          dispatch.status,
+          DispatchStatus.APPROVED_ASSIGNED,
+        );
+
+        const selected = dispatch.routeOptions.find((r) => r.isSelected);
+        if (!selected) {
+          throw appHttpError(
+            HttpStatus.BAD_REQUEST,
+            DispatchErrorCode.NO_SELECTED_ROUTE,
+            'Cannot approve without a selected route',
+          );
+        }
+
+        const driver = await tx.user.findUnique({
+          where: { id: dto.driverId },
+          include: { driverProfile: true },
+        });
+
+        if (!driver || driver.role !== UserRole.DRIVER || driver.deletedAt) {
+          throw appHttpError(
+            HttpStatus.BAD_REQUEST,
+            DispatchErrorCode.DRIVER_NOT_FOUND,
+            'Driver not found',
+          );
+        }
+
+        if (driver.status !== UserStatus.ACTIVE) {
+          throw appHttpError(
+            HttpStatus.BAD_REQUEST,
+            DispatchErrorCode.DRIVER_DISABLED,
+            'Driver account is not active',
+          );
+        }
+
+        const busyCount = await this.trips.countActiveForDriver(
+          dto.driverId,
+          tx,
+        );
+        if (busyCount > 0) {
+          throw appHttpError(
+            HttpStatus.CONFLICT,
+            DispatchErrorCode.DRIVER_BUSY,
+            'Driver already has an active trip assignment',
+          );
+        }
+
+        if (!driver.driverProfile?.isAvailable) {
+          throw appHttpError(
+            HttpStatus.BAD_REQUEST,
+            DispatchErrorCode.DRIVER_UNAVAILABLE,
+            'Driver is marked unavailable',
+          );
+        }
+
+        const claimed = await tx.dispatchRequest.updateMany({
+          where: { id, status: DispatchStatus.PENDING_ADMIN },
+          data: {
+            status: DispatchStatus.APPROVED_ASSIGNED,
+            rejectionReason: null,
+          },
+        });
+        if (claimed.count !== 1) {
+          throw appHttpError(
+            HttpStatus.CONFLICT,
+            DispatchErrorCode.ALREADY_ASSIGNED,
+            'Dispatch was claimed by another admin',
+          );
+        }
+
+        await tx.trip.create({
+          data: {
+            requestId: id,
+            driverId: dto.driverId,
+            status: TripStatus.ASSIGNED,
+          },
+        });
+
+        await tx.driverProfile.update({
+          where: { userId: dto.driverId },
+          data: { isAvailable: false },
+        });
+
+        await tx.auditLog.create({
+          data: {
+            actorId: actor.id,
+            action: 'DISPATCH_APPROVE_ASSIGN',
+            entityType: 'DispatchRequest',
+            entityId: id,
+            metadata: {
+              driverId: dto.driverId,
+              vehiclePlate: driver.driverProfile.vehiclePlate,
+              truckCount: dispatch.truckCount,
+              multiTruckPolicy: 'one_lead_driver',
+              note: dto.note?.trim() || null,
+            },
+          },
+        });
+      },
+      { timeout: 20_000, maxWait: 10_000 },
+    );
+
+    return this.getById(actor, id);
+  }
+
+  /**
+   * Reject pending (or unassign+reject approved) with required reason.
+   */
+  async reject(actor: AuthUser, id: string, dto: RejectDispatchDto) {
+    if (actor.role !== UserRole.ADMIN) {
+      throw appHttpError(
+        HttpStatus.FORBIDDEN,
+        DispatchErrorCode.FORBIDDEN,
+        'Only admins can reject dispatches',
+      );
+    }
+
+    const reason = dto.reason.trim();
+    if (reason.length < 3) {
+      throw appHttpError(
+        HttpStatus.BAD_REQUEST,
+        DispatchErrorCode.REJECT_REASON_REQUIRED,
+        'Rejection reason is required (min 3 characters)',
+      );
+    }
+
+    await this.prisma.$transaction(
+      async (tx) => {
+        const dispatch = await tx.dispatchRequest.findUnique({
+          where: { id },
+          include: { trip: true },
+        });
+
+        if (!dispatch) {
+          throw appHttpError(
+            HttpStatus.NOT_FOUND,
+            DispatchErrorCode.NOT_FOUND,
+            'Dispatch request not found',
+          );
+        }
+
+        if (
+          dispatch.status !== DispatchStatus.PENDING_ADMIN &&
+          dispatch.status !== DispatchStatus.APPROVED_ASSIGNED
+        ) {
+          throw appHttpError(
+            HttpStatus.BAD_REQUEST,
+            DispatchErrorCode.INVALID_TRANSITION,
+            `Cannot reject dispatch in status ${dispatch.status}`,
+          );
+        }
+
+        this.assertTransition(dispatch.status, DispatchStatus.REJECTED);
+
+        const claimed = await tx.dispatchRequest.updateMany({
+          where: {
+            id,
+            status: { in: [dispatch.status] },
+          },
+          data: {
+            status: DispatchStatus.REJECTED,
+            rejectionReason: reason,
+          },
+        });
+        if (claimed.count !== 1) {
+          throw appHttpError(
+            HttpStatus.CONFLICT,
+            DispatchErrorCode.INVALID_TRANSITION,
+            'Dispatch status changed concurrently',
+          );
+        }
+
+        if (dispatch.trip && dispatch.trip.status !== TripStatus.CANCELLED) {
+          await tx.trip.update({
+            where: { id: dispatch.trip.id },
+            data: { status: TripStatus.CANCELLED },
+          });
+          await this.maybeMarkDriverAvailable(tx, dispatch.trip.driverId);
+        }
+
+        await tx.auditLog.create({
+          data: {
+            actorId: actor.id,
+            action: 'DISPATCH_REJECT',
+            entityType: 'DispatchRequest',
+            entityId: id,
+            metadata: {
+              reason,
+              previousStatus: dispatch.status,
+              clearedTripId: dispatch.trip?.id ?? null,
+            },
+          },
+        });
+      },
+      { timeout: 20_000, maxWait: 10_000 },
+    );
 
     return this.getById(actor, id);
   }
@@ -436,6 +744,41 @@ export class DispatchesService {
     }
   }
 
+  private assertCanViewDispatch(
+    actor: AuthUser,
+    dispatch: {
+      customerId: string;
+      trip?: { driverId: string } | null;
+    },
+  ) {
+    if (actor.role === UserRole.ADMIN) return;
+    if (dispatch.customerId === actor.id) return;
+    if (
+      actor.role === UserRole.DRIVER &&
+      dispatch.trip?.driverId === actor.id
+    ) {
+      return;
+    }
+    throw appHttpError(
+      HttpStatus.FORBIDDEN,
+      DispatchErrorCode.FORBIDDEN,
+      'You cannot access this dispatch request',
+    );
+  }
+
+  private async maybeMarkDriverAvailable(
+    tx: Prisma.TransactionClient,
+    driverId: string,
+  ) {
+    const remaining = await this.trips.countActiveForDriver(driverId, tx);
+    if (remaining === 0) {
+      await tx.driverProfile.updateMany({
+        where: { userId: driverId },
+        data: { isAvailable: true },
+      });
+    }
+  }
+
   private validatePickupAt(pickupAt?: Date) {
     if (!pickupAt) return;
     if (pickupAt.getTime() < Date.now() - 60_000) {
@@ -524,6 +867,7 @@ export class DispatchesService {
       aiCostCents: number;
       distanceMeters: number;
     }>;
+    trip?: unknown;
   }) {
     return {
       id: dispatch.id,
@@ -547,11 +891,14 @@ export class DispatchesService {
       truckType: dispatch.truckType ?? null,
       customer: dispatch.customer ?? null,
       routeOptions: dispatch.routeOptions ?? undefined,
+      trip: dispatch.trip ?? null,
       billBreakdown: this.buildBillBreakdown(dispatch),
       lockNote:
         'lockedBaseRateCents was snapshotted at create time and is immutable',
       pricingNote:
         'totalBillCents is computed server-side; client totals are ignored',
+      assignmentNote:
+        'truckCount > 1 still assigns one lead driver (FYP multi-truck policy)',
     };
   }
 

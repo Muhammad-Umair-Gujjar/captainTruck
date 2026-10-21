@@ -16,8 +16,22 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 5 — Truck types & rates | Complete |
 | 6 — Dispatch create | Complete |
 | 7 — OSM routing | Complete |
-| 8 — AI cost / bill | Complete (awaiting sign-off) |
-| 9 — Admin review / assign | Next |
+| 8 — AI cost / bill | Complete |
+| 9 — Admin review / assign | Complete (awaiting sign-off) |
+| 10 — Trips + Socket.IO GPS | Next (needs Redis) |
+
+### Admin assign (Phase 9)
+
+| Method | Path | Notes |
+|--------|------|--------|
+| GET | `/api/v1/dispatches/admin/pending` | Queue of `pending_admin` |
+| POST | `/api/v1/dispatches/:id/approve` | Body `{ driverId, note? }` → trip + `approved_assigned` |
+| POST | `/api/v1/dispatches/:id/reject` | Body `{ reason }` required (min 3 chars) |
+| GET | `/api/v1/trips/mine` | Driver: own assignments only |
+| GET | `/api/v1/trips/:id` | Assigned driver, customer owner, or admin |
+
+Multi-truck: **one lead driver** regardless of `truckCount` (billing still uses count).  
+Approve is atomic (row lock + trip create). Busy/disabled/unavailable drivers → `DISPATCH_017/018/019`.
 
 ### Pricing (Phase 8) — Flutter contract
 

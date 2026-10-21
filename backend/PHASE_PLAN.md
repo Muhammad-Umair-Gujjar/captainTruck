@@ -364,10 +364,12 @@ Before moving on, all must be true:
 - truckCount > 1 without enough drivers → explicit error
 
 ### Exit checklist
-- [ ] Reject requires non-empty reason
-- [ ] Assignment atomic with status update
-- [ ] Driver cannot see others’ assignments
-- [ ] Audit log for approve/reject/assign
+- [x] Reject requires non-empty reason
+- [x] Assignment atomic with status update
+- [x] Driver cannot see others’ assignments
+- [x] Audit log for approve/reject/assign
+
+**Multi-truck policy (FYP):** one lead driver assigned for `truckCount >= 1`; extra trucks coordinated offline. Billing still uses `truckCount`.
 
 **Depends on:** Phase 8
 
@@ -613,11 +615,12 @@ Before moving on, all must be true:
 | 5 | Complete |
 | 6 | Complete |
 | 7 | Complete |
-| 8 | Complete (exit checklist green) — awaiting approval to start Phase 9 |
-| 9–16 | Not started |
+| 8 | Complete |
+| 9 | Complete (exit checklist green) — awaiting approval to start Phase 10 |
+| 10–16 | Not started |
 
 ---
 
 ## Next action (waiting on you)
 
-Approve Phase 8 to start **Phase 9** (admin review, approve/reject, driver assignment).
+Approve Phase 9 to start **Phase 10** (trips lifecycle + Socket.IO GPS). Redis (Upstash or Oracle) is required for Phase 10.

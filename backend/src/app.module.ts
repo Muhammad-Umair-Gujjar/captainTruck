@@ -14,6 +14,7 @@ import { PrismaModule } from './modules/prisma/prisma.module';
 import { DispatchesModule } from './modules/dispatches/dispatches.module';
 import { OsmModule } from './modules/osm/osm.module';
 import { PricingModule } from './modules/pricing/pricing.module';
+import { TripsModule } from './modules/trips/trips.module';
 import { TruckTypesModule } from './modules/truck-types/truck-types.module';
 import { UsersModule } from './modules/users/users.module';
 
@@ -26,6 +27,7 @@ import { UsersModule } from './modules/users/users.module';
     TruckTypesModule,
     OsmModule,
     PricingModule,
+    TripsModule,
     DispatchesModule,
     ThrottlerModule.forRootAsync({
       inject: [APP_CONFIG],

@@ -25,4 +25,25 @@ describe('dispatch status transitions', () => {
       ),
     ).toBe(true);
   });
+
+  it('allows pending_admin → approved_assigned / rejected', () => {
+    expect(
+      canTransition(
+        DispatchStatus.PENDING_ADMIN,
+        DispatchStatus.APPROVED_ASSIGNED,
+      ),
+    ).toBe(true);
+    expect(
+      canTransition(DispatchStatus.PENDING_ADMIN, DispatchStatus.REJECTED),
+    ).toBe(true);
+  });
+
+  it('allows approved_assigned → rejected (admin unassign)', () => {
+    expect(
+      canTransition(
+        DispatchStatus.APPROVED_ASSIGNED,
+        DispatchStatus.REJECTED,
+      ),
+    ).toBe(true);
+  });
 });

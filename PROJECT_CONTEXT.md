@@ -44,7 +44,7 @@ This file preserves locked product/tech decisions from that conversation.
 
 - Implement **phase by phase**; previous phase must pass exit checklist and get approval before the next.
 - Plan: `backend/PHASE_PLAN.md` (Phases 0–16)
-- Phases 0–7: **complete**; Phase 8 (AI cost / bill): implemented — awaiting sign-off before Phase 9
+- Phases 0–8: **complete**; Phase 9 (admin review / assign): implemented — awaiting sign-off before Phase 10 (needs Redis)
 
 ## Accounts still needed
 

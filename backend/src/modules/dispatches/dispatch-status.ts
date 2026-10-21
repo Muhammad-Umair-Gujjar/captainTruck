@@ -20,6 +20,7 @@ export const DISPATCH_TRANSITIONS: Record<DispatchStatus, DispatchStatus[]> = {
   ],
   [DispatchStatus.APPROVED_ASSIGNED]: [
     DispatchStatus.IN_PROGRESS,
+    DispatchStatus.REJECTED, // admin unassign + reject (Phase 9)
     DispatchStatus.CANCELLED,
   ],
   [DispatchStatus.REJECTED]: [],
@@ -39,4 +40,10 @@ export const CUSTOMER_CANCELLABLE: DispatchStatus[] = [
   DispatchStatus.DRAFT,
   DispatchStatus.AWAITING_ROUTE_SELECTION,
   DispatchStatus.PENDING_ADMIN,
+];
+
+/** Admin may cancel through assignment (clears trip). */
+export const ADMIN_CANCELLABLE: DispatchStatus[] = [
+  ...CUSTOMER_CANCELLABLE,
+  DispatchStatus.APPROVED_ASSIGNED,
 ];
