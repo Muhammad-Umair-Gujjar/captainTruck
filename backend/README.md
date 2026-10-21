@@ -17,8 +17,31 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 6 — Dispatch create | Complete |
 | 7 — OSM routing | Complete |
 | 8 — AI cost / bill | Complete |
-| 9 — Admin review / assign | Complete (awaiting sign-off) |
-| 10 — Trips + Socket.IO GPS | Next (needs Redis) |
+| 9 — Admin review / assign | Complete |
+| 10 — Trips + Socket.IO GPS | Complete (awaiting sign-off) |
+| 11 — Media + chat | Next |
+
+### Trips + realtime GPS (Phase 10)
+
+| Method | Path | Notes |
+|--------|------|--------|
+| POST | `/api/v1/trips/:id/status` | Driver/admin: advance lifecycle (idempotent) |
+| POST | `/api/v1/trips/:id/location` | Driver GPS; throttled **3s**; sealed after complete/cancel |
+| GET | `/api/v1/trips/:id/location` | Live (Redis) or last-known + `stale` flag |
+
+**Socket.IO** namespace: `/realtime`  
+Auth: `auth: { token }` or `Authorization: Bearer` or `?token=`  
+
+| Event | Direction | Notes |
+|-------|-----------|--------|
+| `connected` | server→client | After JWT OK; auto-joins `user:{id}`, admins also `admin:ops` |
+| `trip:join` | client→server | `{ tripId }` — authorized participants only |
+| `trip:leave` | client→server | Leave `trip:{id}` |
+| `location:update` | client→server | `{ tripId, lat, lng, heading?, speedMps? }` |
+| `location:updated` | server→room | Broadcast to `trip:{id}` + `admin:ops` |
+| `trip:status` | server→room | On status change |
+
+`REDIS_URL` optional — in-memory fallback for local/test (not multi-instance). Prefer Upstash `rediss://` for deploy.
 
 ### Admin assign (Phase 9)
 

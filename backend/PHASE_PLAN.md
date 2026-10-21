@@ -397,10 +397,12 @@ Before moving on, all must be true:
 - Reconnect storm after network flap
 
 ### Exit checklist
-- [ ] REST trip APIs + socket events documented
-- [ ] Unauthorized room join fails
-- [ ] Throttle verified
-- [ ] Trip completion sealed (no further GPS writes)
+- [x] REST trip APIs + socket events documented
+- [x] Unauthorized room join fails
+- [x] Throttle verified
+- [x] Trip completion sealed (no further GPS writes)
+
+**Redis:** `REDIS_URL` (Upstash/Oracle). If unset, in-memory fallback (fail-open for FYP local/test).
 
 **Depends on:** Phase 9 + Redis (Upstash or Oracle)
 
@@ -616,11 +618,12 @@ Before moving on, all must be true:
 | 6 | Complete |
 | 7 | Complete |
 | 8 | Complete |
-| 9 | Complete (exit checklist green) — awaiting approval to start Phase 10 |
-| 10–16 | Not started |
+| 9 | Complete |
+| 10 | Complete (exit checklist green) — awaiting approval to start Phase 11 |
+| 11–16 | Not started |
 
 ---
 
 ## Next action (waiting on you)
 
-Approve Phase 9 to start **Phase 10** (trips lifecycle + Socket.IO GPS). Redis (Upstash or Oracle) is required for Phase 10.
+Approve Phase 10 to start **Phase 11** (Cloudinary media + chat foundations). Set `REDIS_URL` (Upstash) before multi-instance deploy.

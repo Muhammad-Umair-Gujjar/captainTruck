@@ -104,6 +104,12 @@ async function bootstrap() {
     logger.log(
       `Rate limit: ${config.throttle.limit} req / ${config.throttle.ttlMs}ms (in-memory; fail-open on restart)`,
     );
+    logger.log(
+      config.redisUrl
+        ? 'REDIS_URL set — live GPS uses Redis'
+        : 'REDIS_URL unset — live GPS uses in-memory store (ok for local/test)',
+    );
+    logger.log(`Socket.IO namespace: /realtime`);
   } catch (error: unknown) {
     const err = error as NodeJS.ErrnoException;
     if (err?.code === 'EADDRINUSE') {

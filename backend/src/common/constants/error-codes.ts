@@ -56,6 +56,10 @@ export const DispatchErrorCode = {
 export const TripErrorCode = {
   NOT_FOUND: 'TRIP_001',
   FORBIDDEN: 'TRIP_002',
+  INVALID_TRANSITION: 'TRIP_003',
+  GPS_SEALED: 'TRIP_004',
+  LOCATION_THROTTLED: 'TRIP_005',
+  INVALID_LOCATION: 'TRIP_006',
 } as const;
 
 export const OsmErrorCode = {
