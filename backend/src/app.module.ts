@@ -11,6 +11,7 @@ import type { AppConfig } from './config/env.schema';
 import { AuthModule } from './modules/auth/auth.module';
 import { HealthModule } from './modules/health/health.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
+import { DispatchesModule } from './modules/dispatches/dispatches.module';
 import { TruckTypesModule } from './modules/truck-types/truck-types.module';
 import { UsersModule } from './modules/users/users.module';
 
@@ -21,6 +22,7 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule,
     UsersModule,
     TruckTypesModule,
+    DispatchesModule,
     ThrottlerModule.forRootAsync({
       inject: [APP_CONFIG],
       useFactory: (config: AppConfig) => [

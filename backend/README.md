@@ -13,8 +13,22 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 2 — Neon + Prisma | Complete |
 | 3 — Auth JWT | Complete |
 | 4 — Users / profiles | Complete |
-| 5 — Truck types & rates | Complete (awaiting sign-off) |
-| 6 — Dispatch create | Next |
+| 5 — Truck types & rates | Complete |
+| 6 — Dispatch create | Complete (awaiting sign-off) |
+| 7 — OSM routing | Next |
+
+### Dispatches (Phase 6)
+
+| Method | Path | Access |
+|--------|------|--------|
+| POST | `/api/v1/dispatches` | Customer (locks base rate at create) |
+| GET | `/api/v1/dispatches/mine` | Customer |
+| GET | `/api/v1/dispatches/admin/all` | Admin |
+| GET | `/api/v1/dispatches/:id` | Owner or admin |
+| POST | `/api/v1/dispatches/:id/submit` | Customer (draft → awaiting route) |
+| POST | `/api/v1/dispatches/:id/cancel` | Owner or admin |
+
+`lockedBaseRateCents` is snapshotted **at create** and never changed by later rate updates.
 
 ### Truck types (Phase 5)
 

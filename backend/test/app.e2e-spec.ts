@@ -71,7 +71,7 @@ describe('Phase 2 (e2e)', () => {
     expect(body.success).toBe(true);
     expect(body.data.status).toMatch(/ok|degraded/);
     expect(body.data.service).toBe('captain-truck-api');
-    expect(body.data.phase).toBe(5);
+    expect(body.data.phase).toBe(6);
     expect(body.meta.correlationId).toBe('test-correlation-1');
   });
 

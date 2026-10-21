@@ -274,9 +274,10 @@ Before moving on, all must be true:
 - Unauthenticated create → 401
 
 ### Exit checklist
-- [ ] Status transitions enforced in service (no client status overwrite)
-- [ ] lockedBaseRate captured from current rate at create/route-finalize (document exact moment)
-- [ ] Customer sees only own requests
+- [x] Status transitions enforced in service (no client status overwrite)
+- [x] lockedBaseRateCents captured from current rate **at create** (immutable afterward)
+- [x] Customer sees only own requests
+- [x] Past pickup / same locations / truckCount cap / unauthenticated rejected
 
 **Depends on:** Phase 5
 
@@ -609,8 +610,9 @@ Before moving on, all must be true:
 | 2 | Complete |
 | 3 | Complete |
 | 4 | Complete |
-| 5 | Complete (exit checklist green) — awaiting approval to start Phase 6 |
-| 6–16 | Not started |
+| 5 | Complete |
+| 6 | Complete (exit checklist green) — awaiting approval to start Phase 7 |
+| 7–16 | Not started |
 
 ---
 
