@@ -218,9 +218,11 @@ Before moving on, all must be true:
 - Phone format validation (PK-friendly)
 
 ### Exit checklist
-- [ ] Ownership: user A cannot edit user B
-- [ ] Admin disable prevents login
-- [ ] Validation covers empty names, oversized fields
+- [x] Ownership: user A cannot edit user B (admin-only routes blocked by role guard)
+- [x] Admin disable prevents login
+- [x] Validation covers empty names, oversized fields
+- [x] Last active admin cannot be disabled
+- [x] Driver with active trips cannot be disabled
 
 **Depends on:** Phase 3
 
@@ -603,8 +605,9 @@ Before moving on, all must be true:
 | 0 | Complete |
 | 1 | Complete |
 | 2 | Complete |
-| 3 | Complete (exit checklist green) — awaiting approval to start Phase 4 |
-| 4–16 | Not started |
+| 3 | Complete |
+| 4 | Complete (exit checklist green) — awaiting approval to start Phase 5 |
+| 5–16 | Not started |
 
 ---
 

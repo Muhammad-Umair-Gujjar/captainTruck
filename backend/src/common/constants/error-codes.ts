@@ -11,3 +11,14 @@ export const AuthErrorCode = {
   FORBIDDEN_ROLE: 'AUTH_010',
   DRIVER_SELF_REGISTER: 'AUTH_011',
 } as const;
+
+export const UserErrorCode = {
+  NOT_FOUND: 'USER_001',
+  FORBIDDEN: 'USER_002',
+  EMAIL_TAKEN: 'USER_003',
+  PHONE_TAKEN: 'USER_004',
+  LAST_ADMIN: 'USER_005',
+  ACTIVE_TRIPS: 'USER_006',
+  INVALID_STATUS: 'USER_007',
+  NOT_A_DRIVER: 'USER_008',
+} as const;

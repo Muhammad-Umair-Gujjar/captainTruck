@@ -11,8 +11,22 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 0 — Scaffold & baseline | Complete |
 | 1 — Config / security / rate limit | Complete |
 | 2 — Neon + Prisma | Complete |
-| 3 — Auth JWT | Complete (awaiting sign-off) |
-| 4 — Users / profiles | Next |
+| 3 — Auth JWT | Complete |
+| 4 — Users / profiles | Complete (awaiting sign-off) |
+| 5 — Truck types & rates | Next |
+
+### Users endpoints (Phase 4)
+
+| Method | Path | Access |
+|--------|------|--------|
+| GET | `/api/v1/users/me` | Bearer |
+| PATCH | `/api/v1/users/me` | Bearer |
+| PATCH | `/api/v1/users/me/driver-profile` | Driver |
+| GET | `/api/v1/users` | Admin |
+| GET | `/api/v1/users/:id` | Admin |
+| PATCH | `/api/v1/users/:id/status` | Admin |
+| PATCH | `/api/v1/users/:id/profile` | Admin |
+| PATCH | `/api/v1/users/:id/driver-profile` | Admin |
 
 ### Auth endpoints (Phase 3)
 
