@@ -454,9 +454,9 @@ Before moving on, all must be true:
 - Orphan media
 
 ### Exit checklist
-- [ ] Job runnable manually in dev
-- [ ] Messages older than TTL removed in test with fake dates
-- [ ] Lock prevents double-run
+- [x] Job runnable manually in dev
+- [x] Messages older than TTL removed in test with fake dates
+- [x] Lock prevents double-run
 
 **Depends on:** Phase 11
 
@@ -622,11 +622,12 @@ Before moving on, all must be true:
 | 8 | Complete |
 | 9 | Complete |
 | 10 | Complete |
-| 11 | Complete (exit checklist green) — awaiting approval to start Phase 12 |
-| 12–16 | Not started |
+| 11 | Complete |
+| 12 | Complete (exit checklist green) — awaiting approval to start Phase 13 |
+| 13–16 | Not started |
 
 ---
 
 ## Next action (waiting on you)
 
-Approve Phase 11 to start **Phase 12** (90-day chat TTL cleanup job). Set `CLOUDINARY_*` for real signed uploads.
+Approve Phase 12 to start **Phase 13** (Cash-on-Pickup + Stripe Test Mode).

@@ -19,8 +19,18 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 8 — AI cost / bill | Complete |
 | 9 — Admin review / assign | Complete |
 | 10 — Trips + Socket.IO GPS | Complete |
-| 11 — Media + chat | Complete (awaiting sign-off) |
-| 12 — Chat 90-day TTL | Next |
+| 11 — Media + chat | Complete |
+| 12 — Chat 90-day TTL | Complete (awaiting sign-off) |
+| 13 — Payments | Next |
+
+### Chat retention (Phase 12)
+
+| Method | Path | Notes |
+|--------|------|--------|
+| POST | `/api/v1/chat/retention/run` | Admin: manual cleanup (Redis lock; idempotent) |
+
+Cron: daily **03:00** deletes messages older than `CHAT_TTL_DAYS` (default **90**).  
+Also best-effort Cloudinary destroy when `CLOUDINARY_*` is set. Overlapping runs skip via Redis NX lock.
 
 ### Media + chat (Phase 11)
 

@@ -5,6 +5,7 @@ import { UserRole } from '@prisma/client';
 import { CurrentUser } from '../../common/decorators/current-user.decorator';
 import type { AuthUser } from '../../common/decorators/current-user.decorator';
 import { Roles } from '../../common/decorators/roles.decorator';
+import { ChatRetentionService } from './chat-retention.service';
 import { ChatService } from './chat.service';
 import { ListMessagesQueryDto } from './dto/list-messages.query.dto';
 import { OpenThreadDto } from './dto/open-thread.dto';
@@ -14,7 +15,10 @@ import { SendMessageDto } from './dto/send-message.dto';
 @ApiBearerAuth()
 @Controller({ path: 'chat', version: '1' })
 export class ChatController {
-  constructor(private readonly chatService: ChatService) {}
+  constructor(
+    private readonly chatService: ChatService,
+    private readonly retention: ChatRetentionService,
+  ) {}
 
   @Get('threads/mine')
   @ApiOperation({ summary: 'List my chat threads' })
@@ -66,5 +70,16 @@ export class ChatController {
   @ApiOperation({ summary: 'Flag message for abuse review' })
   report(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.chatService.reportMessage(user, id);
+  }
+
+  @Post('retention/run')
+  @Roles(UserRole.ADMIN)
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
+  @ApiOperation({
+    summary:
+      'Manually run 90-day chat retention cleanup (Redis-locked; safe to retry)',
+  })
+  runRetention() {
+    return this.retention.runCleanup();
   }
 }

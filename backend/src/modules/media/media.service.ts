@@ -150,6 +150,75 @@ export class MediaService {
     }
   }
 
+  /**
+   * Best-effort Cloudinary asset delete for retention cleanup.
+   * Returns true if destroyed, not found, or Cloudinary not configured (local no-op).
+   */
+  async tryDeleteByUrl(mediaUrl: string): Promise<boolean> {
+    if (!this.isConfigured()) {
+      return true;
+    }
+
+    const parsed = this.parseCloudinaryPublicId(mediaUrl);
+    if (!parsed) return false;
+
+    const { cloudName, apiKey, apiSecret } = this.config.cloudinary;
+    cloudinary.config({
+      cloud_name: cloudName,
+      api_key: apiKey,
+      api_secret: apiSecret,
+      secure: true,
+    });
+
+    try {
+      const raw: unknown = await cloudinary.uploader.destroy(parsed.publicId, {
+        resource_type: parsed.resourceType,
+        invalidate: true,
+      });
+      const status =
+        typeof raw === 'object' &&
+        raw !== null &&
+        'result' in raw &&
+        typeof raw.result === 'string'
+          ? (raw as { result: string }).result
+          : undefined;
+      return status === 'ok' || status === 'not found';
+    } catch {
+      return false;
+    }
+  }
+
+  private parseCloudinaryPublicId(mediaUrl: string): {
+    publicId: string;
+    resourceType: 'image' | 'video' | 'raw';
+  } | null {
+    try {
+      const url = new URL(mediaUrl);
+      const parts = url.pathname.split('/').filter(Boolean);
+      // /{cloud}/{resource_type}/upload/[v123/]{public_id}.{ext}
+      if (parts.length < 4) return null;
+      const cloudName = this.config.cloudinary.cloudName;
+      if (parts[0] !== cloudName) return null;
+
+      const resourceType = parts[1] as 'image' | 'video' | 'raw';
+      if (!['image', 'video', 'raw'].includes(resourceType)) return null;
+      if (parts[2] !== 'upload' && parts[2] !== 'authenticated') return null;
+
+      let rest = parts.slice(3);
+      if (rest[0]?.startsWith('v') && /^v\d+$/.test(rest[0])) {
+        rest = rest.slice(1);
+      }
+      if (rest.length === 0) return null;
+
+      const last = rest[rest.length - 1];
+      const withoutExt = last.replace(/\.[^.]+$/, '');
+      rest = [...rest.slice(0, -1), withoutExt];
+      return { publicId: rest.join('/'), resourceType };
+    } catch {
+      return null;
+    }
+  }
+
   private assertConfigured() {
     if (!this.isConfigured()) {
       throw appHttpError(
