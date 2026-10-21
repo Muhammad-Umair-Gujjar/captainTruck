@@ -108,13 +108,15 @@ Before moving on, all must be true:
 - Rate-limit Redis down → fail-open vs fail-closed policy documented (recommend fail-open with warning for FYP demo; fail-closed for auth if Redis up)
 
 ### Exit checklist
-- [ ] App refuses boot if production secrets missing
-- [ ] CORS rejects unknown origin in production config
-- [ ] Rate limit returns 429 with Retry-After
-- [ ] Every request has correlation id in logs
+- [x] App refuses boot if production secrets missing (Zod: JWT + no wildcard CORS)
+- [x] CORS rejects unknown origin in production config
+- [x] Rate limit returns 429 with Retry-After
+- [x] Every request has correlation id (`x-correlation-id` middleware + response meta)
+
+**Smoke / tests (Phase 1):** unit + e2e green; rate-limit e2e asserts 429 + `Retry-After`.
 
 **Depends on:** Phase 0  
-**DB:** not required yet
+**DB:** connection string stored in local `.env` (not committed); Prisma wiring is Phase 2
 
 ---
 
@@ -598,9 +600,9 @@ Before moving on, all must be true:
 
 | Phase | Status |
 |------:|--------|
-| 0 | Complete (exit checklist green) — awaiting your approval to start Phase 1 |
-| 1 | Not started |
-| 2 | Blocked on Neon |
+| 0 | Complete |
+| 1 | Complete (exit checklist green) — awaiting approval to start Phase 2 |
+| 2 | Unblocked — Neon pooled URL saved in local `.env` |
 | 3–16 | Not started |
 
 ---

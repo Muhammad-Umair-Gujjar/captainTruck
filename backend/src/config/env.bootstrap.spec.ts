@@ -1,32 +1,25 @@
-import { loadBootstrapEnv } from './env.bootstrap';
+import { loadEnv } from './load-env';
 
-describe('loadBootstrapEnv', () => {
+describe('loadEnv (Phase 1)', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
     process.env = { ...originalEnv };
-    delete process.env.NODE_ENV;
-    delete process.env.PORT;
+    process.env.NODE_ENV = 'test';
+    process.env.PORT = '3000';
+    process.env.CORS_ORIGINS = 'http://localhost:5173';
+    delete process.env.JWT_ACCESS_SECRET;
+    delete process.env.JWT_REFRESH_SECRET;
   });
 
   afterAll(() => {
     process.env = originalEnv;
   });
 
-  it('defaults to development and port 3000', () => {
-    const env = loadBootstrapEnv();
-    expect(env.nodeEnv).toBe('development');
-    expect(env.port).toBe(3000);
-  });
-
-  it('defaults invalid NODE_ENV to development', () => {
-    process.env.NODE_ENV = 'staging';
-    const env = loadBootstrapEnv();
-    expect(env.nodeEnv).toBe('development');
-  });
-
-  it('throws on invalid PORT', () => {
-    process.env.PORT = 'not-a-port';
-    expect(() => loadBootstrapEnv()).toThrow(/Invalid PORT/);
+  it('loads test env without requiring JWT secrets', () => {
+    const config = loadEnv();
+    expect(config.nodeEnv).toBe('test');
+    expect(config.port).toBe(3000);
+    expect(config.corsOrigins).toContain('http://localhost:5173');
   });
 });

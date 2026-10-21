@@ -8,10 +8,15 @@ Package manager: **npm** (locked — do not switch without team agreement).
 
 | Phase | Status |
 |------:|--------|
-| 0 — Scaffold & baseline | In progress / complete when exit checklist passes |
-| 1+ | Not started |
+| 0 — Scaffold & baseline | Complete |
+| 1 — Config / security / rate limit | Complete (awaiting sign-off) |
+| 2 — Neon + Prisma | Ready (DATABASE_URL in local `.env`) |
 
 Full plan: [PHASE_PLAN.md](./PHASE_PLAN.md)
+
+### Rate-limit policy (Phase 1)
+
+In-memory throttling via `@nestjs/throttler`. If the process restarts, counters reset (**fail-open**). Redis-backed limits come in Phase 10; when Redis is down we keep fail-open for general routes (FYP demos), with stricter fail-closed planned for auth.
 
 ## Prerequisites
 
