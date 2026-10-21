@@ -18,7 +18,7 @@ describe('HealthService', () => {
 
     expect(result.status).toBe('ok');
     expect(result.service).toBe('captain-truck-api');
-    expect(result.phase).toBe(4);
+    expect(result.phase).toBe(5);
     expect(result.database).toBe('up');
     expect(result.databaseConfigured).toBe(true);
   });

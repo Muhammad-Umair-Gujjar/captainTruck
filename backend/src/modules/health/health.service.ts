@@ -16,7 +16,7 @@ export class HealthService {
     return {
       status: databaseOk ? 'ok' : 'degraded',
       service: 'captain-truck-api',
-      phase: 4,
+      phase: 5,
       nodeEnv: this.config.nodeEnv,
       databaseConfigured: Boolean(this.config.databaseUrl),
       database: databaseOk ? 'up' : 'down',

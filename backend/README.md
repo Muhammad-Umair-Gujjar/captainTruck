@@ -12,8 +12,23 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 1 — Config / security / rate limit | Complete |
 | 2 — Neon + Prisma | Complete |
 | 3 — Auth JWT | Complete |
-| 4 — Users / profiles | Complete (awaiting sign-off) |
-| 5 — Truck types & rates | Next |
+| 4 — Users / profiles | Complete |
+| 5 — Truck types & rates | Complete (awaiting sign-off) |
+| 6 — Dispatch create | Next |
+
+### Truck types (Phase 5)
+
+| Method | Path | Access |
+|--------|------|--------|
+| GET | `/api/v1/truck-types` | Public (active + current rate) |
+| GET | `/api/v1/truck-types/:id` | Public (active) |
+| GET | `/api/v1/truck-types/admin/all` | Admin |
+| POST | `/api/v1/truck-types` | Admin |
+| PATCH | `/api/v1/truck-types/:id` | Admin |
+| POST | `/api/v1/truck-types/:id/rates` | Admin (new history row) |
+| GET | `/api/v1/truck-types/:id/rates` | Admin (history) |
+
+Rates are **integer cents**. Changing a rate never updates existing `lockedBaseRateCents` on dispatches.
 
 ### Users endpoints (Phase 4)
 

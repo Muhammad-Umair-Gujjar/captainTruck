@@ -11,6 +11,7 @@ import type { AppConfig } from './config/env.schema';
 import { AuthModule } from './modules/auth/auth.module';
 import { HealthModule } from './modules/health/health.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
+import { TruckTypesModule } from './modules/truck-types/truck-types.module';
 import { UsersModule } from './modules/users/users.module';
 
 @Module({
@@ -19,6 +20,7 @@ import { UsersModule } from './modules/users/users.module';
     PrismaModule,
     AuthModule,
     UsersModule,
+    TruckTypesModule,
     ThrottlerModule.forRootAsync({
       inject: [APP_CONFIG],
       useFactory: (config: AppConfig) => [

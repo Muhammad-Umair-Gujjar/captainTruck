@@ -245,9 +245,11 @@ Before moving on, all must be true:
 - Concurrent rate updates → last-write with audit log
 
 ### Exit checklist
-- [ ] Rate change does not mutate old `dispatch_requests.lockedBaseRate`
-- [ ] Customer only sees active types
-- [ ] Audit log entry on rate change
+- [x] Rate change does not mutate old `dispatch_requests.lockedBaseRateCents`
+- [x] Customer only sees active types
+- [x] Audit log entry on rate change
+- [x] Zero/negative rates rejected
+- [x] Deactivate blocked when open dispatch requests exist
 
 **Depends on:** Phase 3–4
 
@@ -606,8 +608,9 @@ Before moving on, all must be true:
 | 1 | Complete |
 | 2 | Complete |
 | 3 | Complete |
-| 4 | Complete (exit checklist green) — awaiting approval to start Phase 5 |
-| 5–16 | Not started |
+| 4 | Complete |
+| 5 | Complete (exit checklist green) — awaiting approval to start Phase 6 |
+| 6–16 | Not started |
 
 ---
 

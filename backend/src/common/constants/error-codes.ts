@@ -22,3 +22,11 @@ export const UserErrorCode = {
   INVALID_STATUS: 'USER_007',
   NOT_A_DRIVER: 'USER_008',
 } as const;
+
+export const TruckErrorCode = {
+  NOT_FOUND: 'TRUCK_001',
+  CODE_TAKEN: 'TRUCK_002',
+  INVALID_RATE: 'TRUCK_003',
+  HAS_OPEN_REQUESTS: 'TRUCK_004',
+  INACTIVE: 'TRUCK_005',
+} as const;
