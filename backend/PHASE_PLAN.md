@@ -541,9 +541,9 @@ Before moving on, all must be true:
 - Do not send push with sensitive payment details
 
 ### Exit checklist
-- [ ] Token CRUD works
-- [ ] At least 3 event types send in test (Firebase console or mock)
-- [ ] Bad tokens pruned
+- [x] Token CRUD works
+- [x] At least 3 event types send in test (Firebase console or mock)
+- [x] Bad tokens pruned
 
 **Depends on:** Phase 9–11; FCM project
 
@@ -631,11 +631,12 @@ Before moving on, all must be true:
 | 11 | Complete |
 | 12 | Complete |
 | 13 | Complete |
-| 14 | Complete (exit checklist green) — awaiting approval to start Phase 15 |
-| 15–16 | Not started |
+| 14 | Complete |
+| 15 | Complete (exit checklist green) — awaiting approval to start Phase 16 |
+| 16 | Not started |
 
 ---
 
 ## Next action (waiting on you)
 
-Approve Phase 14 to start **Phase 15** (FCM push notifications).
+Approve Phase 15 to start **Phase 16** (hardening + Oracle deploy prep).

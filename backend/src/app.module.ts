@@ -14,6 +14,7 @@ import { ChatModule } from './modules/chat/chat.module';
 import { CommissionsModule } from './modules/commissions/commissions.module';
 import { HealthModule } from './modules/health/health.module';
 import { MediaModule } from './modules/media/media.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
 import { PrismaModule } from './modules/prisma/prisma.module';
 import { DispatchesModule } from './modules/dispatches/dispatches.module';
 import { OsmModule } from './modules/osm/osm.module';
@@ -33,6 +34,7 @@ import { UsersModule } from './modules/users/users.module';
     PrismaModule,
     RedisModule,
     RealtimePublisherModule,
+    NotificationsModule,
     AuthModule,
     UsersModule,
     TruckTypesModule,

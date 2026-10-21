@@ -4,6 +4,7 @@ import { TripErrorCode } from '../../common/constants/error-codes';
 import { AuthUser } from '../../common/decorators/current-user.decorator';
 import { appHttpError } from '../../common/utils/http-error';
 import { CommissionsService } from '../commissions/commissions.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { PricingService } from '../pricing/pricing.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { RealtimePublisher } from '../realtime/realtime.publisher';
@@ -45,6 +46,7 @@ export class TripsService {
     private readonly pricing: PricingService,
     private readonly realtime: RealtimePublisher,
     private readonly commissions: CommissionsService,
+    private readonly notifications: NotificationsService,
   ) {}
 
   static readonly ACTIVE_STATUSES = ACTIVE_TRIP_STATUSES;
@@ -230,6 +232,13 @@ export class TripsService {
       tripId: id,
       status: dto.status,
       requestId: trip.requestId,
+    });
+    this.notifications.notifyTripStatus({
+      customerId: trip.request.customerId,
+      driverId: trip.driverId,
+      tripId: id,
+      status: dto.status,
+      excludeUserId: actor.id,
     });
     return result;
   }

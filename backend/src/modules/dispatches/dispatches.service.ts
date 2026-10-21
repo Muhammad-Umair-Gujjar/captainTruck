@@ -10,6 +10,7 @@ import {
 import { DispatchErrorCode } from '../../common/constants/error-codes';
 import { AuthUser } from '../../common/decorators/current-user.decorator';
 import { appHttpError } from '../../common/utils/http-error';
+import { NotificationsService } from '../notifications/notifications.service';
 import { GeocodeService } from '../osm/geocode.service';
 import { OsrmService } from '../osm/osrm.service';
 import { SelectRouteDto } from '../pricing/dto/select-route.dto';
@@ -44,6 +45,7 @@ export class DispatchesService {
     private readonly geocode: GeocodeService,
     private readonly pricing: PricingService,
     private readonly trips: TripsService,
+    private readonly notifications: NotificationsService,
   ) {}
 
   async create(actor: AuthUser, dto: CreateDispatchDto) {
@@ -449,7 +451,21 @@ export class DispatchesService {
       { timeout: 20_000, maxWait: 10_000 },
     );
 
-    return this.getById(actor, id);
+    const result = await this.getById(actor, id);
+    const tripId =
+      result.trip &&
+      typeof result.trip === 'object' &&
+      result.trip !== null &&
+      'id' in result.trip
+        ? String((result.trip as { id: string }).id)
+        : undefined;
+    this.notifications.notifyDispatchAssigned({
+      customerId: result.customerId,
+      driverId: dto.driverId,
+      dispatchId: id,
+      tripId,
+    });
+    return result;
   }
 
   /**
@@ -472,6 +488,9 @@ export class DispatchesService {
         'Rejection reason is required (min 3 characters)',
       );
     }
+
+    let customerId = '';
+    let driverId: string | null = null;
 
     await this.prisma.$transaction(
       async (tx) => {
@@ -500,6 +519,9 @@ export class DispatchesService {
         }
 
         this.assertTransition(dispatch.status, DispatchStatus.REJECTED);
+
+        customerId = dispatch.customerId;
+        driverId = dispatch.trip?.driverId ?? null;
 
         const claimed = await tx.dispatchRequest.updateMany({
           where: {
@@ -544,6 +566,11 @@ export class DispatchesService {
       { timeout: 20_000, maxWait: 10_000 },
     );
 
+    this.notifications.notifyDispatchRejected({
+      customerId,
+      driverId,
+      dispatchId: id,
+    });
     return this.getById(actor, id);
   }
 

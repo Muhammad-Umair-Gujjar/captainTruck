@@ -10,6 +10,7 @@ import { ChatErrorCode } from '../../common/constants/error-codes';
 import { AuthUser } from '../../common/decorators/current-user.decorator';
 import { appHttpError } from '../../common/utils/http-error';
 import { MediaService } from '../media/media.service';
+import { NotificationsService } from '../notifications/notifications.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { RealtimePublisher } from '../realtime/realtime.publisher';
 import { sanitizeChatBody } from './chat-sanitize';
@@ -30,6 +31,7 @@ export class ChatService {
     private readonly prisma: PrismaService,
     private readonly media: MediaService,
     private readonly realtime: RealtimePublisher,
+    private readonly notifications: NotificationsService,
   ) {}
 
   async openThreadForTrip(
@@ -241,6 +243,24 @@ export class ChatService {
     const fresh = await this.loadThreadOrThrow(threadId);
     const publicMsg = this.toMessagePublic(message);
     this.realtime.emitChatMessage(fresh, publicMsg);
+
+    const recipientIds = fresh.participants
+      .map((p) => p.userId)
+      .filter((uid) => uid !== actor.id);
+    const preview =
+      publicMsg.body ??
+      (dto.type === MessageType.IMAGE
+        ? 'Sent an image'
+        : dto.type === MessageType.VOICE
+          ? 'Sent a voice message'
+          : 'New message');
+    this.notifications.notifyChatMessage({
+      recipientIds,
+      threadId,
+      senderName: message.sender.fullName,
+      preview,
+    });
+
     return publicMsg;
   }
 

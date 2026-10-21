@@ -9,6 +9,7 @@ import {
 import { PaymentErrorCode } from '../../common/constants/error-codes';
 import { AuthUser } from '../../common/decorators/current-user.decorator';
 import { appHttpError } from '../../common/utils/http-error';
+import { NotificationsService } from '../notifications/notifications.service';
 import { PricingService } from '../pricing/pricing.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { isPaymentSettled } from './payment-status';
@@ -23,6 +24,7 @@ export class PaymentsService {
     private readonly prisma: PrismaService,
     private readonly pricing: PricingService,
     private readonly stripe: StripeService,
+    private readonly notifications: NotificationsService,
   ) {}
 
   async create(actor: AuthUser, dto: CreatePaymentDto) {
@@ -285,6 +287,24 @@ export class PaymentsService {
       return row;
     });
 
+    let driverId = payment.trip?.driverId ?? null;
+    if (!driverId && payment.requestId) {
+      const trip = await this.prisma.trip.findUnique({
+        where: { requestId: payment.requestId },
+        select: { driverId: true },
+      });
+      driverId = trip?.driverId ?? null;
+    }
+    const customerId = payment.request?.customerId;
+    if (customerId) {
+      this.notifications.notifyPaymentResult({
+        customerId,
+        driverId,
+        paymentId,
+        outcome: 'cash_collected',
+      });
+    }
+
     return this.toPublic(updated);
   }
 
@@ -322,6 +342,10 @@ export class PaymentsService {
             stripePaymentIntentId?: string;
             idempotencyKey?: string;
           }>,
+        },
+        include: {
+          request: { select: { customerId: true } },
+          trip: { select: { driverId: true } },
         },
       });
 
@@ -372,6 +396,25 @@ export class PaymentsService {
           metadata: { eventType: event.type, eventId: event.id, status: next },
         },
       });
+
+      if (payment.request?.customerId) {
+        const outcome =
+          next === PaymentStatus.PAID
+            ? 'paid'
+            : next === PaymentStatus.FAILED
+              ? 'failed'
+              : next === PaymentStatus.CANCELLED
+                ? 'cancelled'
+                : null;
+        if (outcome) {
+          this.notifications.notifyPaymentResult({
+            customerId: payment.request.customerId,
+            driverId: payment.trip?.driverId ?? null,
+            paymentId: payment.id,
+            outcome,
+          });
+        }
+      }
 
       return { received: true, matched: true, status: next };
     }

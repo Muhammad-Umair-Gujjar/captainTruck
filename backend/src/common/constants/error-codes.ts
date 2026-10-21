@@ -113,3 +113,8 @@ export const CommissionErrorCode = {
   ALREADY_CONFIRMED: 'COMM_003',
   INVALID_AMOUNT: 'COMM_004',
 } as const;
+
+export const NotificationErrorCode = {
+  TOKEN_INVALID: 'NOTIF_001',
+  FORBIDDEN: 'NOTIF_002',
+} as const;

@@ -44,7 +44,7 @@ This file preserves locked product/tech decisions from that conversation.
 
 - Implement **phase by phase**; previous phase must pass exit checklist and get approval before the next.
 - Plan: `backend/PHASE_PLAN.md` (Phases 0–16)
-- Phases 0–13: **complete**; Phase 14 (commission ledger): implemented — awaiting sign-off before Phase 15 (FCM)
+- Phases 0–14: **complete**; Phase 15 (FCM push): implemented — awaiting sign-off before Phase 16 (harden + deploy)
 
 ## Accounts still needed
 
@@ -52,5 +52,5 @@ This file preserves locked product/tech decisions from that conversation.
 - Redis/Upstash (Phase 10+)
 - Cloudinary (Phase 11)
 - Stripe test keys (Phase 13)
-- FCM (Phase 15)
+- Phase 16 hardening / Oracle deploy prep
 - Oracle Always Free (Phase 16 deploy)

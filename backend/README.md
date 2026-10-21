@@ -22,8 +22,21 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 11 — Media + chat | Complete |
 | 12 — Chat 90-day TTL | Complete |
 | 13 — Payments (cash + Stripe test) | Complete |
-| 14 — Commission ledger | Complete (awaiting sign-off) |
-| 15 — FCM push | Next |
+| 14 — Commission ledger | Complete |
+| 15 — FCM push | Complete (awaiting sign-off) |
+| 16 — Harden + deploy prep | Next |
+
+### Notifications / FCM (Phase 15)
+
+| Method | Path | Notes |
+|--------|------|--------|
+| GET | `/api/v1/notifications/status` | `{ configured }` — needs `FCM_PROJECT_ID` + `FCM_CLIENT_EMAIL` + `FCM_PRIVATE_KEY` |
+| GET | `/api/v1/notifications/tokens` | List my device tokens |
+| POST | `/api/v1/notifications/tokens` | Register token `{ token }` |
+| DELETE | `/api/v1/notifications/tokens` | Unregister `{ token }` |
+
+Pushes (no-op if FCM unset or user has 0 tokens): **assign**, **reject**, **trip status**, **chat message**, **payment result**.  
+Invalid/expired tokens are pruned from `users.fcmTokens`. Payment pushes never include amounts or card details.
 
 ### Commissions (Phase 14)
 
