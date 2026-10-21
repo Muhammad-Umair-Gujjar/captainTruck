@@ -60,4 +60,27 @@ export class DispatchesController {
   cancel(@CurrentUser() user: AuthUser, @Param('id') id: string) {
     return this.dispatchesService.cancel(user, id);
   }
+
+  @Post(':id/routes/generate')
+  @Roles(UserRole.CUSTOMER)
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
+  @ApiOperation({
+    summary: 'Generate 2–3 OSRM route alternatives (fastest = recommended)',
+  })
+  generateRoutes(@CurrentUser() user: AuthUser, @Param('id') id: string) {
+    return this.dispatchesService.generateRoutes(user, id);
+  }
+
+  @Post(':id/routes/:routeOptionId/select')
+  @Roles(UserRole.CUSTOMER)
+  @ApiOperation({
+    summary: 'Select a route → pending_admin (idempotent if already selected)',
+  })
+  selectRoute(
+    @CurrentUser() user: AuthUser,
+    @Param('id') id: string,
+    @Param('routeOptionId') routeOptionId: string,
+  ) {
+    return this.dispatchesService.selectRoute(user, id, routeOptionId);
+  }
 }

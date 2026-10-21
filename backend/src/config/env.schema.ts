@@ -47,6 +47,11 @@ export const envSchema = z
       .url()
       .default('https://nominatim.openstreetmap.org'),
     PHOTON_BASE_URL: z.string().url().default('https://photon.komoot.io'),
+    OSRM_TIMEOUT_MS: z.coerce.number().int().positive().default(15_000),
+    OSM_USER_AGENT: z
+      .string()
+      .default('CaptainTruckFYP/1.0 (contact: admin@captaintruck.local)'),
+    OSM_POLYLINE_MAX_CHARS: z.coerce.number().int().positive().default(100_000),
 
     COMMISSION_PERCENT: z.coerce.number().min(0).max(100).default(10),
     CHAT_TTL_DAYS: z.coerce.number().int().min(1).default(90),
@@ -131,6 +136,9 @@ export type AppConfig = {
     osrmBaseUrl: string;
     nominatimBaseUrl: string;
     photonBaseUrl: string;
+    timeoutMs: number;
+    userAgent: string;
+    polylineMaxChars: number;
   };
   commissionPercent: number;
   chatTtlDays: number;
@@ -180,6 +188,9 @@ export function toAppConfig(env: RawEnv): AppConfig {
       osrmBaseUrl: env.OSRM_BASE_URL,
       nominatimBaseUrl: env.NOMINATIM_BASE_URL,
       photonBaseUrl: env.PHOTON_BASE_URL,
+      timeoutMs: env.OSRM_TIMEOUT_MS,
+      userAgent: env.OSM_USER_AGENT,
+      polylineMaxChars: env.OSM_POLYLINE_MAX_CHARS,
     },
     commissionPercent: env.COMMISSION_PERCENT,
     chatTtlDays: env.CHAT_TTL_DAYS,

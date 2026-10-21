@@ -14,8 +14,20 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 3 — Auth JWT | Complete |
 | 4 — Users / profiles | Complete |
 | 5 — Truck types & rates | Complete |
-| 6 — Dispatch create | Complete (awaiting sign-off) |
-| 7 — OSM routing | Next |
+| 6 — Dispatch create | Complete |
+| 7 — OSM routing | Complete (awaiting sign-off) |
+| 8 — AI cost / bill | Next |
+
+### Routing (Phase 7) — Flutter contract
+
+| Method | Path | Notes |
+|--------|------|--------|
+| GET | `/api/v1/osm/autocomplete?q=` | Photon proxy (auth + throttle) |
+| POST | `/api/v1/dispatches/:id/routes/generate` | Needs coords or geocodes addresses; returns `routeOptions` |
+| POST | `/api/v1/dispatches/:id/routes/:routeOptionId/select` | → `PENDING_ADMIN`; idempotent if already selected |
+
+`routeOptions[]`: `{ id, polyline, distanceMeters, durationSeconds, aiCostCents, isRecommended, isSelected }`  
+Prefer sending map-pin `lat/lng` on create to skip geocode. Fastest duration is `isRecommended`.
 
 ### Dispatches (Phase 6)
 

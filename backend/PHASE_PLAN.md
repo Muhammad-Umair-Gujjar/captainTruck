@@ -305,10 +305,10 @@ Before moving on, all must be true:
 - Pakistan geocode ambiguity → allow client lat/lng pin override (store both address text + coords)
 
 ### Exit checklist
-- [ ] Alternatives stored and returned consistently
-- [ ] Selection is idempotent (re-select rules defined)
-- [ ] External API failures don’t crash process
-- [ ] Contract documented for Flutter apps
+- [x] Alternatives stored and returned consistently
+- [x] Selection is idempotent (same route while pending_admin OK; locked otherwise)
+- [x] External API failures don’t crash process (typed OSM_* errors)
+- [x] Contract documented for Flutter apps (README)
 
 **Depends on:** Phase 6
 
@@ -611,8 +611,9 @@ Before moving on, all must be true:
 | 3 | Complete |
 | 4 | Complete |
 | 5 | Complete |
-| 6 | Complete (exit checklist green) — awaiting approval to start Phase 7 |
-| 7–16 | Not started |
+| 6 | Complete |
+| 7 | Complete (exit checklist green) — awaiting approval to start Phase 8 |
+| 8–16 | Not started |
 
 ---
 

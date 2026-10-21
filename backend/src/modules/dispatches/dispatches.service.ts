@@ -8,6 +8,8 @@ import {
 import { DispatchErrorCode } from '../../common/constants/error-codes';
 import { AuthUser } from '../../common/decorators/current-user.decorator';
 import { appHttpError } from '../../common/utils/http-error';
+import { GeocodeService } from '../osm/geocode.service';
+import { OsrmService } from '../osm/osrm.service';
 import { PrismaService } from '../prisma/prisma.service';
 import { TruckTypesService } from '../truck-types/truck-types.service';
 import { CUSTOMER_CANCELLABLE, canTransition } from './dispatch-status';
@@ -24,6 +26,8 @@ export class DispatchesService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly truckTypes: TruckTypesService,
+    private readonly osrm: OsrmService,
+    private readonly geocode: GeocodeService,
   ) {}
 
   async create(actor: AuthUser, dto: CreateDispatchDto) {
@@ -228,6 +232,126 @@ export class DispatchesService {
     await this.prisma.dispatchRequest.update({
       where: { id },
       data: { status: DispatchStatus.CANCELLED },
+    });
+
+    return this.getById(actor, id);
+  }
+
+  /**
+   * Generate 2–3 OSRM alternatives; mark fastest as recommended.
+   * Prefer stored lat/lng pins; geocode addresses only as fallback.
+   */
+  async generateRoutes(actor: AuthUser, id: string) {
+    const dispatch = await this.findOwnedOrThrow(actor, id);
+
+    if (dispatch.status !== DispatchStatus.AWAITING_ROUTE_SELECTION) {
+      throw appHttpError(
+        HttpStatus.BAD_REQUEST,
+        DispatchErrorCode.INVALID_TRANSITION,
+        'Routes can only be generated while awaiting route selection',
+      );
+    }
+
+    let pickupLat = dispatch.pickupLat;
+    let pickupLng = dispatch.pickupLng;
+    let dropoffLat = dispatch.dropoffLat;
+    let dropoffLng = dispatch.dropoffLng;
+
+    if (pickupLat == null || pickupLng == null) {
+      const geo = await this.geocode.geocodeAddress(dispatch.pickupAddress);
+      pickupLat = geo.lat;
+      pickupLng = geo.lng;
+    }
+    if (dropoffLat == null || dropoffLng == null) {
+      const geo = await this.geocode.geocodeAddress(dispatch.dropoffAddress);
+      dropoffLat = geo.lat;
+      dropoffLng = geo.lng;
+    }
+
+    await this.prisma.dispatchRequest.update({
+      where: { id },
+      data: { pickupLat, pickupLng, dropoffLat, dropoffLng },
+    });
+
+    const routes = await this.osrm.getRoutes(
+      pickupLng,
+      pickupLat,
+      dropoffLng,
+      dropoffLat,
+    );
+
+    const fastestDuration = Math.min(...routes.map((r) => r.durationSeconds));
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.routeOption.deleteMany({ where: { requestId: id } });
+      let recommendedAssigned = false;
+      for (const route of routes) {
+        const isRecommended =
+          !recommendedAssigned && route.durationSeconds === fastestDuration;
+        if (isRecommended) recommendedAssigned = true;
+        await tx.routeOption.create({
+          data: {
+            requestId: id,
+            polyline: route.polyline,
+            distanceMeters: route.distanceMeters,
+            durationSeconds: route.durationSeconds,
+            aiCostCents: 0,
+            isRecommended,
+            isSelected: false,
+          },
+        });
+      }
+    });
+
+    return this.getById(actor, id);
+  }
+
+  /**
+   * Select a route option → PENDING_ADMIN.
+   * Idempotent: selecting the already-selected route while PENDING_ADMIN succeeds.
+   * Re-select only allowed while AWAITING_ROUTE_SELECTION.
+   */
+  async selectRoute(actor: AuthUser, id: string, routeOptionId: string) {
+    const dispatch = await this.findOwnedOrThrow(actor, id);
+
+    const option = await this.prisma.routeOption.findFirst({
+      where: { id: routeOptionId, requestId: id },
+    });
+    if (!option) {
+      throw appHttpError(
+        HttpStatus.NOT_FOUND,
+        DispatchErrorCode.ROUTE_NOT_FOUND,
+        'Route option not found for this dispatch',
+      );
+    }
+
+    if (dispatch.status === DispatchStatus.PENDING_ADMIN && option.isSelected) {
+      return this.getById(actor, id);
+    }
+
+    if (dispatch.status !== DispatchStatus.AWAITING_ROUTE_SELECTION) {
+      throw appHttpError(
+        HttpStatus.BAD_REQUEST,
+        DispatchErrorCode.ROUTE_LOCKED,
+        'Route selection is locked after submission to admin',
+      );
+    }
+
+    this.assertTransition(dispatch.status, DispatchStatus.PENDING_ADMIN);
+
+    await this.prisma.$transaction(async (tx) => {
+      await tx.routeOption.updateMany({
+        where: { requestId: id },
+        data: { isSelected: false },
+      });
+      await tx.routeOption.update({
+        where: { id: routeOptionId },
+        data: { isSelected: true },
+      });
+      await tx.dispatchRequest.update({
+        where: { id },
+        data: { status: DispatchStatus.PENDING_ADMIN },
+      });
     });
 
     return this.getById(actor, id);
