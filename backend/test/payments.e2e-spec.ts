@@ -33,6 +33,7 @@ describe('Phase 13 Payments (e2e)', () => {
   let driverId = '';
   let truckTypeId = '';
   let dispatchId = '';
+  let tripId = '';
   let totalBillCents = 0;
 
   const mockOsrm = {

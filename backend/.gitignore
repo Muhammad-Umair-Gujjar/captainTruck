@@ -27,3 +27,6 @@ Thumbs.db
 # Nest / temp
 *.tsbuildinfo
 .turbo/
+
+# Generated OpenAPI (re-export with npm run openapi:export)
+docs/openapi.json

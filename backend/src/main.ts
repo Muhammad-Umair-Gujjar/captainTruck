@@ -28,6 +28,12 @@ async function bootstrap() {
         : ['error', 'warn', 'log', 'debug', 'verbose'],
   });
 
+  // Nginx terminates TLS / sets X-Forwarded-*; needed for correct rate-limit IP
+  const expressApp = app.getHttpAdapter().getInstance() as {
+    set: (key: string, value: number) => void;
+  };
+  expressApp.set('trust proxy', 1);
+
   app.use(
     helmet({
       contentSecurityPolicy:

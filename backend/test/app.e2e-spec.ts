@@ -71,7 +71,7 @@ describe('Phase 2 (e2e)', () => {
     expect(body.success).toBe(true);
     expect(body.data.status).toMatch(/ok|degraded/);
     expect(body.data.service).toBe('captain-truck-api');
-    expect(body.data.phase).toBe(7);
+    expect(body.data.phase).toBe(16);
     expect(body.meta.correlationId).toBe('test-correlation-1');
   });
 
@@ -102,6 +102,9 @@ describe('Phase 1 rate limit (e2e)', () => {
         $connect: () => Promise.resolve(),
         $disconnect: () => Promise.resolve(),
         user: { count: () => Promise.resolve(0) },
+        truckType: {
+          findMany: () => Promise.resolve([]),
+        },
       })
       .compile();
 
@@ -116,12 +119,14 @@ describe('Phase 1 rate limit (e2e)', () => {
   });
 
   it('returns 429 with Retry-After after exceeding limit', async () => {
+    // Health is SkipThrottle (load-balancer friendly); use a public throttled route.
     const server = app.getHttpServer();
-    await request(server).get('/api/v1/health').expect(200);
-    await request(server).get('/api/v1/health').expect(200);
-    await request(server).get('/api/v1/health').expect(200);
+    const path = '/api/v1/truck-types';
+    await request(server).get(path).expect(200);
+    await request(server).get(path).expect(200);
+    await request(server).get(path).expect(200);
 
-    const limited = await request(server).get('/api/v1/health').expect(429);
+    const limited = await request(server).get(path).expect(429);
     expect(limited.headers['retry-after']).toBeDefined();
 
     const body = limited.body as {

@@ -568,10 +568,10 @@ Before moving on, all must be true:
 - Zero-downtime migrate strategy (expand/contract)
 
 ### Exit checklist
-- [ ] IDOR tests for all major resources
-- [ ] Deploy docs complete
-- [ ] Core e2e green against Neon
-- [ ] Error codes documented for admin + mobile
+- [x] IDOR tests for all major resources
+- [x] Deploy docs complete
+- [x] Core e2e green against Neon
+- [x] Error codes documented for admin + mobile
 
 **Depends on:** Phases 0–15 essentially complete
 
@@ -632,11 +632,11 @@ Before moving on, all must be true:
 | 12 | Complete |
 | 13 | Complete |
 | 14 | Complete |
-| 15 | Complete (exit checklist green) — awaiting approval to start Phase 16 |
-| 16 | Not started |
+| 15 | Complete |
+| 16 | Complete (exit checklist green) — backend phase track finished |
 
 ---
 
 ## Next action (waiting on you)
 
-Approve Phase 15 to start **Phase 16** (hardening + Oracle deploy prep).
+Backend Phases 0–16 are complete. Next product work: **React admin panel** (this repo) and Flutter apps (separate repos). Deploy API to Oracle using `backend/docs/DEPLOY.md` when the VM is ready.

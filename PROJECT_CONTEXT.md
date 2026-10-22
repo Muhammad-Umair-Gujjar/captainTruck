@@ -44,7 +44,7 @@ This file preserves locked product/tech decisions from that conversation.
 
 - Implement **phase by phase**; previous phase must pass exit checklist and get approval before the next.
 - Plan: `backend/PHASE_PLAN.md` (Phases 0–16)
-- Phases 0–14: **complete**; Phase 15 (FCM push): implemented — awaiting sign-off before Phase 16 (harden + deploy)
+- Phases 0–16: **complete** (NestJS API hardening + deploy docs). Next: React admin (this repo) + Flutter apps (separate repos).
 
 ## Accounts still needed
 
@@ -52,5 +52,5 @@ This file preserves locked product/tech decisions from that conversation.
 - Redis/Upstash (Phase 10+)
 - Cloudinary (Phase 11)
 - Stripe test keys (Phase 13)
-- Phase 16 hardening / Oracle deploy prep
-- Oracle Always Free (Phase 16 deploy)
+- Firebase / FCM (Phase 15)
+- Oracle Always Free (deploy per `backend/docs/DEPLOY.md`)

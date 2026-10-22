@@ -23,8 +23,23 @@ Package manager: **npm** (locked — do not switch without team agreement).
 | 12 — Chat 90-day TTL | Complete |
 | 13 — Payments (cash + Stripe test) | Complete |
 | 14 — Commission ledger | Complete |
-| 15 — FCM push | Complete (awaiting sign-off) |
-| 16 — Harden + deploy prep | Next |
+| 15 — FCM push | Complete |
+| 16 — Harden + deploy prep | Complete |
+
+### Hardening & deploy prep (Phase 16)
+
+| Doc / command | Purpose |
+|---------------|---------|
+| `docs/DEPLOY.md` | Oracle VM + Nginx + PM2 + TLS + logrotate |
+| `docs/ENV_MATRIX.md` | Local vs production env |
+| `docs/NEON_BACKUP.md` | Dump/restore + expand/contract migrate |
+| `docs/OPENAPI_FLUTTER.md` | Mobile OpenAPI contract |
+| `docs/ERROR_CODES.md` | Admin + mobile error codes |
+| `docs/SMOKE.md` | Post-deploy smoke |
+| `npm run openapi:export` | Write `docs/openapi.json` |
+| `npm run test:e2e:phase16` | happy-path + IDOR + health/rate-limit |
+
+Health is unthrottled and reports `phase: 16`. Behind Nginx, `trust proxy` is enabled. Auth login/refresh/logout and heavy routes (OSRM, GPS, chat, payments) have tighter `@Throttle` caps.
 
 ### Notifications / FCM (Phase 15)
 

@@ -28,7 +28,7 @@ export class AuthController {
   @Public()
   @Post('login')
   @HttpCode(200)
-  @Throttle({ default: { limit: 60, ttl: 60_000 } })
+  @Throttle({ default: { limit: 20, ttl: 60_000 } })
   @ApiOperation({ summary: 'Login (customer / driver / admin)' })
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
@@ -37,6 +37,7 @@ export class AuthController {
   @Public()
   @Post('refresh')
   @HttpCode(200)
+  @Throttle({ default: { limit: 30, ttl: 60_000 } })
   @ApiOperation({ summary: 'Rotate refresh token' })
   refresh(@Body() dto: RefreshDto) {
     return this.authService.refresh(dto.refreshToken);
@@ -45,6 +46,7 @@ export class AuthController {
   @Public()
   @Post('logout')
   @HttpCode(200)
+  @Throttle({ default: { limit: 30, ttl: 60_000 } })
   @ApiOperation({ summary: 'Revoke refresh token' })
   logout(@Body() dto: RefreshDto) {
     return this.authService.logout(dto.refreshToken);
