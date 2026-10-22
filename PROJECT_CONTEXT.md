@@ -44,7 +44,8 @@ This file preserves locked product/tech decisions from that conversation.
 
 - Implement **phase by phase**; previous phase must pass exit checklist and get approval before the next.
 - Plan: `backend/PHASE_PLAN.md` (Phases 0–16)
-- Phases 0–16: **complete** (NestJS API hardening + deploy docs). Next: React admin (this repo) + Flutter apps (separate repos).
+- Backend Phases 0–16: **complete**.
+- Admin panel (`admin/`): plan A0–A7 in `admin/ADMIN_PHASE_PLAN.md` — A0/A1 underway; Flutter apps remain separate repos.
 
 ## Accounts still needed
 

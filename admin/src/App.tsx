@@ -1,0 +1,75 @@
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from '@/auth/AuthContext';
+import { AppShell } from '@/components/AppShell';
+import { RequireAuth } from '@/components/RequireAuth';
+import { DashboardPage } from '@/pages/DashboardPage';
+import { LoginPage } from '@/pages/LoginPage';
+import { PlaceholderPage } from '@/pages/PlaceholderPage';
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route element={<RequireAuth />}>
+            <Route element={<AppShell />}>
+              <Route index element={<DashboardPage />} />
+              <Route
+                path="dispatches"
+                element={
+                  <PlaceholderPage
+                    title="Dispatches"
+                    phase="Phase A2"
+                    blurb="Pending queue, approve/reject, and driver assignment land here next."
+                  />
+                }
+              />
+              <Route
+                path="trips"
+                element={
+                  <PlaceholderPage
+                    title="Trips"
+                    phase="Phase A3"
+                    blurb="Active trips and live OSM map tracking."
+                  />
+                }
+              />
+              <Route
+                path="users"
+                element={
+                  <PlaceholderPage
+                    title="Users"
+                    phase="Phase A4"
+                    blurb="Customers, drivers, and create-driver flow."
+                  />
+                }
+              />
+              <Route
+                path="truck-types"
+                element={
+                  <PlaceholderPage
+                    title="Truck types"
+                    phase="Phase A5"
+                    blurb="Catalog and base-rate history."
+                  />
+                }
+              />
+              <Route
+                path="commissions"
+                element={
+                  <PlaceholderPage
+                    title="Commissions"
+                    phase="Phase A6"
+                    blurb="Ledger list, summary, and admin confirm."
+                  />
+                }
+              />
+            </Route>
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}

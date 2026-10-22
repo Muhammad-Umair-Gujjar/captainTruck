@@ -3,12 +3,14 @@
 FYP: **Captain Truck — Real-Time Logistics and Dispatch Platform**
 
 This repository hosts:
-- **NestJS backend** (`backend/`) — custom API
-- **React admin panel** (to be added) — Vercel
+- **NestJS backend** (`backend/`) — custom API (Phases 0–16 complete)
+- **React admin panel** (`admin/`) — Vite + Tailwind → Vercel
 
 Flutter Customer and Driver apps live in **separate repositories** (Android only).
 
-## Quick start (backend)
+## Quick start
+
+### API
 
 ```bash
 cd backend
@@ -20,14 +22,29 @@ npm run start:dev
 - Health: http://localhost:3000/api/v1/health  
 - Swagger: http://localhost:3000/api/docs  
 
+### Admin
+
+```bash
+cd admin
+cp .env.example .env
+npm install
+npm run dev
+```
+
+- UI: http://localhost:5173  
+- Seed admin: `admin@captaintruck.local` / `Admin@12345`
+
 ## Docs
 
-- Backend phase plan: [backend/PHASE_PLAN.md](backend/PHASE_PLAN.md)
-- Locked decisions: [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md)
-- Cursor agent rule: [.cursor/rules/captain-truck-stack.mdc](.cursor/rules/captain-truck-stack.mdc)
+| Doc | Purpose |
+|-----|---------|
+| [PROJECT_CONTEXT.md](PROJECT_CONTEXT.md) | Locked stack |
+| [backend/PHASE_PLAN.md](backend/PHASE_PLAN.md) | API phases 0–16 |
+| [admin/ADMIN_PHASE_PLAN.md](admin/ADMIN_PHASE_PLAN.md) | Admin phases A0–A7 |
+| [backend/docs/DEPLOY.md](backend/docs/DEPLOY.md) | Oracle + Nginx + PM2 |
+| [admin/README.md](admin/README.md) | Admin local + Vercel |
 
 ## Current status
 
-- **Phase 0** complete (scaffold, health, Swagger, tests)
-- **Phase 1** next (after approval)
-- Neon DB integration starts at **Phase 2**
+- Backend Phases **0–16** complete  
+- Admin: **A0 scaffold + A1 auth** in progress — next A2 dispatch queue  
