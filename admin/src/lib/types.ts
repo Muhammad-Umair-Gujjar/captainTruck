@@ -101,3 +101,47 @@ export type DriverUser = {
     isAvailable: boolean;
   } | null;
 };
+
+export type LiveLocation = {
+  tripId: string;
+  lat: number;
+  lng: number;
+  heading: number | null;
+  speedMps: number | null;
+  updatedAt: string;
+  stale: boolean;
+  sealed: boolean;
+};
+
+export type TripRequest = {
+  id?: string;
+  customerId?: string;
+  pickupAddress?: string;
+  dropoffAddress?: string;
+  pickupLat?: number | null;
+  pickupLng?: number | null;
+  dropoffLat?: number | null;
+  dropoffLng?: number | null;
+  truckCount?: number;
+  truckType?: DispatchTruckType | null;
+  customer?: DispatchCustomer | null;
+  routeOptions?: RouteOption[];
+};
+
+export type Trip = {
+  id: string;
+  requestId: string;
+  driverId: string;
+  status: string;
+  finalBillCents: number | null;
+  lastLat: number | null;
+  lastLng: number | null;
+  lastLocationAt: string | null;
+  startedAt: string | null;
+  completedAt: string | null;
+  createdAt: string;
+  updatedAt: string;
+  request?: TripRequest;
+  driver?: DriverUser;
+  liveLocation?: LiveLocation | null;
+};

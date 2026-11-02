@@ -7,6 +7,8 @@ import { DispatchDetailPage } from '@/pages/DispatchDetailPage';
 import { DispatchesPage } from '@/pages/DispatchesPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { PlaceholderPage } from '@/pages/PlaceholderPage';
+import { TripDetailPage } from '@/pages/TripDetailPage';
+import { TripsPage } from '@/pages/TripsPage';
 
 export default function App() {
   return (
@@ -19,16 +21,8 @@ export default function App() {
               <Route index element={<DashboardPage />} />
               <Route path="dispatches" element={<DispatchesPage />} />
               <Route path="dispatches/:id" element={<DispatchDetailPage />} />
-              <Route
-                path="trips"
-                element={
-                  <PlaceholderPage
-                    title="Trips"
-                    phase="Phase A3"
-                    blurb="Active trips and live OSM map tracking."
-                  />
-                }
-              />
+              <Route path="trips" element={<TripsPage />} />
+              <Route path="trips/:id" element={<TripDetailPage />} />
               <Route
                 path="users"
                 element={

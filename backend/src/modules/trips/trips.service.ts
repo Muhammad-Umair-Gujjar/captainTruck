@@ -105,6 +105,74 @@ export class TripsService {
     };
   }
 
+  /** Admin ops list — all trips or filtered by status / activeOnly. */
+  async listAdmin(query: {
+    page?: number;
+    limit?: number;
+    status?: TripStatus;
+    activeOnly?: boolean;
+  }) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+    const where: Prisma.TripWhereInput = {};
+    if (query.status) {
+      where.status = query.status;
+    } else if (query.activeOnly) {
+      where.status = { in: ACTIVE_TRIP_STATUSES };
+    }
+
+    const [total, items] = await this.prisma.$transaction([
+      this.prisma.trip.count({ where }),
+      this.prisma.trip.findMany({
+        where,
+        include: {
+          request: {
+            include: {
+              truckType: true,
+              routeOptions: { where: { isSelected: true }, take: 1 },
+              customer: {
+                select: {
+                  id: true,
+                  fullName: true,
+                  phone: true,
+                  email: true,
+                },
+              },
+            },
+          },
+          driver: {
+            select: {
+              id: true,
+              fullName: true,
+              phone: true,
+              email: true,
+              driverProfile: {
+                select: {
+                  vehiclePlate: true,
+                  licenseNumber: true,
+                  isAvailable: true,
+                },
+              },
+            },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+    ]);
+
+    return {
+      items: items.map((t) => this.toPublic(t)),
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.max(1, Math.ceil(total / limit)),
+      },
+    };
+  }
+
   async getById(actor: AuthUser, id: string) {
     const trip = await this.loadTripOrThrow(id);
     this.assertCanView(actor, trip);

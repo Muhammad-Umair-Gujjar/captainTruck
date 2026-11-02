@@ -139,6 +139,7 @@ Auth: `auth: { token }` or `Authorization: Bearer` or `?token=`
 | POST | `/api/v1/dispatches/:id/approve` | Body `{ driverId, note? }` → trip + `approved_assigned` |
 | POST | `/api/v1/dispatches/:id/reject` | Body `{ reason }` required (min 3 chars) |
 | GET | `/api/v1/trips/mine` | Driver: own assignments only |
+| GET | `/api/v1/trips/admin` | Admin list (`status`, `activeOnly`) |
 | GET | `/api/v1/trips/:id` | Assigned driver, customer owner, or admin |
 
 Multi-truck: **one lead driver** regardless of `truckCount` (billing still uses count).  

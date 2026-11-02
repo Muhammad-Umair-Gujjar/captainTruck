@@ -23,6 +23,15 @@ export class TripsController {
     return this.tripsService.listMine(user, query);
   }
 
+  @Get('admin')
+  @Roles(UserRole.ADMIN)
+  @ApiOperation({
+    summary: 'Admin: list trips (optional status or activeOnly filter)',
+  })
+  listAdmin(@Query() query: ListTripsQueryDto) {
+    return this.tripsService.listAdmin(query);
+  }
+
   @Get(':id')
   @ApiOperation({
     summary: 'Get trip by id (assigned driver, customer owner, or admin)',

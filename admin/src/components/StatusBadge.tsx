@@ -9,6 +9,11 @@ const TONES: Record<string, string> = {
   CANCELLED: 'bg-slate-100 text-ink-muted border-line',
   DRAFT: 'bg-slate-50 text-ink-muted border-line',
   AWAITING_ROUTE_SELECTION: 'bg-amber-50/60 text-ink-muted border-amber-100',
+  ASSIGNED: 'bg-amber-50 text-accent-strong border-amber-200',
+  EN_ROUTE_PICKUP: 'bg-sky-50 text-sky-800 border-sky-200',
+  ARRIVED_PICKUP: 'bg-sky-50 text-sky-800 border-sky-200',
+  IN_TRANSIT: 'bg-sky-50 text-sky-900 border-sky-200',
+  DELIVERED: 'bg-emerald-50 text-ok border-emerald-200',
 };
 
 export function StatusBadge({ status }: { status: string }) {

@@ -225,8 +225,13 @@ export function DispatchDetailPage() {
         <section className="mt-4 rounded-xl border border-line bg-panel p-5">
           <h3 className="text-sm font-semibold">Assignment</h3>
           <p className="mt-2 text-sm">
-            {dispatch.trip.driver?.fullName ?? dispatch.trip.driverId} · trip{' '}
-            <span className="font-mono text-xs">{dispatch.trip.id}</span>
+            {dispatch.trip.driver?.fullName ?? dispatch.trip.driverId} ·{' '}
+            <Link
+              to={`/trips/${dispatch.trip.id}`}
+              className="font-mono text-xs text-accent-strong hover:underline"
+            >
+              {dispatch.trip.id}
+            </Link>
           </p>
           <p className="text-sm text-ink-muted">
             Trip status {dispatch.trip.status.replace(/_/g, ' ').toLowerCase()}
