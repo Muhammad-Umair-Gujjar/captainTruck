@@ -6,10 +6,13 @@ import { DashboardPage } from '@/pages/DashboardPage';
 import { DispatchDetailPage } from '@/pages/DispatchDetailPage';
 import { DispatchesPage } from '@/pages/DispatchesPage';
 import { CreateDriverPage } from '@/pages/CreateDriverPage';
+import { CreateTruckTypePage } from '@/pages/CreateTruckTypePage';
 import { LoginPage } from '@/pages/LoginPage';
 import { PlaceholderPage } from '@/pages/PlaceholderPage';
 import { TripDetailPage } from '@/pages/TripDetailPage';
 import { TripsPage } from '@/pages/TripsPage';
+import { TruckTypeDetailPage } from '@/pages/TruckTypeDetailPage';
+import { TruckTypesPage } from '@/pages/TruckTypesPage';
 import { UserDetailPage } from '@/pages/UserDetailPage';
 import { UsersPage } from '@/pages/UsersPage';
 
@@ -29,16 +32,9 @@ export default function App() {
               <Route path="users" element={<UsersPage />} />
               <Route path="users/drivers/new" element={<CreateDriverPage />} />
               <Route path="users/:id" element={<UserDetailPage />} />
-              <Route
-                path="truck-types"
-                element={
-                  <PlaceholderPage
-                    title="Truck types"
-                    phase="Phase A5"
-                    blurb="Catalog and base-rate history."
-                  />
-                }
-              />
+              <Route path="truck-types" element={<TruckTypesPage />} />
+              <Route path="truck-types/new" element={<CreateTruckTypePage />} />
+              <Route path="truck-types/:id" element={<TruckTypeDetailPage />} />
               <Route
                 path="commissions"
                 element={

@@ -83,10 +83,11 @@ Production: set Vercel env to `https://api.yourdomain.com`. Backend `CORS_ORIGIN
 | A2 | Complete (pending queue, approve/reject/assign) |
 | A3 | Complete (trips list + live OSM map) |
 | A4 | Complete (users list, status, create driver) |
-| A5–A7 | Not started — next: A5 truck types & rates |
+| A5 | Complete (truck types + base rate history) |
+| A6–A7 | Not started — next: A6 commissions |
 
 ---
 
 ## Next action
 
-Approve A4 to start **A5** (truck types catalog + base rates).
+Approve A5 to start **A6** (commission ledger + confirm).

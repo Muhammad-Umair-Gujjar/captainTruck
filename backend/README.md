@@ -189,6 +189,7 @@ Prefer sending map-pin `lat/lng` on create to skip geocode. Fastest duration is 
 | GET | `/api/v1/truck-types` | Public (active + current rate) |
 | GET | `/api/v1/truck-types/:id` | Public (active) |
 | GET | `/api/v1/truck-types/admin/all` | Admin |
+| GET | `/api/v1/truck-types/admin/:id` | Admin (incl. inactive) |
 | POST | `/api/v1/truck-types` | Admin |
 | PATCH | `/api/v1/truck-types/:id` | Admin |
 | POST | `/api/v1/truck-types/:id/rates` | Admin (new history row) |

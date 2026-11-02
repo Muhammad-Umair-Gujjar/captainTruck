@@ -30,6 +30,14 @@ export class TruckTypesController {
     return this.truckTypesService.listAllAdmin();
   }
 
+  @Get('admin/:id')
+  @Roles(UserRole.ADMIN)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Admin: get truck type by id (incl. inactive)' })
+  getByIdAdmin(@Param('id') id: string) {
+    return this.truckTypesService.getById(id, false);
+  }
+
   @Public()
   @Get(':id')
   @ApiOperation({ summary: 'Get truck type (active only for public)' })
