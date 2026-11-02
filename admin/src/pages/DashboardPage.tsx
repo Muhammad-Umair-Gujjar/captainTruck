@@ -2,13 +2,55 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthed } from '@/hooks/useAuthed';
 import { ApiError, fetchHealth, type HealthData } from '@/lib/api';
-import { API_URL } from '@/lib/config';
+import { API_URL, MISSING_PROD_API_URL } from '@/lib/config';
 import { listPendingDispatches } from '@/lib/dispatches-api';
+import { listAdminTrips } from '@/lib/trips-api';
+
+type Shortcut = {
+  to: string;
+  title: string;
+  hint: (n: number | null) => string;
+};
+
+const shortcuts: Shortcut[] = [
+  {
+    to: '/dispatches',
+    title: 'Pending dispatches',
+    hint: (n) =>
+      n == null
+        ? 'Approve, assign drivers, or reject requests.'
+        : `${n} waiting for review.`,
+  },
+  {
+    to: '/trips',
+    title: 'Live trips',
+    hint: (n) =>
+      n == null
+        ? 'Track GPS and trip status updates.'
+        : `${n} active trip${n === 1 ? '' : 's'}.`,
+  },
+  {
+    to: '/users',
+    title: 'Users & drivers',
+    hint: () => 'Enable/disable accounts or create drivers.',
+  },
+  {
+    to: '/truck-types',
+    title: 'Truck types',
+    hint: () => 'Catalog and base rate history.',
+  },
+  {
+    to: '/commissions',
+    title: 'Commissions',
+    hint: () => 'Ledger, by-driver summary, confirm received.',
+  },
+];
 
 export function DashboardPage() {
   const { withToken } = useAuthed();
   const [health, setHealth] = useState<HealthData | null>(null);
   const [pendingCount, setPendingCount] = useState<number | null>(null);
+  const [activeTrips, setActiveTrips] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -20,9 +62,20 @@ export function DashboardPage() {
         else if (err instanceof Error) setError(err.message);
         else setError('Health check failed');
       });
-    void withToken((token) => listPendingDispatches(token, { page: 1, limit: 1 }))
-      .then((data) => setPendingCount(data.meta.total))
-      .catch(() => setPendingCount(null));
+    void withToken((token) =>
+      Promise.all([
+        listPendingDispatches(token, { page: 1, limit: 1 }),
+        listAdminTrips(token, { page: 1, limit: 1, activeOnly: true }),
+      ]),
+    )
+      .then(([pending, trips]) => {
+        setPendingCount(pending.meta.total);
+        setActiveTrips(trips.meta.total);
+      })
+      .catch(() => {
+        setPendingCount(null);
+        setActiveTrips(null);
+      });
     return () => ac.abort();
   }, [withToken]);
 
@@ -35,6 +88,17 @@ export function DashboardPage() {
       <p className="mt-2 text-sm text-ink-muted">
         API connectivity and shortcuts into the ops queue.
       </p>
+
+      {MISSING_PROD_API_URL ? (
+        <p
+          className="mt-4 rounded-lg border border-danger/30 bg-red-50 px-4 py-3 text-sm text-danger"
+          role="alert"
+        >
+          Production build is missing <code className="font-mono">VITE_API_URL</code>.
+          Set it (and <code className="font-mono">VITE_SOCKET_URL</code>) on Vercel and
+          redeploy.
+        </p>
+      ) : null}
 
       <section className="mt-8 rounded-xl border border-line bg-panel p-5">
         <h3 className="text-sm font-semibold">API health</h3>
@@ -72,26 +136,24 @@ export function DashboardPage() {
       </section>
 
       <section className="mt-6 grid gap-3 sm:grid-cols-2">
-        <Link
-          to="/dispatches"
-          className="rounded-xl border border-line bg-panel p-5 hover:border-amber-300 transition-colors"
-        >
-          <h3 className="font-semibold">Pending dispatches</h3>
-          <p className="mt-1 text-sm text-ink-muted">
-            {pendingCount == null
-              ? 'Approve, assign drivers, or reject requests.'
-              : `${pendingCount} waiting for review.`}
-          </p>
-        </Link>
-        <Link
-          to="/trips"
-          className="rounded-xl border border-line bg-panel p-5 hover:border-amber-300 transition-colors"
-        >
-          <h3 className="font-semibold">Live trips</h3>
-          <p className="mt-1 text-sm text-ink-muted">
-            Track GPS and trip status updates.
-          </p>
-        </Link>
+        {shortcuts.map((s) => {
+          const count =
+            s.to === '/dispatches'
+              ? pendingCount
+              : s.to === '/trips'
+                ? activeTrips
+                : null;
+          return (
+            <Link
+              key={s.to}
+              to={s.to}
+              className="rounded-xl border border-line bg-panel p-5 hover:border-amber-300 transition-colors"
+            >
+              <h3 className="font-semibold">{s.title}</h3>
+              <p className="mt-1 text-sm text-ink-muted">{s.hint(count)}</p>
+            </Link>
+          );
+        })}
       </section>
     </div>
   );

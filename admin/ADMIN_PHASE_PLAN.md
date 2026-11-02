@@ -86,10 +86,10 @@ Production: set Vercel env to `https://api.yourdomain.com`. Backend `CORS_ORIGIN
 | A4 | Complete (users list, status, create driver) |
 | A5 | Complete (truck types + base rate history) |
 | A6 | Complete (commission ledger + confirm) |
-| A7 | Not started — next: polish + Vercel |
+| A7 | Complete (Vercel polish, env docs, SPA smoke) |
 
 ---
 
 ## Next action
 
-Approve A6 to start **A7** (Vercel deploy polish, env docs, SPA smoke).
+Admin phases **A0–A7** complete. Deploy admin to Vercel using `admin/README.md`, then run `admin/SMOKE.md`. Flutter Customer/Driver apps remain in separate repos.

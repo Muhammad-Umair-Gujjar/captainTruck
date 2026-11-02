@@ -99,4 +99,10 @@ curl -sS https://api.yourdomain.com/api/v1/health
 
 ## 7. Admin panel
 
-Host React admin on **Vercel**; set `CORS_ORIGINS` to the Vercel URL. Flutter apps use the HTTPS API + Socket.IO wss.
+Host React admin on **Vercel** (repo root directory `admin`). Full steps, env, and CORS checklist: [`admin/README.md`](../../admin/README.md). SPA smoke: [`admin/SMOKE.md`](../../admin/SMOKE.md).
+
+1. Set Vercel `VITE_API_URL` + `VITE_SOCKET_URL` to this API’s HTTPS origin.
+2. Set API `CORS_ORIGINS` to the exact Vercel (or custom) admin origin — no `*`.
+3. Redeploy admin after env changes (Vite embeds vars at build time).
+
+Flutter apps use the HTTPS API + Socket.IO wss (separate repos).

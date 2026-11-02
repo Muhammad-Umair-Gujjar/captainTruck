@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/auth/AuthContext';
 import { ApiError } from '@/lib/api';
+import { MISSING_PROD_API_URL } from '@/lib/config';
 
 export function LoginPage() {
   const { login, isAuthenticated, isAdmin } = useAuth();
@@ -52,6 +53,16 @@ export function LoginPage() {
         <p className="mt-2 text-sm text-ink-muted">
           Dispatch, assign drivers, and monitor live trips.
         </p>
+
+        {MISSING_PROD_API_URL ? (
+          <p
+            className="mt-4 rounded-md border border-danger/30 bg-red-50 px-3 py-2 text-sm text-danger"
+            role="alert"
+          >
+            Missing <code className="font-mono">VITE_API_URL</code> in this
+            production build. Set Vercel env and redeploy.
+          </p>
+        ) : null}
 
         <form className="mt-8 flex flex-col gap-4" onSubmit={onSubmit}>
           <label className="flex flex-col gap-1.5 text-sm">

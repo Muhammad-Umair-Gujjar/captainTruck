@@ -43,8 +43,10 @@ npm run dev
 | [admin/ADMIN_PHASE_PLAN.md](admin/ADMIN_PHASE_PLAN.md) | Admin phases A0–A7 |
 | [backend/docs/DEPLOY.md](backend/docs/DEPLOY.md) | Oracle + Nginx + PM2 |
 | [admin/README.md](admin/README.md) | Admin local + Vercel |
+| [admin/SMOKE.md](admin/SMOKE.md) | Admin SPA smoke checklist |
 
 ## Current status
 
 - Backend Phases **0–16** complete  
-- Admin: **A0–A6** complete — next A7 Vercel polish  
+- Admin: **A0–A7** complete — ready for Vercel deploy  
+

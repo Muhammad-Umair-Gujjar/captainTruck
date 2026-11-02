@@ -45,7 +45,7 @@ This file preserves locked product/tech decisions from that conversation.
 - Implement **phase by phase**; previous phase must pass exit checklist and get approval before the next.
 - Plan: `backend/PHASE_PLAN.md` (Phases 0–16)
 - Backend Phases 0–16: **complete**.
-- Admin panel (`admin/`): plan A0–A7 in `admin/ADMIN_PHASE_PLAN.md` — A0–A6 complete; next A7; Flutter apps remain separate repos.
+- Admin panel (`admin/`): plan A0–A7 in `admin/ADMIN_PHASE_PLAN.md` — A0–A7 complete; Flutter apps remain separate repos.
 
 ## Accounts still needed
 
