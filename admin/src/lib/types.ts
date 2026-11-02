@@ -88,6 +88,15 @@ export type Dispatch = {
   assignmentNote?: string;
 };
 
+export type DriverProfile = {
+  id?: string;
+  vehiclePlate: string | null;
+  licenseNumber: string | null;
+  isAvailable: boolean;
+  docsUrls?: string[];
+  adminNotes?: string | null;
+};
+
 export type DriverUser = {
   id: string;
   email: string;
@@ -95,11 +104,19 @@ export type DriverUser = {
   phone: string | null;
   role: string;
   status: string;
-  driverProfile: {
-    vehiclePlate: string | null;
-    licenseNumber: string | null;
-    isAvailable: boolean;
-  } | null;
+  driverProfile: DriverProfile | null;
+};
+
+export type AdminUser = {
+  id: string;
+  email: string;
+  fullName: string;
+  phone: string | null;
+  role: string;
+  status: string;
+  createdAt: string;
+  updatedAt?: string;
+  driverProfile: DriverProfile | null;
 };
 
 export type LiveLocation = {

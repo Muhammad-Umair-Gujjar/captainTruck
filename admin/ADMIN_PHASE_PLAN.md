@@ -82,10 +82,11 @@ Production: set Vercel env to `https://api.yourdomain.com`. Backend `CORS_ORIGIN
 | A1 | Complete (login / refresh / admin guard) |
 | A2 | Complete (pending queue, approve/reject/assign) |
 | A3 | Complete (trips list + live OSM map) |
-| A4–A7 | Not started — next: A4 users & drivers |
+| A4 | Complete (users list, status, create driver) |
+| A5–A7 | Not started — next: A5 truck types & rates |
 
 ---
 
 ## Next action
 
-Approve A3 to start **A4** (users list, status, create driver).
+Approve A4 to start **A5** (truck types catalog + base rates).

@@ -47,4 +47,4 @@ npm run dev
 ## Current status
 
 - Backend Phases **0–16** complete  
-- Admin: **A0–A3** complete — next A4 users & drivers  
+- Admin: **A0–A4** complete — next A5 truck types & rates  

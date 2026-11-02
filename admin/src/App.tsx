@@ -5,10 +5,13 @@ import { RequireAuth } from '@/components/RequireAuth';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { DispatchDetailPage } from '@/pages/DispatchDetailPage';
 import { DispatchesPage } from '@/pages/DispatchesPage';
+import { CreateDriverPage } from '@/pages/CreateDriverPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { PlaceholderPage } from '@/pages/PlaceholderPage';
 import { TripDetailPage } from '@/pages/TripDetailPage';
 import { TripsPage } from '@/pages/TripsPage';
+import { UserDetailPage } from '@/pages/UserDetailPage';
+import { UsersPage } from '@/pages/UsersPage';
 
 export default function App() {
   return (
@@ -23,16 +26,9 @@ export default function App() {
               <Route path="dispatches/:id" element={<DispatchDetailPage />} />
               <Route path="trips" element={<TripsPage />} />
               <Route path="trips/:id" element={<TripDetailPage />} />
-              <Route
-                path="users"
-                element={
-                  <PlaceholderPage
-                    title="Users"
-                    phase="Phase A4"
-                    blurb="Customers, drivers, and create-driver flow."
-                  />
-                }
-              />
+              <Route path="users" element={<UsersPage />} />
+              <Route path="users/drivers/new" element={<CreateDriverPage />} />
+              <Route path="users/:id" element={<UserDetailPage />} />
               <Route
                 path="truck-types"
                 element={
