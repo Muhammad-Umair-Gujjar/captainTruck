@@ -80,10 +80,11 @@ Production: set Vercel env to `https://api.yourdomain.com`. Backend `CORS_ORIGIN
 |------:|--------|
 | A0 | Complete (scaffold + health dashboard) |
 | A1 | Complete (login / refresh / admin guard) |
-| A2–A7 | Not started — next: A2 dispatch queue |
+| A2 | Complete (pending queue, approve/reject/assign) |
+| A3–A7 | Not started — next: A3 trips + live map |
 
 ---
 
 ## Next action
 
-Approve A0+A1 to start **A2** (pending dispatches → approve/reject/assign).
+Approve A2 to start **A3** (trip list + live OSM map via Socket.IO).

@@ -47,4 +47,4 @@ npm run dev
 ## Current status
 
 - Backend Phases **0–16** complete  
-- Admin: **A0 scaffold + A1 auth** in progress — next A2 dispatch queue  
+- Admin: **A0–A2** complete — next A3 trips + live map  

@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthed } from '@/hooks/useAuthed';
 import { ApiError, fetchHealth, type HealthData } from '@/lib/api';
 import { API_URL } from '@/lib/config';
+import { listPendingDispatches } from '@/lib/dispatches-api';
 
 export function DashboardPage() {
+  const { withToken } = useAuthed();
   const [health, setHealth] = useState<HealthData | null>(null);
+  const [pendingCount, setPendingCount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -16,8 +20,11 @@ export function DashboardPage() {
         else if (err instanceof Error) setError(err.message);
         else setError('Health check failed');
       });
+    void withToken((token) => listPendingDispatches(token, { page: 1, limit: 1 }))
+      .then((data) => setPendingCount(data.meta.total))
+      .catch(() => setPendingCount(null));
     return () => ac.abort();
-  }, []);
+  }, [withToken]);
 
   return (
     <div className="max-w-4xl">
@@ -71,7 +78,9 @@ export function DashboardPage() {
         >
           <h3 className="font-semibold">Pending dispatches</h3>
           <p className="mt-1 text-sm text-ink-muted">
-            Approve, assign drivers, or reject requests.
+            {pendingCount == null
+              ? 'Approve, assign drivers, or reject requests.'
+              : `${pendingCount} waiting for review.`}
           </p>
         </Link>
         <Link

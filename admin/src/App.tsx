@@ -3,6 +3,8 @@ import { AuthProvider } from '@/auth/AuthContext';
 import { AppShell } from '@/components/AppShell';
 import { RequireAuth } from '@/components/RequireAuth';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { DispatchDetailPage } from '@/pages/DispatchDetailPage';
+import { DispatchesPage } from '@/pages/DispatchesPage';
 import { LoginPage } from '@/pages/LoginPage';
 import { PlaceholderPage } from '@/pages/PlaceholderPage';
 
@@ -15,16 +17,8 @@ export default function App() {
           <Route element={<RequireAuth />}>
             <Route element={<AppShell />}>
               <Route index element={<DashboardPage />} />
-              <Route
-                path="dispatches"
-                element={
-                  <PlaceholderPage
-                    title="Dispatches"
-                    phase="Phase A2"
-                    blurb="Pending queue, approve/reject, and driver assignment land here next."
-                  />
-                }
-              />
+              <Route path="dispatches" element={<DispatchesPage />} />
+              <Route path="dispatches/:id" element={<DispatchDetailPage />} />
               <Route
                 path="trips"
                 element={
