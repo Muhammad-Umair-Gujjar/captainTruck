@@ -47,4 +47,4 @@ npm run dev
 ## Current status
 
 - Backend Phases **0–16** complete  
-- Admin: **A0–A5** complete — next A6 commissions  
+- Admin: **A0–A6** complete — next A7 Vercel polish  

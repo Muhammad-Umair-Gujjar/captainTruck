@@ -2,7 +2,7 @@
 
 React admin panel (Vite + TypeScript + Tailwind) for dispatch ops. Hosted on **Vercel**.
 
-Phase plan: [ADMIN_PHASE_PLAN.md](./ADMIN_PHASE_PLAN.md)
+Phase plan: [ADMIN_PHASE_PLAN.md](./ADMIN_PHASE_PLAN.md) — **A0–A6** complete (next: A7 polish + Vercel).
 
 ## Quick start
 

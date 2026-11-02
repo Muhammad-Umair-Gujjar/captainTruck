@@ -55,7 +55,8 @@
 /users              → Customers / drivers / admins
 /users/drivers/new  → Create driver
 /truck-types        → Catalog + rates
-/commissions        → Ledger + confirm
+/commissions        → Ledger + by-driver summary
+/commissions/:id    → Detail + confirm received
 ```
 
 ## Local env
@@ -84,10 +85,11 @@ Production: set Vercel env to `https://api.yourdomain.com`. Backend `CORS_ORIGIN
 | A3 | Complete (trips list + live OSM map) |
 | A4 | Complete (users list, status, create driver) |
 | A5 | Complete (truck types + base rate history) |
-| A6–A7 | Not started — next: A6 commissions |
+| A6 | Complete (commission ledger + confirm) |
+| A7 | Not started — next: polish + Vercel |
 
 ---
 
 ## Next action
 
-Approve A5 to start **A6** (commission ledger + confirm).
+Approve A6 to start **A7** (Vercel deploy polish, env docs, SPA smoke).

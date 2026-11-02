@@ -5,10 +5,11 @@ import { RequireAuth } from '@/components/RequireAuth';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { DispatchDetailPage } from '@/pages/DispatchDetailPage';
 import { DispatchesPage } from '@/pages/DispatchesPage';
+import { CommissionDetailPage } from '@/pages/CommissionDetailPage';
+import { CommissionsPage } from '@/pages/CommissionsPage';
 import { CreateDriverPage } from '@/pages/CreateDriverPage';
 import { CreateTruckTypePage } from '@/pages/CreateTruckTypePage';
 import { LoginPage } from '@/pages/LoginPage';
-import { PlaceholderPage } from '@/pages/PlaceholderPage';
 import { TripDetailPage } from '@/pages/TripDetailPage';
 import { TripsPage } from '@/pages/TripsPage';
 import { TruckTypeDetailPage } from '@/pages/TruckTypeDetailPage';
@@ -35,16 +36,8 @@ export default function App() {
               <Route path="truck-types" element={<TruckTypesPage />} />
               <Route path="truck-types/new" element={<CreateTruckTypePage />} />
               <Route path="truck-types/:id" element={<TruckTypeDetailPage />} />
-              <Route
-                path="commissions"
-                element={
-                  <PlaceholderPage
-                    title="Commissions"
-                    phase="Phase A6"
-                    blurb="Ledger list, summary, and admin confirm."
-                  />
-                }
-              />
+              <Route path="commissions" element={<CommissionsPage />} />
+              <Route path="commissions/:id" element={<CommissionDetailPage />} />
             </Route>
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
