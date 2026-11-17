@@ -1,0 +1,404 @@
+We estimated cost with three main methods, Function Point Analysis, COCOMO II and
+Activity Based Costing, and then cross-checked the effort with the LOC-oriented and FP-
+oriented empirical models taught in SPM Lecture 6. All amounts are in Pakistani rupees (PKR)
+and effort is in person-months (PM). Intermediate values are rounded to four decimal places,
+effort and schedule to two, and each cost is worked out from the rounded effort and rounded to
+the nearest rupee.
+1.4.1 Project Cost Estimation By Function Point Analysis
+Function points measure the functionality delivered to users. Five information domain values
+are counted and weighted; every item was rated at average complexity.
+Table 1.3: Unadjusted function point count
+Domain value E-Poll items counted Count Weigh
+t Total
+External Inputs (EI)
+Login/register/refresh; org profile; election
+create/update; candidate CRUD; voter eligibility;
+lifecycle actions; cast vote; operator org/user actions;
+change password; contact/member forms
+10 4 40
+External Outputs
+(EO)
+Vote confirmation + Fabric txId; results tallies; audit
+listings; dashboard KPIs; ballot payload; health/Fabric
+status views
+6 5 30
+External Inquiries
+(EQ)
+List/filter elections; candidates; voters; orgs; users;
+me/profile; vote-me status; search 8 4 32
+Internal Logical Files
+(ILF)
+Users; Organizations; Elections; Candidates;
+ElectionVoters; Votes; RefreshTokens;
+ContactMessages
+8 10 80
+External Interface
+Files (EIF)
+Hyperledger Fabric ledger; Fabric CA/MSP; Android
+platform; Web browsers; Docker host for peers/orderers 5 7 35
+Count total 217
+Table 1.4: Value adjustment factors (0 = no influence, 5 = essential)
+# General system
+characteristic Fi Reason
+1 Data communications 5 HTTPS REST clients + Fabric SDK to distributed peers
+2 Distributed data processing 5 Web apps, mobile, Nest API, PostgreSQL and Fabric nodes
+3 Performance 3 Interactive admin/voting; not hard real-time control
+4 Heavily used configuration 2 Ordinary laptops, browsers and Android devices
+5 Transaction rate 3 Moderate: election setup bursts + voting window
+6 On-line data entry 4 Almost all configuration and votes entered on-line
+7 End-user efficiency 4 Shared design system; clear lifecycle stepper; mobile ballot
+8 On-line update 5 Live election state, eligibility and vote commits
+9 Complex processing 5 Multi-tenant rules, lifecycle FSM, Fabric double-vote checks
+
+-- 8 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+7
+# General system
+characteristic Fi Reason
+10 Reusability 3 Shared tokens/UI patterns across Next apps
+11 Installation ease 3 Web URLs; Android APK/emulator; Docker Compose for
+backend/Fabric
+12 Operational ease 4 Health endpoints; seed data; smoke scripts
+13 Multiple sites 3 Multi-tenant orgs; not multi-datacenter production
+14 Facilitate change 3 Prisma migrations; UI-then-API adapters
+Î£ Fi 49
+FP est. = Count Total Ã— [0.65 + 0.01 Ã— Î£(Fi)]
+FP est. = 217 Ã— [0.65 + 0.01 Ã— 49] = 217 Ã— 1.14 = 247.38
+We used a labour rate of PKR 90,000 per person-month (junior full-stack developer market
+rate in Pakistan) and a productivity of 10 FP per person-month.
+Cost / FP = 90,000 Ã· 10 = PKR 9,000
+Total Project Cost = 247.38 Ã— 9,000 = PKR 2,226,420
+Total Estimated Effort = 247.38 Ã· 10 = 24.74 person-months
+Result: 247.38 FP, 24.74 person-months, PKR 2,226,420. Shared by three members, this is
+about 8.25 months each, which fits our academic window with parallel incremental work.
+1.4.2 Project Cost Estimation by using COCOMO II (Constructive Cost Model)
+COCOMO II replaces the COCOMOâ€™81 model of our earlier draft (Basic, organic mode, 26.63
+person-months), because it is the version taught in Lecture 6 and it allows for reuse and modern
+tools. It has three submodels (slide 29). Table 1.5 shows why we chose the Early Design model.
+Table 1.5: Choice of COCOMO II submodel
+Submodel Stage Inputs required Available for E-Poll? Decision
+Application
+Composition
+Early prototyping
+of screens, reports
+and components
+Object points
+(screens, reports,
+3GL components),
+% reuse, PROD
+rating
+No. Object counts, reuse
+and PROD rating are not
+recorded; slide 33 advises
+against it once
+requirements and
+architecture are settled
+Not used
+Early Design
+Requirements
+stabilised and
+basic architecture
+established
+Size (KLOC or FP),
+5 scale factors, 7
+effort multipliers
+Size: yes (9.90 KLOC).
+Factor ratings: not
+recorded, so nominal
+values are assumed
+Selected
+Post-Architecture Detailed design
+and construction
+Size, 5 scale factors,
+17 effort multipliers
+Too early: detailed EM
+ratings not yet measured
+for all modules
+Not used yet
+
+-- 9 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+8
+Size was derived from the function points at 40 LOC per FP, which is lower than the 53
+LOC/FP common for object-oriented languages because Nest modules, Prisma, Next.js and
+Flutter widgets replace much of the hand-written code. Early Design fits E-Poll: the
+requirements and architecture are fixed in the planning phase (task B), Nest API contracts and
+Prisma models are settled, and construction of remaining increments continues under that
+baseline. The model is:
+PM = A Ã— Size^E Ã— Î  EMi , where E = B + 0.01 Ã— Î£ SFj
+TDEV = C Ã— PM^(D + 0.2 Ã— 0.01 Ã— Î£ SFj)
+PM is effort in person-months and Size is new code in KLOC. A = 2.94 and B = 0.91 are
+calibration constants, SFj are the five scale factors (PREC, FLEX, RESL, TEAM, PMAT) and
+EMi the seven Early Design effort multipliers (RCPX, RUSE, PDIF, PERS, PREX, FCIL,
+SCED). TDEV is the schedule in months, with C = 3.67 and D = 0.28. These equations and the
+nominal values below are the published COCOMO II.2000 calibration (Boehm et al., Software
+Cost Estimation with COCOMO II, Prentice Hall, 2000). Lecture 6 names the Early Design
+model but does not give its equations, so they are standard formulas still to be confirmed with
+the course instructor.
+With all scale factors and effort multipliers at Nominal (Î£ SF = 18.96, Î  EM = 1.00):
+KLOC = 247.38 Ã— 40 / 1000 = 9.90
+E = 0.91 + 0.01 Ã— 18.96 = 1.0996
+PM = 2.94 Ã— (9.90)^1.0996 = 36.57 person-months
+TDEV = 3.67 Ã— (36.57)^0.3179 = 11.52 months
+People = PM / TDEV = 36.57 / 11.52 = 3.17 â‰ˆ 3
+COCOMO II also points to a team of about 3, but at nominal ratings it needs 36.57 person-
+months over 11.52 months: more effort than the function point estimate (24.74) and longer than
+our 26-week critical path. The gap comes mainly from the nominal assumption. NestJS,
+Next.js, Flutter and the already-frozen backend may justify better-than-nominal ratings for
+tools (FCIL) and experience (PREX, PERS), which would lower the effort, but we will apply
+them only after agreeing the ratings with our supervisor. The size of 9.90 KLOC also rests on
+the assumed 40 LOC/FP.
+Result: COCOMO II Early Design (nominal): 9.90 KLOC, 36.57 person-months, PKR
+3,291,300, 11.52 months, about 3 people.
+1.4.3 Activity Based Costing
+Each activity is costed from its resources, cost rate, duration and overhead. The weekly rate is:
+90,000 Ã— 12 / 52 â‰ˆ PKR 20,769 per person-week
+
+-- 10 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+9
+Table 1.6: Activity based costing
+Activity Peopl
+e
+Week
+s
+Labour
+(PKR)
+Overhead
+(PKR) Overhead item Cost
+(PKR)
+Planning: requirements,
+architecture, wireframes (Aâ€“C) 3 5 311,535 â€” â€” 311,535
+Proposal and defense (D) 3 3 186,921 6,000 Printing 192,921
+Increment 1: NestJS SaaS
+auth, orgs, elections (Eâ€“F) 2 5 207,690 â€” â€” 207,690
+Increment 2: Fabric network,
+chaincode, vote gateway (Gâ€“I) 2 5 207,690 12,000 Extra disk /
+Docker resources 219,690
+Increment 3: Next.js public
+web + Super Admin + Org
+Admin (Jâ€“K)
+2 5 207,690 â€” â€” 207,690
+Increment 4: Flutter voting app
+(L) + UI integration (M) 2 5 207,690 â€” â€” 207,690
+System testing, hardening,
+E2E demo (Nâ€“P) 3 4 249,228 10,000 Demo media /
+backup recording 259,228
+Documentation (Q) 1 6 124,614 8,000 Printing 132,614
+Shared overhead â€” â€” â€” 115,500
+Internet,
+electricity (3 Ã—
+5,500 Ã— 7 mo)
+115,500
+Total 1,703,058 151,500 1,854,558
+Labour column check: 311,535 + 186,921 + (207,690 Ã— 4) + 249,228 + 124,614 = 1,703,058.
+Person-weeks in labour rows: 3Ã—5 + 3Ã—3 + 2Ã—5Ã—4 + 3Ã—4 + 1Ã—6 = 15 + 9 + 40 + 12 + 6 = 82.
+Overheads assume local Docker (no paid Fabric cloud), free GitHub, free-tier frontend hosting,
+and modest electricity/internet. The ABC total of PKR 1,854,558 is below the FP estimate
+because it counts only scheduled person-weeks. Cash the team actually spends is essentially
+the overhead: PKR 151,500.
+1.4.4 LOC-Oriented Estimation Models
+Lecture 6 (slide 23) gives four empirical models that predict effort E in person-months from
+size in KLOC. We applied them to the same 9.90 KLOC used for COCOMO II. Slide 33 states
+when each model should be avoided; where E-Poll breaks that condition the equation still
+produces a number, but we show it in brackets and do not cost it.
+Table 1.7: LOC-oriented estimates (KLOC = 9.90)
+Model Equation Calculation Effort
+(PM)
+Cost
+(PKR) Applicability
+Walstonâ€“Felix E = 5.2 Ã—
+(KLOC)^0.91
+5.2 Ã— (9.90)^0.91 =
+5.2 Ã— 8.0543 (41.88) Not costed
+Not fully
+applicable: slide
+33 advises
+against small
+projects
+
+-- 11 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+10
+Model Equation Calculation Effort
+(PM)
+Cost
+(PKR) Applicability
+Baileyâ€“Basili E = 5.5 + 0.73 Ã—
+(KLOC)^1.16
+5.5 + 0.73 Ã—
+(9.90)^1.16 = 5.5 +
+0.73 Ã— 14.2869
+15.93 1,433,700
+Applicable: small
+to medium
+projects
+Boehm simple E = 3.2 Ã—
+(KLOC)^1.05
+3.2 Ã— (9.90)^1.05 =
+3.2 Ã— 11.1024 35.53 3,197,700
+Applicable:
+projects of
+modest size
+Doty E = 5.288 Ã—
+(KLOC)^1.047
+5.288 Ã— (9.90)^1.047
+= 5.288 Ã— 11.0263 58.31 5,247,900
+Applicable, but
+marginal: 9.90
+KLOC is only
+just above the
+KLOC > 9 limit
+The applicable models give 15.93 to 58.31 person-months. Baileyâ€“Basili is the lowest
+applicable costed model and Doty the highest. Our size is only 0.90 KLOC above Dotyâ€™s limit
+and depends on the 40 LOC/FP assumption, so a slightly smaller count would make Doty
+invalid. Walstonâ€“Felix is shown for reference only, since E-Poll (about 10 KLOC, three
+developers) is a small project.
+1.4.5 Function Point-Oriented Estimation Models
+The FP-oriented models on slide 23 take the adjusted function point count; the lectureâ€™s own
+example (slide 26) applies them to adjusted FP. Our 247.38 FP from Section 1.4.1 is the same
+measure, so the input is compatible. The equations are regressions on other organisationsâ€™
+projects and have not been calibrated to E-Poll.
+Table 1.8: FP-oriented estimates (FP = 247.38)
+Model Equation Calculation Effort
+(PM)
+Cost
+(PKR) Applicability
+Albrecht and
+Gaffney
+E = âˆ’91.4 + 0.355
+FP
+âˆ’91.4 + 0.355 Ã—
+247.38 = âˆ’91.4 +
+87.82
+-3.58 Not costed
+Not valid:
+negative result
+below about 257
+FP
+Kemerer E = âˆ’37 + 0.96 FP âˆ’37 + 0.96 Ã— 247.38
+= âˆ’37 + 237.48 (200.48) Not costed
+Not fully
+applicable:
+overestimates
+heavily on small
+projects
+Small project
+regression
+E = âˆ’12.88 + 0.405
+FP
+âˆ’12.88 + 0.405 Ã—
+247.38 = âˆ’12.88 +
+100.19
+87.31 7,857,900
+Applicable: small
+projects sized
+from
+requirements
+Only the small project regression model applies. It gives 87.31 person-months, about 3.5 times
+the FPA effort of 24.74. This is not an arithmetic error: FPA uses our own productivity of 10
+FP per person-month, while the regression implies about 2.83 FP per person-month, taken from
+the projects it was fitted to. Without local calibration we keep it only as an upper bound.
+
+-- 12 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+11
+1.4.6 Comparative Analysis of Estimation Results
+Table 1.9 brings all results together. Labour cost is effort Ã— PKR 90,000 per person-month.
+Brackets mark values that are mathematical results only. ABC is listed for context: it prices the
+scheduled person-weeks and adds overheads, so it measures something different from the effort
+models and is never added to them.
+Table 1.9: Comparison of estimates
+Model Category Size input Effort
+(PM)
+Labour cost
+(PKR) Status Notes
+Function Point
+Analysis FPA 247.38 FP 24.74 2,226,420 Applicable Own productivity
+of 10 FP/PM
+COCOMO II
+Early Design
+COCOMO
+II 9.90 KLOC 36.57 3,291,300
+Applicable;
+requires
+additional
+data
+Nominal scale
+factors and
+multipliers;
+TDEV 11.52
+months
+Walstonâ€“Felix LOC-
+oriented 9.90 KLOC (41.88) â€“ Not fully
+applicable
+Not advised for
+small projects
+Baileyâ€“Basili LOC-
+oriented 9.90 KLOC 15.93 1,433,700 Applicable Uncalibrated
+Boehm simple LOC-
+oriented 9.90 KLOC 35.53 3,197,700 Applicable Uncalibrated
+Doty LOC-
+oriented 9.90 KLOC 58.31 5,247,900 Applicable
+(marginal)
+Size only just
+above the 9
+KLOC limit
+Albrecht and
+Gaffney
+FP-
+oriented 247.38 FP -3.58 â€“ Not valid
+Negative result
+below about 257
+FP
+Kemerer FP-
+oriented 247.38 FP (200.48) â€“ Not fully
+applicable
+Overestimates
+small projects
+Small project
+regression
+FP-
+oriented 247.38 FP 87.31 7,857,900 Applicable Implies 2.83 FP
+per person-month
+Activity Based
+Costing ABC 82 person-
+weeks 18.92
+1,703,058
+labour
+(1,854,558
+with
+overhead)
+Applicable
+(different
+scope)
+82 Ã— 12 / 52 PM;
+overhead PKR
+151,500 is the
+only cash spend
+The models disagree for three reasons. Each was fitted to a different set of past projects, with
+its own languages, tools and productivity; they measure size differently (FP directly, or KLOC
+converted from FP through our assumed ratio); and they cover different scope, since the effort
+models include all development work while ABC counts only the scheduled weeks. None has
+been calibrated with E-Poll data.
+Leaving out the invalid and not fully applicable results, the valid estimates run from 15.93 to
+87.31 person-months. The closest to our plan of three members over the 26-week critical path
+are ABC (18.92), FPA (24.74) and Baileyâ€“Basili (15.93). COCOMO II (36.57) and Boehm
+
+-- 13 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+12
+simple (35.53) agree with each other and form a cautious upper case. Doty and the small project
+regression are far above the plan and are not used for budgeting. FPA (PKR 2,226,420)
+therefore stays our planning baseline, COCOMO II is the cross-check, and we will rate its
+factors and re-estimate with measured size and effort after Increment 1.
+Lecture 6 (slide 23) gives four empirical models that predict effort E in person-months from
+size in KLOC. We applied them to the same 9.90 KLOC used for COCOMO II. Slide 33 states
+when each model should be avoided; where E-Poll breaks that condition the equation still
+produces a number, but we show it in brackets and do not cost it.

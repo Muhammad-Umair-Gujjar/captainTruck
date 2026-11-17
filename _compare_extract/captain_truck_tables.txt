@@ -1,0 +1,220 @@
+
+===== TABLE 1 =====
+Student Name || Roll No
+Muhammad Umair || 23011598-062
+
+===== TABLE 2 =====
+______________________Project Supervisor || ______________________Project Coordination OfficeFaculty of C&IT â€” UOG
+______________________Head of the Department || 
+
+===== TABLE 3 =====
+Need || Technology || Availability
+Customer & Driver mobile apps || Flutter (Dart), Android only || Stable; team already builds Flutter screens
+Admin web panel || React 19 + Vite + Tailwind â†’ Vercel || Stable; free hosting
+API / business logic || NestJS + TypeScript || Stable; REST + OpenAPI/Swagger
+Realtime GPS & chat events || Socket.IO (/realtime) || Mature; JWT on handshake
+Relational database || PostgreSQL on Neon (Prisma) || Managed free tier; pooled connections
+Cache / live location || Redis (Upstash free or Oracle VM) || Free tier; in-memory fallback for local demos
+Authentication || Custom JWT + refresh tokens (roles: customer, driver, admin) || Standard patterns; argon2/bcrypt hashing
+Push notifications || FCM only (not full Firebase BaaS) || Free for Android
+Media (chat images/voice) || Cloudinary || Free tier; signed uploads
+Maps & routing || OSM: Nominatim, Photon, OSRM; flutter_map on mobile || Public/open services; rate-limit etiquette
+On-device AI || TFLite trip-cost model + ML Kit Smart Reply || On-device; no paid AI API required
+Payments || Cash-on-Pickup + Stripe Test Mode || Test keys free; no live charges in FYP
+API host || Oracle Cloud Always Free VM + Nginx + PM2 || Free always-on VM (avoids cold starts)
+
+===== TABLE 4 =====
+Component || Description
+Objective || A real-time logistics and dispatch platform: Customer & Driver Android apps, Admin web panel, and NestJS API for admin-mediated truck assignment, OSM routing, AI cost, GPS tracking, chat, cash/Stripe payment and commission ledger.
+Core features || JWT role-based auth; truck types & base rates; dispatch create; 2â€“3 OSM routes + AI trip cost; admin approve/reject/assign; trips + Socket.IO GPS; chat (text/image/voice) + Smart Reply + 90-day TTL; Cash-on-Pickup + Stripe Test Mode; commission ledger; FCM push; React Admin ops.
+Deliverables || NestJS API (this repo), React Admin on Vercel (this repo), Flutter Customer app (separate repo), Flutter Driver app (separate repo), documentation and test reports.
+Stakeholders || Customers (shippers), drivers, administrators, supervisor, project team.
+Timeline || 16 August 2026 to March 2027.
+Exclusions || iOS apps; live Stripe production charges; automated load bidding/matching; IoT trackers / NADRA; GraphQL; hardware/fleet ownership; ISO 27001 certification.
+Optional units || Advanced admin analytics, multi-driver assignment for truckCount > 1 beyond lead-driver policy, production Stripe go-live.
+
+===== TABLE 5 =====
+Domain value || Captain Truck items counted || Count || Weight || Total
+External Inputs (EI) || Login/profile; create dispatch; select route; admin approve/reject/assign; driver status + GPS publish; chat send; payment initiate (cash/Stripe); cash collected confirm; admin truck types/rates; admin commission confirm || 10 || 4 || 40
+External Outputs (EO) || Live trip/GPS status; bill breakdown; push notification; route options + AI cost; payment confirmation; commission / admin summary || 6 || 5 || 30
+External Inquiries (EQ) || My dispatches list; truck types + rates; trip track/history; chat history; driver assignments; admin pending queue/search; payment/commission status || 7 || 4 || 28
+Internal Logical Files (ILF) || SQL: users (+ refresh tokens); driver_profiles; truck_types + base_rates; dispatch_requests; route_options; trips; chats/messages; payments; commission_ledger || 9 || 10 || 90
+External Interface Files (EIF) || OSRM/Nominatim/Photon; Stripe Test Mode; Cloudinary; FCM; Redis (live GPS / locks) || 5 || 7 || 35
+Count total ||  ||  ||  || 223
+
+===== TABLE 6 =====
+# || General system characteristic || Fi || Reason
+1 || Data communications || 5 || REST, Socket.IO, OSM, FCM, Stripe, Cloudinary
+2 || Distributed data processing || 5 || Customer app, Driver app, Admin, NestJS, Neon, Redis
+3 || Performance || 4 || Live GPS and chat must feel immediate; not hard real-time control
+4 || Heavily used configuration || 2 || Ordinary phones and browsers
+5 || Transaction rate || 3 || Moderate: dispatches, GPS ticks, chats, payments
+6 || On-line data entry || 4 || Almost all data entered on-line
+7 || End-user efficiency || 4 || Route choices, AI cost, Smart Reply, admin queue
+8 || On-line update || 5 || Live location, status, chat and ledger updates
+9 || Complex processing || 4 || Routing, pricing formula, commission, realtime authz
+10 || Reusability || 3 || One API shared by three clients
+11 || Installation ease || 3 || Play Store apps; browser Admin on Vercel
+12 || Operational ease || 4 || Push alerts, admin ops, reconnect handling
+13 || Multiple sites || 2 || One product; no multi-site enterprise rollout
+14 || Facilitate change || 4 || Rates, truck types and ops managed from Admin
+ || Î£ Fi || 52 || 
+
+===== TABLE 7 =====
+Mode || Effort (Basic) || Schedule
+Organic || PM = 2.4 (KLOC)1.05 || TD = 2.5 (PM)0.38
+Semi-detached || PM = 3.0 (KLOC)1.12 || TD = 2.5 (PM)0.35
+Embedded || PM = 3.6 (KLOC)1.20 || TD = 2.5 (PM)0.32
+
+===== TABLE 8 =====
+Activity || People || Weeks || Labour (PKR) || Overhead (PKR) || Overhead item || Cost (PKR)
+Planning: requirements, design, wireframes (Aâ€“C) || 3 || 5 || 311,535 || â€” || â€” || 311,535
+Proposal and defense (D) || 3 || 3 || 186,921 || 6,000 || Printing || 192,921
+Increment 1: auth, rates, dispatch + app shells (Eâ€“G) || 2 || 4 || 166,152 || â€” || â€” || 166,152
+Increment 2: OSM/AI cost, admin assign (Hâ€“J) || 2 || 3 || 124,614 || â€” || â€” || 124,614
+Increment 3: GPS, chat, payments, commission (Kâ€“N) || 3 || 3 || 186,921 || 7,000 || Google Play ($25) || 193,921
+Increment 4: Admin Panel, FCM, hardening (Oâ€“P) || 2 || 5 || 207,690 || â€” || â€” || 207,690
+System testing and release (Q, S) || 3 || 5 || 311,535 || â€” || Free-tier cloud || 311,535
+Documentation (R) || 1 || 6 || 124,614 || 8,000 || Printing || 132,614
+Shared overhead || â€” || â€” || â€” || 115,500 || Internet, electricity || 115,500
+Total ||  ||  || 1,619,982 || 136,500 ||  || 1,756,482
+
+===== TABLE 9 =====
+Method || Effort || Cost
+Function Point Analysis || 26.09 person-months || PKR 2,348,190
+Basic COCOMO'81 (organic) || 28.16 person-months || PKR 2,534,732
+Activity Based Costing || 78 person-weeks || PKR 1,756,482
+
+===== TABLE 10 =====
+ID || Task || Phase || Weeks || Depends on
+A || Requirements and scope finalization || Planning || 3 || â€”
+B || System architecture and Prisma/Neon data model || Planning || 1 || A
+C || UI/UX wireframes (Customer, Driver, Admin) || Planning || 2 || A
+D || Proposal review, submission and defense || Planning || 3 || B, C
+E || Authentication and role-based access (JWT) || Increment 1 || 1 || D
+F || Truck types, base rates, dispatch request create || Increment 1 || 2 || D
+G || Customer request flow + Driver app shell || Increment 1 || 2 || E, F
+H || OSM routing (OSRM) + AI trip cost (TFLite) || Increment 2 || 2 || E
+I || Admin review, approve/reject, driver assignment || Increment 2 || 2 || F
+J || Integration and testing of Increments 1â€“2 || Increment 2 || 1 || G, H, I
+K || Trips lifecycle + realtime GPS (Socket.IO) || Increment 3 || 2 || J
+L || Chat (text/image/voice) + Cloudinary + Smart Reply || Increment 3 || 1 || J
+M || Cash-on-Pickup + Stripe Test + commission ledger || Increment 3 || 2 || J
+N || Increment 3 testing and D1 submission || Increment 3 || 1 || K, L, M
+O || Admin Panel (React/Vite) + live map || Increment 4 || 4 || N
+P || FCM push, security hardening, Increment 4 testing || Increment 4 || 1 || O
+Q || System testing and bug fixing || Final release || 3 || P
+R || Documentation (SRS, design, final report) || Final release || 6 || N
+S || Oracle deploy, release builds and final defense prep || Final release || 2 || Q, R
+
+===== TABLE 11 =====
+Activity || Dur. || ES || EF || LS || LF || TS || FS || Critical
+A || 3 || 0 || 3 || 0 || 3 || 0 || 0 || Yes
+B || 1 || 3 || 4 || 4 || 5 || 1 || 1 || No
+C || 2 || 3 || 5 || 3 || 5 || 0 || 0 || Yes
+D || 3 || 5 || 8 || 5 || 8 || 0 || 0 || Yes
+E || 1 || 8 || 9 || 9 || 10 || 1 || 0 || No
+F || 2 || 8 || 10 || 8 || 10 || 0 || 0 || Yes
+G || 2 || 10 || 12 || 10 || 12 || 0 || 0 || Yes
+H || 2 || 9 || 11 || 10 || 12 || 1 || 1 || No
+I || 2 || 9 || 11 || 10 || 12 || 1 || 1 || No
+J || 1 || 12 || 13 || 12 || 13 || 0 || 0 || Yes
+K || 2 || 13 || 15 || 13 || 15 || 0 || 0 || Yes
+L || 1 || 13 || 14 || 14 || 15 || 1 || 1 || No
+M || 2 || 13 || 15 || 13 || 15 || 0 || 0 || Yes
+N || 1 || 15 || 16 || 15 || 16 || 0 || 0 || Yes
+O || 4 || 16 || 20 || 16 || 20 || 0 || 0 || Yes
+P || 1 || 20 || 21 || 20 || 21 || 0 || 0 || Yes
+Q || 3 || 21 || 24 || 21 || 24 || 0 || 0 || Yes
+R || 6 || 16 || 22 || 18 || 24 || 2 || 2 || No
+S || 2 || 24 || 26 || 24 || 26 || 0 || 0 || Yes
+
+===== TABLE 12 =====
+Increment || Content || Weeks || Delivered
+Planning || Requirements, architecture, Prisma/Neon model, wireframes, proposal || 0â€“8 || ~10 Oct 2026
+Increment 1 || Auth/roles, truck types & rates, dispatch create, Customer/Driver shells || 8â€“12 || ~08 Nov 2026
+Increment 2 || OSM routes + AI cost, admin approve/reject/assign, integration || 9â€“13 || Progress report, 11 Nov 2026
+Increment 3 || Trips + GPS, chat/media, cash + Stripe Test, commission ledger || 13â€“16 || D1, 3 Dec 2026
+Increment 4 || React Admin Panel + live map, FCM, security hardening || 16â€“21 || ~10 Jan 2027
+Final release || System testing, documentation, Oracle deploy, release builds || 16â€“26 || Final defense, March 2027
+
+===== TABLE 13 =====
+Member || Role || Skill set
+Muhammad Umair 23011598-062 || Team lead; NestJS API, realtime, payments, commission || TypeScript, NestJS, Prisma/PostgreSQL, Socket.IO, JWT auth, Stripe Test Mode, Redis, Git, Oracle/PM2 deploy
+Muhammad Ali 23011598-063 || Flutter Customer & Driver apps; maps & on-device AI || Flutter/Dart, flutter_map, TFLite cost model, ML Kit Smart Reply, FCM client, Android release builds
+Muhammad Shahzaib 23011598-109 || React Admin Panel; documentation; testing || React + Vite + Tailwind, Leaflet/OSM admin maps, technical writing, e2e/smoke testing, Vercel
+
+===== TABLE 14 =====
+ID || Task || Weeks || Assigned to
+A || Requirements and scope finalization || 3 || All (lead: Umair)
+B || System architecture and Prisma/Neon data model || 1 || Umair, Shahzaib
+C || UI/UX wireframes (Customer, Driver, Admin) || 2 || Ali
+D || Proposal review, submission and defense || 3 || All
+E || Authentication and role-based access (JWT) || 1 || Umair
+F || Truck types, base rates, dispatch request create || 2 || Umair
+G || Customer request flow + Driver app shell || 2 || Ali
+H || OSM routing (OSRM) + AI trip cost (TFLite) || 2 || Ali (app) + Umair (API)
+I || Admin review, approve/reject, driver assignment || 2 || Umair, Shahzaib
+J || Integration and testing of Increments 1â€“2 || 1 || All (lead: Ali)
+K || Trips lifecycle + realtime GPS (Socket.IO) || 2 || Umair
+L || Chat (text/image/voice) + Cloudinary + Smart Reply || 1 || Ali
+M || Cash-on-Pickup + Stripe Test + commission ledger || 2 || Umair
+N || Increment 3 testing and D1 submission || 1 || Ali, Shahzaib
+O || Admin Panel (React/Vite) + live map || 4 || Shahzaib, Ali
+P || FCM push, security hardening, Increment 4 testing || 1 || Umair
+Q || System testing and bug fixing || 3 || All (lead: Umair)
+R || Documentation (SRS, design, final report) || 6 || Shahzaib (all contribute)
+S || Oracle deploy, release builds and final defense prep || 2 || All (lead: Umair)
+
+===== TABLE 15 =====
+Technology || Reason
+NestJS + TypeScript || Typed, modular API; OpenAPI; clear Controller â†’ Service â†’ Prisma layering
+PostgreSQL (Neon) + Prisma || Relational SQL with migrations; free managed DB; money as integer cents
+Socket.IO || Authenticated realtime GPS and chat without GraphQL
+Redis (Upstash / Oracle) || Live location, pub/sub and job locks; free tier
+Flutter (Dart), Android || Customer and Driver apps; flutter_map matches OSM stack
+React + Vite + Tailwind || Admin panel; fast Vercel deploy
+OSM (Nominatim, Photon, OSRM) || Free routing/geocoding; 2â€“3 route alternatives
+TFLite + ML Kit Smart Reply || On-device AI cost and replies; no paid OpenAI bill
+Cloudinary || Chat image/voice media on free tier
+FCM || Android push only (no full Firebase BaaS)
+Cash-on-Pickup + Stripe Test Mode || Dual payment; no live charges required for FYP
+Oracle Always Free + Nginx + PM2 || Always-on API host; avoids serverless cold starts
+Vercel || Free Admin hosting with SPA rewrites
+
+===== TABLE 16 =====
+Tool || Reason
+VS Code / Android Studio || Development, emulators and debugging
+Git / GitHub || Version control and collaboration
+Prisma Studio / Neon Console || Inspect schema and data
+Swagger UI (/api/docs) || Contract for Flutter teams
+Figma || UI/UX mockups and prototypes
+Draw.io / Mermaid || UML, CPM, architecture and decomposition diagrams
+Postman / REST Client || API smoke tests
+Microsoft Word / Canva || Documentation and presentation material
+
+===== TABLE 17 =====
+The problem of || fragmented truck dispatch, opaque pricing, weak live tracking and manual cash/commission settlement
+affects || shippers (customers), small truck drivers and the administrators who coordinate them
+the impact of which is || broker dependence, empty or poorly matched trips, unclear bills, lost cash reconciliation and low trust
+a successful solution would || let customers request trucks with clear OSM routes and AI costs, keep an admin in the assignment loop, track trips live, support chat and dual payment, and maintain a commission ledger in one platform
+
+===== TABLE 18 =====
+Stakeholder || Key needs
+Customer (shipper) || Create dispatch, choose route/cost, pay or choose cash, live track, chat
+Driver || See assignments, update GPS/status, chat, confirm cash collected
+Administrator || Pending queue, approve/reject/assign, live map, users, rates, commissions
+Supervisor / university || Working system and complete documentation on time
+
+===== TABLE 19 =====
+# || Risk || P || I || PÃ—I || Mitigation
+R1 || Public OSRM/Nominatim downtime or high latency || 4 || 4 || 16 || Configurable timeouts; circuit-breaker style errors; client lat/lng pin override; cached last good geocode
+R2 || Scope creep across API + two Flutter apps + Admin || 4 || 4 || 16 || Scope frozen per increment; exclusions listed; phase exit checklists
+R3 || Neon free-tier cold start / connection limits || 3 || 4 || 12 || Pooled URL; retry with backoff; health checks; connection hygiene
+R4 || Realtime GPS abuse or unauthorized room join || 3 || 5 || 15 || JWT on Socket.IO handshake; trip-room authz; location throttle (2â€“5 s)
+R5 || Stripe Test / webhook ordering failures || 3 || 4 || 12 || Signature verify; idempotency keys; cash path independent of Stripe
+R6 || Chat media or PII misuse || 2 || 5 || 10 || Cloudinary host allowlist; participant-only chat; 90-day TTL delete
+R7 || Unauthorized cross-role access (IDOR) || 2 || 5 || 10 || Role guards + ownership checks; IDOR sweep in Phase 16
+R8 || Team member unavailable during exams || 3 || 3 || 9 || Second owner per module; slack on documentation (R)
+R9 || On-device AI cost outliers vs distance || 3 || 3 || 9 || Server clamps/rejects outliers; bill uses locked base rate only
+R10 || Free-tier quota exceeded (Cloudinary/Redis) || 2 || 2 || 4 || Usage monitoring; fail-open documented for demos; trim media sizes

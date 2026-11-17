@@ -1,0 +1,89 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Times New Roman"
+skinparam defaultFontSize 13
+skinparam ActorBackgroundColor white
+skinparam ActorBorderColor black
+skinparam UsecaseBackgroundColor white
+skinparam UsecaseBorderColor black
+skinparam RectangleBackgroundColor white
+skinparam RectangleBorderColor black
+skinparam ArrowColor black
+skinparam Padding 4
+left to right direction
+
+actor "Customer" as Customer
+actor "Driver" as Driver
+actor "Administrator" as Admin
+
+actor "OSM Services" as OSM
+actor "Stripe\nTest Mode" as Stripe
+actor "Cloudinary" as Cloudinary
+actor "FCM" as FCM
+database "Neon\nPostgreSQL" as DB
+
+rectangle "Captain Truck: Real-Time Logistics and Dispatch Platform" {
+  usecase "Authentication\n& Registration" as AUTH
+  usecase "Profile &\nUser Management" as PROF
+  usecase "Truck Types\n& Base Rates" as RATES
+  usecase "Dispatch &\nRoute Selection" as DISP
+  usecase "AI Fare Estimate\n& Customer Proposal" as FARE
+  usecase "Approval, Willingness\n& Assignment" as ASSIGN
+  usecase "Trip Ops, GPS\n& Offline Maps" as TRIP
+  usecase "Chat & Media" as CHAT
+  usecase "Payments\n(Cash / Stripe Test)" as PAY
+  usecase "Commission Ledger" as LEDG
+  usecase "Push Notifications" as PUSH
+  usecase "Admin Ops Panel" as OPS
+}
+
+' --- Customer ---
+Customer --> AUTH
+Customer --> PROF
+Customer --> DISP
+Customer --> FARE
+Customer --> TRIP
+Customer --> CHAT
+Customer --> PAY
+Customer --> PUSH
+
+' --- Driver (no public register; uses Auth for login) ---
+Driver --> AUTH
+Driver --> PROF
+Driver --> ASSIGN
+Driver --> TRIP
+Driver --> CHAT
+Driver --> PAY
+Driver --> PUSH
+
+' --- Administrator ---
+Admin --> AUTH
+Admin --> PROF
+Admin --> RATES
+Admin --> ASSIGN
+Admin --> TRIP
+Admin --> CHAT
+Admin --> LEDG
+Admin --> OPS
+
+' --- External systems (NeoTeach-style) ---
+OSM --> DISP
+Stripe --> PAY
+Cloudinary --> CHAT
+FCM --> PUSH
+
+DB -- AUTH
+DB -- PROF
+DB -- RATES
+DB -- DISP
+DB -- FARE
+DB -- ASSIGN
+DB -- TRIP
+DB -- CHAT
+DB -- PAY
+DB -- LEDG
+DB -- PUSH
+DB -- OPS
+
+@enduml

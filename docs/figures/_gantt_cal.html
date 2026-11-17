@@ -1,0 +1,463 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+  html,body{margin:0;padding:0;background:#fff;}
+  *{box-sizing:border-box;}
+  body{font-family:"Segoe UI",Calibri,Arial,sans-serif;color:#222;}
+  #sheet{position:relative;width:1425.15px;height:1110px;background:#fff;overflow:hidden;}
+  .title{position:absolute;left:10px;top:6px;font-size:18px;font-weight:700;}
+  .caption{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:14px;font-weight:700;font-style:italic;}
+  .cell{position:absolute;font-size:11px;line-height:20px;white-space:nowrap;overflow:hidden;border-bottom:1px solid #e4e4e4;border-right:1px solid #ececec;}
+  .head{background:#f7f7f7;font-weight:700;color:#222;border-bottom:1px solid #cfcfcf;border-top:1px solid #bfbfbf;}
+  .sum{font-weight:700;}
+  .vline{position:absolute;top:34px;width:1px;background:#eee;}
+  .mline{position:absolute;top:34px;width:1px;background:#d5d5d5;}
+  .today{position:absolute;width:2px;background:#2f9e44;z-index:3;}
+  .bar{position:absolute;z-index:2;}
+  .leaf{height:9px;background:#2ec4d6;border-radius:1px;}
+  .who{position:absolute;z-index:4;font-size:11px;font-weight:700;color:#12869a;line-height:14px;background:#fff;padding:0 3px;}
+  .bracket{position:absolute;z-index:2;height:2px;background:#111;}
+  .tick{position:absolute;z-index:2;width:2px;background:#111;}
+  .mlab{position:absolute;font-size:12px;font-weight:700;text-align:center;line-height:22px;border-left:1px solid #d5d5d5;border-bottom:1px solid #ddd;background:#f3f6fb;overflow:hidden;color:#1a3d7c;}
+  .wlab{position:absolute;font-size:10px;font-weight:600;text-align:center;line-height:22px;border-left:1px solid #e6e6e6;border-bottom:1px solid #ddd;background:#fff;overflow:hidden;color:#444;}
+</style></head><body><div id="sheet"><div class="title">1.7. Gantt chart</div>
+<div class="cell head" style="left:0px;top:34px;width:34px;height:44px;line-height:44px;padding-left:6px;border-left:1px solid #bfbfbf;">ID</div>
+<div class="cell head" style="left:34px;top:34px;width:300px;height:44px;line-height:44px;padding-left:6px;border-left:1px solid #ececec;">Task Name</div>
+<div class="cell head" style="left:334px;top:34px;width:72px;height:44px;line-height:44px;padding-left:6px;border-left:1px solid #ececec;">Duration</div>
+<div class="cell head" style="left:406px;top:34px;width:104px;height:44px;line-height:44px;padding-left:6px;border-left:1px solid #ececec;">Start</div>
+<div class="cell head" style="left:510px;top:34px;width:104px;height:44px;line-height:44px;padding-left:6px;border-left:1px solid #ececec;">Finish</div>
+<div class="mlab" style="left:614px;top:34px;width:94.5px;height:22px;">Sep</div>
+<div class="mline" style="left:614px;height:1044px;"></div>
+<div class="wlab" style="left:614px;top:56px;width:23.625px;height:22px;">W1</div>
+<div class="wlab" style="left:637.625px;top:56px;width:23.625px;height:22px;">W2</div>
+<div class="vline" style="left:637.625px;height:1044px;"></div>
+<div class="wlab" style="left:661.25px;top:56px;width:23.625px;height:22px;">W3</div>
+<div class="vline" style="left:661.25px;height:1044px;"></div>
+<div class="wlab" style="left:684.875px;top:56px;width:23.625px;height:22px;">W4</div>
+<div class="vline" style="left:684.875px;height:1044px;"></div>
+<div class="mlab" style="left:708.5px;top:34px;width:97.64999999999998px;height:22px;">Oct</div>
+<div class="mline" style="left:708.5px;height:1044px;"></div>
+<div class="wlab" style="left:708.5px;top:56px;width:24.412499999999994px;height:22px;">W5</div>
+<div class="wlab" style="left:732.9125px;top:56px;width:24.412499999999994px;height:22px;">W6</div>
+<div class="vline" style="left:732.9125px;height:1044px;"></div>
+<div class="wlab" style="left:757.325px;top:56px;width:24.412499999999994px;height:22px;">W7</div>
+<div class="vline" style="left:757.325px;height:1044px;"></div>
+<div class="wlab" style="left:781.7375px;top:56px;width:24.412499999999994px;height:22px;">W8</div>
+<div class="vline" style="left:781.7375px;height:1044px;"></div>
+<div class="mlab" style="left:806.15px;top:34px;width:94.5px;height:22px;">Nov</div>
+<div class="mline" style="left:806.15px;height:1044px;"></div>
+<div class="wlab" style="left:806.15px;top:56px;width:23.625px;height:22px;">W9</div>
+<div class="wlab" style="left:829.775px;top:56px;width:23.625px;height:22px;">W10</div>
+<div class="vline" style="left:829.775px;height:1044px;"></div>
+<div class="wlab" style="left:853.4px;top:56px;width:23.625px;height:22px;">W11</div>
+<div class="vline" style="left:853.4px;height:1044px;"></div>
+<div class="wlab" style="left:877.025px;top:56px;width:23.625px;height:22px;">W12</div>
+<div class="vline" style="left:877.025px;height:1044px;"></div>
+<div class="mlab" style="left:900.65px;top:34px;width:97.64999999999998px;height:22px;">Dec</div>
+<div class="mline" style="left:900.65px;height:1044px;"></div>
+<div class="wlab" style="left:900.65px;top:56px;width:24.412499999999994px;height:22px;">W13</div>
+<div class="wlab" style="left:925.0625px;top:56px;width:24.412499999999994px;height:22px;">W14</div>
+<div class="vline" style="left:925.0625px;height:1044px;"></div>
+<div class="wlab" style="left:949.4749999999999px;top:56px;width:24.412499999999994px;height:22px;">W15</div>
+<div class="vline" style="left:949.4749999999999px;height:1044px;"></div>
+<div class="wlab" style="left:973.8874999999999px;top:56px;width:24.412499999999994px;height:22px;">W16</div>
+<div class="vline" style="left:973.8874999999999px;height:1044px;"></div>
+<div class="mlab" style="left:998.3px;top:34px;width:97.65000000000009px;height:22px;">Jan</div>
+<div class="mline" style="left:998.3px;height:1044px;"></div>
+<div class="wlab" style="left:998.3px;top:56px;width:24.412500000000023px;height:22px;">W17</div>
+<div class="wlab" style="left:1022.7125px;top:56px;width:24.412500000000023px;height:22px;">W18</div>
+<div class="vline" style="left:1022.7125px;height:1044px;"></div>
+<div class="wlab" style="left:1047.125px;top:56px;width:24.412500000000023px;height:22px;">W19</div>
+<div class="vline" style="left:1047.125px;height:1044px;"></div>
+<div class="wlab" style="left:1071.5375px;top:56px;width:24.412500000000023px;height:22px;">W20</div>
+<div class="vline" style="left:1071.5375px;height:1044px;"></div>
+<div class="mlab" style="left:1095.95px;top:34px;width:88.20000000000005px;height:22px;">Feb</div>
+<div class="mline" style="left:1095.95px;height:1044px;"></div>
+<div class="wlab" style="left:1095.95px;top:56px;width:22.05000000000001px;height:22px;">W21</div>
+<div class="wlab" style="left:1118px;top:56px;width:22.05000000000001px;height:22px;">W22</div>
+<div class="vline" style="left:1118px;height:1044px;"></div>
+<div class="wlab" style="left:1140.0500000000002px;top:56px;width:22.05000000000001px;height:22px;">W23</div>
+<div class="vline" style="left:1140.0500000000002px;height:1044px;"></div>
+<div class="wlab" style="left:1162.1000000000001px;top:56px;width:22.05000000000001px;height:22px;">W24</div>
+<div class="vline" style="left:1162.1000000000001px;height:1044px;"></div>
+<div class="mlab" style="left:1184.15px;top:34px;width:97.65000000000009px;height:22px;">Mar</div>
+<div class="mline" style="left:1184.15px;height:1044px;"></div>
+<div class="wlab" style="left:1184.15px;top:56px;width:24.412500000000023px;height:22px;">W25</div>
+<div class="wlab" style="left:1208.5625px;top:56px;width:24.412500000000023px;height:22px;">W26</div>
+<div class="vline" style="left:1208.5625px;height:1044px;"></div>
+<div class="wlab" style="left:1232.9750000000001px;top:56px;width:24.412500000000023px;height:22px;">W27</div>
+<div class="vline" style="left:1232.9750000000001px;height:1044px;"></div>
+<div class="wlab" style="left:1257.3875000000003px;top:56px;width:24.412500000000023px;height:22px;">W28</div>
+<div class="vline" style="left:1257.3875000000003px;height:1044px;"></div>
+<div class="mlab" style="left:1281.8px;top:34px;width:53.549999999999955px;height:22px;">Apr</div>
+<div class="mline" style="left:1281.8px;height:1044px;"></div>
+<div class="wlab" style="left:1281.8px;top:56px;width:26.774999999999977px;height:22px;">W29</div>
+<div class="wlab" style="left:1308.5749999999998px;top:56px;width:26.774999999999977px;height:22px;">W30</div>
+<div class="vline" style="left:1308.5749999999998px;height:1044px;"></div>
+<div class="today" style="left:856.55px;top:78px;height:1000px;"></div>
+<div class="cell sum" style="left:0px;top:78px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">1</div>
+<div class="cell sum" style="left:34px;top:78px;width:300px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Captain Truck</div>
+<div class="cell sum" style="left:334px;top:78px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">226 days</div>
+<div class="cell sum" style="left:406px;top:78px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">03-09-2026</div>
+<div class="cell sum" style="left:510px;top:78px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">16-04-2027</div>
+<div class="bracket" style="left:620.3px;top:87px;width:711.9000000000001px;"></div>
+<div class="tick" style="left:620.3px;top:83px;height:10px;"></div>
+<div class="tick" style="left:1331.2px;top:83px;height:10px;"></div>
+<div class="cell sum" style="left:0px;top:98px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">2</div>
+<div class="cell sum" style="left:34px;top:98px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Planning</div>
+<div class="cell sum" style="left:334px;top:98px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">12 days</div>
+<div class="cell sum" style="left:406px;top:98px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">03-09-2026</div>
+<div class="cell sum" style="left:510px;top:98px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">14-09-2026</div>
+<div class="bracket" style="left:620.3px;top:107px;width:37.80000000000007px;"></div>
+<div class="tick" style="left:620.3px;top:103px;height:10px;"></div>
+<div class="tick" style="left:657.1px;top:103px;height:10px;"></div>
+<div class="cell" style="left:0px;top:118px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">3</div>
+<div class="cell" style="left:34px;top:118px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Project scope</div>
+<div class="cell" style="left:334px;top:118px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">6 days</div>
+<div class="cell" style="left:406px;top:118px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">03-09-2026</div>
+<div class="cell" style="left:510px;top:118px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">08-09-2026</div>
+<div class="bar leaf" style="left:620.3px;top:123px;width:18.899999999999977px;"></div>
+<div class="who" style="left:642.1999999999999px;top:121px;">Umair</div>
+<div class="cell" style="left:0px;top:138px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">4</div>
+<div class="cell" style="left:34px;top:138px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Feasibility and work plan</div>
+<div class="cell" style="left:334px;top:138px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">6 days</div>
+<div class="cell" style="left:406px;top:138px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">09-09-2026</div>
+<div class="cell" style="left:510px;top:138px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">14-09-2026</div>
+<div class="bar leaf" style="left:639.2px;top:143px;width:18.899999999999977px;"></div>
+<div class="who" style="left:661.1px;top:141px;">Shahzaib</div>
+<div class="cell sum" style="left:0px;top:158px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">5</div>
+<div class="cell sum" style="left:34px;top:158px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Proposal Writing</div>
+<div class="cell sum" style="left:334px;top:158px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">9 days</div>
+<div class="cell sum" style="left:406px;top:158px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">16-09-2026</div>
+<div class="cell sum" style="left:510px;top:158px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">24-09-2026</div>
+<div class="bracket" style="left:661.25px;top:167px;width:28.350000000000023px;"></div>
+<div class="tick" style="left:661.25px;top:163px;height:10px;"></div>
+<div class="tick" style="left:688.6px;top:163px;height:10px;"></div>
+<div class="cell" style="left:0px;top:178px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">6</div>
+<div class="cell" style="left:34px;top:178px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Problem statement</div>
+<div class="cell" style="left:334px;top:178px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">3 days</div>
+<div class="cell" style="left:406px;top:178px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">16-09-2026</div>
+<div class="cell" style="left:510px;top:178px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">18-09-2026</div>
+<div class="bar leaf" style="left:661.25px;top:183px;width:11px;"></div>
+<div class="who" style="left:675.25px;top:181px;">Umair</div>
+<div class="cell" style="left:0px;top:198px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">7</div>
+<div class="cell" style="left:34px;top:198px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Proposal draft</div>
+<div class="cell" style="left:334px;top:198px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">4 days</div>
+<div class="cell" style="left:406px;top:198px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">21-09-2026</div>
+<div class="cell" style="left:510px;top:198px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">24-09-2026</div>
+<div class="bar leaf" style="left:677px;top:203px;width:12.600000000000023px;"></div>
+<div class="who" style="left:692.6px;top:201px;">Shahzaib</div>
+<div class="cell sum" style="left:0px;top:218px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">8</div>
+<div class="cell sum" style="left:34px;top:218px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Proposal Submission</div>
+<div class="cell sum" style="left:334px;top:218px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">4 days</div>
+<div class="cell sum" style="left:406px;top:218px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">25-09-2026</div>
+<div class="cell sum" style="left:510px;top:218px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">28-09-2026</div>
+<div class="bracket" style="left:689.6px;top:227px;width:14px;"></div>
+<div class="tick" style="left:689.6px;top:223px;height:10px;"></div>
+<div class="tick" style="left:702.6px;top:223px;height:10px;"></div>
+<div class="cell" style="left:0px;top:238px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">9</div>
+<div class="cell" style="left:34px;top:238px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Compile proposal</div>
+<div class="cell" style="left:334px;top:238px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">1 day</div>
+<div class="cell" style="left:406px;top:238px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">25-09-2026</div>
+<div class="cell" style="left:510px;top:238px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">25-09-2026</div>
+<div class="bar leaf" style="left:689.6px;top:243px;width:11px;"></div>
+<div class="who" style="left:703.6px;top:241px;">Shahzaib</div>
+<div class="cell" style="left:0px;top:258px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">10</div>
+<div class="cell" style="left:34px;top:258px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Submit proposal</div>
+<div class="cell" style="left:334px;top:258px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">1 day</div>
+<div class="cell" style="left:406px;top:258px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">28-09-2026</div>
+<div class="cell" style="left:510px;top:258px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">28-09-2026</div>
+<div class="bar leaf" style="left:699.05px;top:263px;width:11px;"></div>
+<div class="who" style="left:713.05px;top:261px;">Umair</div>
+<div class="cell sum" style="left:0px;top:278px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">11</div>
+<div class="cell sum" style="left:34px;top:278px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Proposal Defense</div>
+<div class="cell sum" style="left:334px;top:278px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">11 days</div>
+<div class="cell sum" style="left:406px;top:278px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">29-09-2026</div>
+<div class="cell sum" style="left:510px;top:278px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">09-10-2026</div>
+<div class="bracket" style="left:702.2px;top:287px;width:34.64999999999998px;"></div>
+<div class="tick" style="left:702.2px;top:283px;height:10px;"></div>
+<div class="tick" style="left:735.85px;top:283px;height:10px;"></div>
+<div class="cell" style="left:0px;top:298px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">12</div>
+<div class="cell" style="left:34px;top:298px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Defense slides</div>
+<div class="cell" style="left:334px;top:298px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">4 days</div>
+<div class="cell" style="left:406px;top:298px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">29-09-2026</div>
+<div class="cell" style="left:510px;top:298px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">02-10-2026</div>
+<div class="bar leaf" style="left:702.2px;top:303px;width:12.599999999999909px;"></div>
+<div class="who" style="left:717.8px;top:301px;">Shahzaib</div>
+<div class="cell" style="left:0px;top:318px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">13</div>
+<div class="cell" style="left:34px;top:318px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Proposal defense</div>
+<div class="cell" style="left:334px;top:318px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">5 days</div>
+<div class="cell" style="left:406px;top:318px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">05-10-2026</div>
+<div class="cell" style="left:510px;top:318px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">09-10-2026</div>
+<div class="bar leaf" style="left:721.1px;top:323px;width:15.75px;"></div>
+<div class="who" style="left:739.85px;top:321px;">Umair</div>
+<div class="cell sum" style="left:0px;top:338px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">14</div>
+<div class="cell sum" style="left:34px;top:338px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Requirements</div>
+<div class="cell sum" style="left:334px;top:338px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">12 days</div>
+<div class="cell sum" style="left:406px;top:338px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">12-10-2026</div>
+<div class="cell sum" style="left:510px;top:338px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">23-10-2026</div>
+<div class="bracket" style="left:743.15px;top:347px;width:37.799999999999955px;"></div>
+<div class="tick" style="left:743.15px;top:343px;height:10px;"></div>
+<div class="tick" style="left:779.9499999999999px;top:343px;height:10px;"></div>
+<div class="cell" style="left:0px;top:358px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">15</div>
+<div class="cell" style="left:34px;top:358px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Requirement gathering</div>
+<div class="cell" style="left:334px;top:358px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">5 days</div>
+<div class="cell" style="left:406px;top:358px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">12-10-2026</div>
+<div class="cell" style="left:510px;top:358px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">16-10-2026</div>
+<div class="bar leaf" style="left:743.15px;top:363px;width:15.75px;"></div>
+<div class="who" style="left:761.9px;top:361px;">Ali</div>
+<div class="cell" style="left:0px;top:378px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">16</div>
+<div class="cell" style="left:34px;top:378px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">SRS</div>
+<div class="cell" style="left:334px;top:378px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">5 days</div>
+<div class="cell" style="left:406px;top:378px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">19-10-2026</div>
+<div class="cell" style="left:510px;top:378px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">23-10-2026</div>
+<div class="bar leaf" style="left:765.2px;top:383px;width:15.749999999999886px;"></div>
+<div class="who" style="left:783.9499999999999px;top:381px;">Shahzaib</div>
+<div class="cell sum" style="left:0px;top:398px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">17</div>
+<div class="cell sum" style="left:34px;top:398px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">System Design</div>
+<div class="cell sum" style="left:334px;top:398px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">12 days</div>
+<div class="cell sum" style="left:406px;top:398px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">26-10-2026</div>
+<div class="cell sum" style="left:510px;top:398px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">06-11-2026</div>
+<div class="bracket" style="left:787.25px;top:407px;width:37.799999999999955px;"></div>
+<div class="tick" style="left:787.25px;top:403px;height:10px;"></div>
+<div class="tick" style="left:824.05px;top:403px;height:10px;"></div>
+<div class="cell" style="left:0px;top:418px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">18</div>
+<div class="cell" style="left:34px;top:418px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Architecture design</div>
+<div class="cell" style="left:334px;top:418px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">5 days</div>
+<div class="cell" style="left:406px;top:418px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">26-10-2026</div>
+<div class="cell" style="left:510px;top:418px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">30-10-2026</div>
+<div class="bar leaf" style="left:787.25px;top:423px;width:15.75px;"></div>
+<div class="who" style="left:806px;top:421px;">Umair</div>
+<div class="cell" style="left:0px;top:438px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">19</div>
+<div class="cell" style="left:34px;top:438px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">UI/UX design</div>
+<div class="cell" style="left:334px;top:438px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">5 days</div>
+<div class="cell" style="left:406px;top:438px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">02-11-2026</div>
+<div class="cell" style="left:510px;top:438px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">06-11-2026</div>
+<div class="bar leaf" style="left:809.3px;top:443px;width:15.75px;"></div>
+<div class="who" style="left:828.05px;top:441px;">Shahzaib</div>
+<div class="cell sum" style="left:0px;top:458px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">20</div>
+<div class="cell sum" style="left:34px;top:458px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Front-End Development</div>
+<div class="cell sum" style="left:334px;top:458px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">19 days</div>
+<div class="cell sum" style="left:406px;top:458px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">09-11-2026</div>
+<div class="cell sum" style="left:510px;top:458px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">27-11-2026</div>
+<div class="bracket" style="left:831.35px;top:467px;width:59.84999999999991px;"></div>
+<div class="tick" style="left:831.35px;top:463px;height:10px;"></div>
+<div class="tick" style="left:890.1999999999999px;top:463px;height:10px;"></div>
+<div class="cell" style="left:0px;top:478px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">21</div>
+<div class="cell" style="left:34px;top:478px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Mobile app screens</div>
+<div class="cell" style="left:334px;top:478px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">12 days</div>
+<div class="cell" style="left:406px;top:478px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">09-11-2026</div>
+<div class="cell" style="left:510px;top:478px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">20-11-2026</div>
+<div class="bar leaf" style="left:831.35px;top:483px;width:37.799999999999955px;"></div>
+<div class="who" style="left:872.15px;top:481px;">Ali</div>
+<div class="cell" style="left:0px;top:498px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">22</div>
+<div class="cell" style="left:34px;top:498px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Admin panel screens</div>
+<div class="cell" style="left:334px;top:498px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">5 days</div>
+<div class="cell" style="left:406px;top:498px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">23-11-2026</div>
+<div class="cell" style="left:510px;top:498px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">27-11-2026</div>
+<div class="bar leaf" style="left:875.45px;top:503px;width:15.749999999999886px;"></div>
+<div class="who" style="left:894.1999999999999px;top:501px;">Shahzaib</div>
+<div class="cell sum" style="left:0px;top:518px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">23</div>
+<div class="cell sum" style="left:34px;top:518px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Progress Report Submission</div>
+<div class="cell sum" style="left:334px;top:518px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">2 days</div>
+<div class="cell sum" style="left:406px;top:518px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">01-12-2026</div>
+<div class="cell sum" style="left:510px;top:518px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">02-12-2026</div>
+<div class="bracket" style="left:900.65px;top:527px;width:14px;"></div>
+<div class="tick" style="left:900.65px;top:523px;height:10px;"></div>
+<div class="tick" style="left:913.65px;top:523px;height:10px;"></div>
+<div class="cell" style="left:0px;top:538px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">24</div>
+<div class="cell" style="left:34px;top:538px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Compile progress report</div>
+<div class="cell" style="left:334px;top:538px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">1 day</div>
+<div class="cell" style="left:406px;top:538px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">01-12-2026</div>
+<div class="cell" style="left:510px;top:538px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">01-12-2026</div>
+<div class="bar leaf" style="left:900.65px;top:543px;width:11px;"></div>
+<div class="who" style="left:914.65px;top:541px;">Shahzaib</div>
+<div class="cell" style="left:0px;top:558px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">25</div>
+<div class="cell" style="left:34px;top:558px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Submit progress report</div>
+<div class="cell" style="left:334px;top:558px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">1 day</div>
+<div class="cell" style="left:406px;top:558px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">02-12-2026</div>
+<div class="cell" style="left:510px;top:558px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">02-12-2026</div>
+<div class="bar leaf" style="left:903.8px;top:563px;width:11px;"></div>
+<div class="who" style="left:917.8px;top:561px;">Umair</div>
+<div class="cell sum" style="left:0px;top:578px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">26</div>
+<div class="cell sum" style="left:34px;top:578px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Database Design</div>
+<div class="cell sum" style="left:334px;top:578px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">20 days</div>
+<div class="cell sum" style="left:406px;top:578px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">03-12-2026</div>
+<div class="cell sum" style="left:510px;top:578px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">22-12-2026</div>
+<div class="bracket" style="left:906.95px;top:587px;width:62.999999999999886px;"></div>
+<div class="tick" style="left:906.95px;top:583px;height:10px;"></div>
+<div class="tick" style="left:968.9499999999999px;top:583px;height:10px;"></div>
+<div class="cell" style="left:0px;top:598px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">27</div>
+<div class="cell" style="left:34px;top:598px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Schema design</div>
+<div class="cell" style="left:334px;top:598px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">9 days</div>
+<div class="cell" style="left:406px;top:598px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">03-12-2026</div>
+<div class="cell" style="left:510px;top:598px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">11-12-2026</div>
+<div class="bar leaf" style="left:906.95px;top:603px;width:28.34999999999991px;"></div>
+<div class="who" style="left:938.3px;top:601px;">Umair</div>
+<div class="cell" style="left:0px;top:618px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">28</div>
+<div class="cell" style="left:34px;top:618px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Migrations and seed</div>
+<div class="cell" style="left:334px;top:618px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">9 days</div>
+<div class="cell" style="left:406px;top:618px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">14-12-2026</div>
+<div class="cell" style="left:510px;top:618px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">22-12-2026</div>
+<div class="bar leaf" style="left:941.5999999999999px;top:623px;width:28.350000000000023px;"></div>
+<div class="who" style="left:972.9499999999999px;top:621px;">Umair</div>
+<div class="cell sum" style="left:0px;top:638px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">29</div>
+<div class="cell sum" style="left:34px;top:638px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Deliverable 1 Submission</div>
+<div class="cell sum" style="left:334px;top:638px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">2 days</div>
+<div class="cell sum" style="left:406px;top:638px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">23-12-2026</div>
+<div class="cell sum" style="left:510px;top:638px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">24-12-2026</div>
+<div class="bracket" style="left:969.95px;top:647px;width:14px;"></div>
+<div class="tick" style="left:969.95px;top:643px;height:10px;"></div>
+<div class="tick" style="left:982.95px;top:643px;height:10px;"></div>
+<div class="cell" style="left:0px;top:658px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">30</div>
+<div class="cell" style="left:34px;top:658px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Package Deliverable 1</div>
+<div class="cell" style="left:334px;top:658px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">1 day</div>
+<div class="cell" style="left:406px;top:658px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">23-12-2026</div>
+<div class="cell" style="left:510px;top:658px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">23-12-2026</div>
+<div class="bar leaf" style="left:969.95px;top:663px;width:11px;"></div>
+<div class="who" style="left:983.95px;top:661px;">Shahzaib</div>
+<div class="cell" style="left:0px;top:678px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">31</div>
+<div class="cell" style="left:34px;top:678px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Submit Deliverable 1</div>
+<div class="cell" style="left:334px;top:678px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">1 day</div>
+<div class="cell" style="left:406px;top:678px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">24-12-2026</div>
+<div class="cell" style="left:510px;top:678px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">24-12-2026</div>
+<div class="bar leaf" style="left:973.0999999999999px;top:683px;width:11px;"></div>
+<div class="who" style="left:987.0999999999999px;top:681px;">Umair</div>
+<div class="cell sum" style="left:0px;top:698px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">32</div>
+<div class="cell sum" style="left:34px;top:698px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Internal Defense</div>
+<div class="cell sum" style="left:334px;top:698px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">11 days</div>
+<div class="cell sum" style="left:406px;top:698px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">29-12-2026</div>
+<div class="cell sum" style="left:510px;top:698px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">08-01-2027</div>
+<div class="bracket" style="left:988.8499999999999px;top:707px;width:34.64999999999998px;"></div>
+<div class="tick" style="left:988.8499999999999px;top:703px;height:10px;"></div>
+<div class="tick" style="left:1022.4999999999999px;top:703px;height:10px;"></div>
+<div class="cell" style="left:0px;top:718px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">33</div>
+<div class="cell" style="left:34px;top:718px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Defense material</div>
+<div class="cell" style="left:334px;top:718px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">4 days</div>
+<div class="cell" style="left:406px;top:718px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">29-12-2026</div>
+<div class="cell" style="left:510px;top:718px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">01-01-2027</div>
+<div class="bar leaf" style="left:988.8499999999999px;top:723px;width:12.600000000000023px;"></div>
+<div class="who" style="left:1004.4499999999999px;top:721px;">Shahzaib</div>
+<div class="cell" style="left:0px;top:738px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">34</div>
+<div class="cell" style="left:34px;top:738px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Internal defense</div>
+<div class="cell" style="left:334px;top:738px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">5 days</div>
+<div class="cell" style="left:406px;top:738px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">04-01-2027</div>
+<div class="cell" style="left:510px;top:738px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">08-01-2027</div>
+<div class="bar leaf" style="left:1007.75px;top:743px;width:15.749999999999886px;"></div>
+<div class="who" style="left:1026.5px;top:741px;">Umair</div>
+<div class="cell sum" style="left:0px;top:758px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">35</div>
+<div class="cell sum" style="left:34px;top:758px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Development Phase (Core Modules, AI Model)</div>
+<div class="cell sum" style="left:334px;top:758px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">45 days</div>
+<div class="cell sum" style="left:406px;top:758px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">12-01-2027</div>
+<div class="cell sum" style="left:510px;top:758px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">25-02-2027</div>
+<div class="bracket" style="left:1032.95px;top:767px;width:141.75px;"></div>
+<div class="tick" style="left:1032.95px;top:763px;height:10px;"></div>
+<div class="tick" style="left:1173.7px;top:763px;height:10px;"></div>
+<div class="cell" style="left:0px;top:778px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">36</div>
+<div class="cell" style="left:34px;top:778px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Core modules</div>
+<div class="cell" style="left:334px;top:778px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">24 days</div>
+<div class="cell" style="left:406px;top:778px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">12-01-2027</div>
+<div class="cell" style="left:510px;top:778px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">04-02-2027</div>
+<div class="bar leaf" style="left:1032.95px;top:783px;width:75.60000000000014px;"></div>
+<div class="who" style="left:1111.5500000000002px;top:781px;">Umair</div>
+<div class="cell" style="left:0px;top:798px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">37</div>
+<div class="cell" style="left:34px;top:798px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">AI trip-cost model</div>
+<div class="cell" style="left:334px;top:798px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">13 days</div>
+<div class="cell" style="left:406px;top:798px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">05-02-2027</div>
+<div class="cell" style="left:510px;top:798px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">17-02-2027</div>
+<div class="bar leaf" style="left:1108.55px;top:803px;width:40.950000000000045px;"></div>
+<div class="who" style="left:1152.5px;top:801px;">Ali</div>
+<div class="cell" style="left:0px;top:818px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">38</div>
+<div class="cell" style="left:34px;top:818px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Admin operations</div>
+<div class="cell" style="left:334px;top:818px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">8 days</div>
+<div class="cell" style="left:406px;top:818px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">18-02-2027</div>
+<div class="cell" style="left:510px;top:818px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">25-02-2027</div>
+<div class="bar leaf" style="left:1149.5px;top:823px;width:25.200000000000045px;"></div>
+<div class="who" style="left:1177.7px;top:821px;">Shahzaib</div>
+<div class="cell sum" style="left:0px;top:838px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">39</div>
+<div class="cell sum" style="left:34px;top:838px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Integration</div>
+<div class="cell sum" style="left:334px;top:838px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">13 days</div>
+<div class="cell sum" style="left:406px;top:838px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">26-02-2027</div>
+<div class="cell sum" style="left:510px;top:838px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">10-03-2027</div>
+<div class="bracket" style="left:1174.6999999999998px;top:847px;width:40.95000000000027px;"></div>
+<div class="tick" style="left:1174.6999999999998px;top:843px;height:10px;"></div>
+<div class="tick" style="left:1214.65px;top:843px;height:10px;"></div>
+<div class="cell" style="left:0px;top:858px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">40</div>
+<div class="cell" style="left:34px;top:858px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">API integration</div>
+<div class="cell" style="left:334px;top:858px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">7 days</div>
+<div class="cell" style="left:406px;top:858px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">26-02-2027</div>
+<div class="cell" style="left:510px;top:858px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">04-03-2027</div>
+<div class="bar leaf" style="left:1174.6999999999998px;top:863px;width:22.050000000000182px;"></div>
+<div class="who" style="left:1199.75px;top:861px;">Umair</div>
+<div class="cell" style="left:0px;top:878px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">41</div>
+<div class="cell" style="left:34px;top:878px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Client integration</div>
+<div class="cell" style="left:334px;top:878px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">6 days</div>
+<div class="cell" style="left:406px;top:878px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">05-03-2027</div>
+<div class="cell" style="left:510px;top:878px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">10-03-2027</div>
+<div class="bar leaf" style="left:1196.75px;top:883px;width:18.90000000000009px;"></div>
+<div class="who" style="left:1218.65px;top:881px;">Ali</div>
+<div class="cell sum" style="left:0px;top:898px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">42</div>
+<div class="cell sum" style="left:34px;top:898px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Testing and Debugging</div>
+<div class="cell sum" style="left:334px;top:898px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">13 days</div>
+<div class="cell sum" style="left:406px;top:898px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">11-03-2027</div>
+<div class="cell sum" style="left:510px;top:898px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">23-03-2027</div>
+<div class="bracket" style="left:1215.65px;top:907px;width:40.94999999999982px;"></div>
+<div class="tick" style="left:1215.65px;top:903px;height:10px;"></div>
+<div class="tick" style="left:1255.6px;top:903px;height:10px;"></div>
+<div class="cell" style="left:0px;top:918px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">43</div>
+<div class="cell" style="left:34px;top:918px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">System testing</div>
+<div class="cell" style="left:334px;top:918px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">7 days</div>
+<div class="cell" style="left:406px;top:918px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">11-03-2027</div>
+<div class="cell" style="left:510px;top:918px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">17-03-2027</div>
+<div class="bar leaf" style="left:1215.65px;top:923px;width:22.049999999999955px;"></div>
+<div class="who" style="left:1240.7px;top:921px;">Shahzaib</div>
+<div class="cell" style="left:0px;top:938px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">44</div>
+<div class="cell" style="left:34px;top:938px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Bug fixing</div>
+<div class="cell" style="left:334px;top:938px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">6 days</div>
+<div class="cell" style="left:406px;top:938px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">18-03-2027</div>
+<div class="cell" style="left:510px;top:938px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">23-03-2027</div>
+<div class="bar leaf" style="left:1237.6999999999998px;top:943px;width:18.90000000000009px;"></div>
+<div class="who" style="left:1259.6px;top:941px;">Umair</div>
+<div class="cell sum" style="left:0px;top:958px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">45</div>
+<div class="cell sum" style="left:34px;top:958px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Optimization</div>
+<div class="cell sum" style="left:334px;top:958px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">13 days</div>
+<div class="cell sum" style="left:406px;top:958px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">24-03-2027</div>
+<div class="cell sum" style="left:510px;top:958px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">05-04-2027</div>
+<div class="bracket" style="left:1256.6px;top:967px;width:40.95000000000027px;"></div>
+<div class="tick" style="left:1256.6px;top:963px;height:10px;"></div>
+<div class="tick" style="left:1296.5500000000002px;top:963px;height:10px;"></div>
+<div class="cell" style="left:0px;top:978px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">46</div>
+<div class="cell" style="left:34px;top:978px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Performance tuning</div>
+<div class="cell" style="left:334px;top:978px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">7 days</div>
+<div class="cell" style="left:406px;top:978px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">24-03-2027</div>
+<div class="cell" style="left:510px;top:978px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">30-03-2027</div>
+<div class="bar leaf" style="left:1256.6px;top:983px;width:22.050000000000182px;"></div>
+<div class="who" style="left:1281.65px;top:981px;">Umair</div>
+<div class="cell" style="left:0px;top:998px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">47</div>
+<div class="cell" style="left:34px;top:998px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">UI polish</div>
+<div class="cell" style="left:334px;top:998px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">6 days</div>
+<div class="cell" style="left:406px;top:998px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">31-03-2027</div>
+<div class="cell" style="left:510px;top:998px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">05-04-2027</div>
+<div class="bar leaf" style="left:1278.65px;top:1003px;width:18.90000000000009px;"></div>
+<div class="who" style="left:1300.5500000000002px;top:1001px;">Ali</div>
+<div class="cell sum" style="left:0px;top:1018px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:700;border-left:1px solid #bfbfbf;">48</div>
+<div class="cell sum" style="left:34px;top:1018px;width:300px;height:20px;padding-left:20px;text-align:left;font-weight:700;border-left:1px solid #ececec;">Final Product Delivery</div>
+<div class="cell sum" style="left:334px;top:1018px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">11 days</div>
+<div class="cell sum" style="left:406px;top:1018px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">06-04-2027</div>
+<div class="cell sum" style="left:510px;top:1018px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:700;border-left:1px solid #ececec;">16-04-2027</div>
+<div class="bracket" style="left:1297.55px;top:1027px;width:34.65000000000009px;"></div>
+<div class="tick" style="left:1297.55px;top:1023px;height:10px;"></div>
+<div class="tick" style="left:1331.2px;top:1023px;height:10px;"></div>
+<div class="cell" style="left:0px;top:1038px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">49</div>
+<div class="cell" style="left:34px;top:1038px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Final documentation</div>
+<div class="cell" style="left:334px;top:1038px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">4 days</div>
+<div class="cell" style="left:406px;top:1038px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">06-04-2027</div>
+<div class="cell" style="left:510px;top:1038px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">09-04-2027</div>
+<div class="bar leaf" style="left:1297.55px;top:1043px;width:12.600000000000136px;"></div>
+<div class="who" style="left:1313.15px;top:1041px;">Shahzaib</div>
+<div class="cell" style="left:0px;top:1058px;width:34px;height:20px;padding-left:0px;text-align:center;font-weight:400;border-left:1px solid #bfbfbf;">50</div>
+<div class="cell" style="left:34px;top:1058px;width:300px;height:20px;padding-left:34px;text-align:left;font-weight:400;border-left:1px solid #ececec;">Deployment and handover</div>
+<div class="cell" style="left:334px;top:1058px;width:72px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">5 days</div>
+<div class="cell" style="left:406px;top:1058px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">12-04-2027</div>
+<div class="cell" style="left:510px;top:1058px;width:104px;height:20px;padding-left:6px;text-align:left;font-weight:400;border-left:1px solid #ececec;">16-04-2027</div>
+<div class="bar leaf" style="left:1316.4499999999998px;top:1063px;width:15.750000000000227px;"></div>
+<div class="who" style="left:1335.2px;top:1061px;">Umair</div>
+<div class="caption">Figure 1.7.1: Gantt Chart</div></div></body></html>

@@ -1,0 +1,4 @@
+1.4 Project/Product Costing ................................................................................................... 6
+1.4.1 Project Cost Estimation By Function Point Analysis ............................................... 6
+1.4.2 Project Cost Estimation by using COCOMOâ€™81 (Constructive Cost Model) .......... 7
+1.4.3 Activity Based Costing ............................................................................................. 8

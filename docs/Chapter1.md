@@ -14,8 +14,8 @@ University of Gujrat
 | Name | Roll No. |
 |------|----------|
 | Muhammad Umair | 23011598-062 |
-| Muhammad Ali | *[Roll No. — fill in]* |
-| Muhammad Shahzaib | *[Roll No. — fill in]* |
+| Muhammad Ali | 23011598-063 |
+| Muhammad Shahzaib | 23011598-109 |
 
 ---
 
@@ -84,11 +84,15 @@ This chapter assesses whether the project is feasible, fixes its scope, estimate
 
 ## 1.2 Project/Product Feasibility Report
 
-Feasibility measures how practical the system is to build and use with the staff, skills, equipment and time available. Captain Truck was assessed in eight areas: technical, operational, economic, schedule, specification, information, motivational, and legal and ethical.
+Feasibility measures how practical the system is to build and use with the staff, skills, equipment and time available. Following the supervisor’s sample feasibility-study format, each area below states an **Assessment** and **Findings**. Captain Truck was assessed for technical, operational, economic, schedule, specification, information, motivational, and legal and ethical feasibility.
 
 ### 1.2.1 Technical Feasibility
 
-Every component of Captain Truck uses mature, available technology, as summarised below.
+**Assessment:** The technical feasibility study evaluates whether the team has the necessary skills and resources to develop Captain Truck. The project will use Flutter (Dart) for the Customer and Driver Android apps, React with Vite and Tailwind for the Admin dashboard, NestJS with TypeScript for the backend API, PostgreSQL (Neon) with Prisma for persistence, Socket.IO for realtime GPS and chat, Redis for live location/coordination, OpenStreetMap services (Nominatim, Photon, OSRM) for maps and routing, Cloudinary for media, FCM for push, and Cash-on-Pickup plus Stripe Test Mode for payments. On-device TFLite trip-cost estimation and ML Kit Smart Reply avoid a paid cloud generative-AI dependency. The API is hosted on an Oracle Cloud Always Free VM.
+
+**Findings:** The development team is proficient in NestJS/TypeScript, React and Flutter fundamentals from coursework and prior practice, and the locked stack matches those skills. Gaps remain around production hardening of public OSRM/Nominatim rate limits, free-tier Neon sleep behaviour, offline map tile licensing, and TFLite model training/evaluation as a process separate from on-device inference. To address these gaps, the team will use documented timeouts and graceful fallbacks for OSM, connection pooling for Neon, a tile provider whose terms permit intended caching, supervisor reviews of AI evaluation limits, and free-tier Stripe Test Mode only (no live production payment claim). Overall, the required technologies are available and the residual skill/risk gaps are manageable within an FYP.
+
+> **Verdict:** Technically feasible.
 
 **Table 1.1: Technical requirements and availability**
 
@@ -108,53 +112,59 @@ Every component of Captain Truck uses mature, available technology, as summarise
 | Payments | Cash-on-Pickup + Stripe **Test Mode** | Test keys free; no live charges in FYP |
 | API host | Oracle Cloud Always Free VM + Nginx + PM2 | Free always-on VM (avoids cold starts) |
 
-All members have studied OOP, databases, web engineering and mobile development. The NestJS domain (dispatch → assign → trip → pay → commission) is well documented in the phase plan. The main technical risks — public OSRM/Nominatim latency and free-tier Neon sleep — are mitigated with timeouts, retries, connection pooling and fail-open policies for demos.
-
-> **Verdict:** Technically feasible.
-
 ### 1.2.2 Operational Feasibility
 
-Customers need to request a truck, pick a route and cost, pay or choose cash, and watch the trip without calling a broker. Drivers need clear assignments, navigation-oriented GPS updates and a way to confirm cash. Administrators work in a browser (nothing to install) to approve/reject, assign, watch live trips, manage users/truck types/rates and confirm commissions. Unlike pure load-board apps that only match loads, Captain Truck keeps a human admin in the assignment loop — the core operational differentiator for trust and FYP scope control.
+**Assessment:** This feasibility study examines how Captain Truck will fit into existing shipper, driver and admin workflows and whether users will be able to adapt to the new system. Today, booking and dispatch are often handled through calls, messaging apps and paper notes. The new platform provides a Customer app for requests, routes, fare proposals and tracking; a Driver app for willingness, assignment, status, GPS and cash confirmation; and a browser Admin dashboard for approvals, assignment and reconciliation.
+
+**Findings:** The system is expected to streamline dispatch coordination, route/fare agreement, live tracking and commission reconciliation. However, some users are accustomed to informal broker/WhatsApp habits and may resist moving approvals and cash confirmation into the app. To facilitate adoption, the team keeps admin-mediated assignment (no automatic matching), plans demo-oriented training/walkthroughs for the three roles, and gathers supervisor and peer feedback during development so usability concerns can be incorporated before final delivery.
 
 > **Verdict:** Operationally feasible.
 
 ### 1.2.3 Economic Feasibility
 
-Function Point Analysis (Section 1.4.1) values the development effort at **26.09 person-months**, or **PKR 2,348,190** at market rates. For an FYP this labour is provided by the team, so actual spending is limited to a Google Play developer account, internet, electricity and printing. Cloud services are planned on free tiers (Neon, Upstash/Redis, Cloudinary, Vercel, Oracle Always Free, FCM, Stripe Test). On the benefit side, transparent route/cost options reduce broker opacity, admin mediation improves assignment quality, cash + commission ledgers cut reconciliation losses, and realtime tracking raises customer trust. Intangible benefits include industry-ready skills for the team and a demonstrable full-stack logistics product.
+**Assessment:** The economic feasibility analysis focuses on the cost of developing Captain Truck versus the expected benefits. This includes estimated development effort/cost at market rates, ongoing free-tier cloud maintenance, and productivity/transparency gains from digitised dispatch.
+
+**Findings:** Function Point Analysis (Section 1.4.1) values development effort at **26.09 person-months**, or **PKR 2,348,190** at a junior market labour rate. For an FYP this labour is contributed by the student team, so cash spend is limited to a Google Play developer account, internet, electricity and printing, while Neon, Redis/Upstash, Cloudinary, Vercel, Oracle Always Free, FCM and Stripe Test Mode stay on free tiers. Benefits include clearer route/cost options, admin-mediated assignment quality, dual cash/online payment records, and less lost commission reconciliation — plus intangible skill gains for the team. Given near-zero cash outlay against these benefits, the project is economically feasible within the FYP budget.
 
 > **Verdict:** Economically feasible.
 
 ### 1.2.4 Schedule Feasibility
 
-The project runs from **September 2026** to **June 2027** on the Waterfall Gantt (Section 1.7). The critical path (Section 1.6) is **40 weeks**, ending with final product delivery in June 2027. University milestones sit on the linear plan: proposal submission (late September), proposal defense (early October), progress report (December), Deliverable 1 and internal defense (January), then core development through March, integration and testing in April, optimization in May, and final delivery in June.
+**Assessment:** The schedule feasibility study evaluates whether Captain Truck can be completed within the academic timeframe. The planned calendar runs from **3 September 2026** to **16 April 2027** (**226 days** on the Waterfall Gantt in Section 1.7), covering planning, proposal, requirements, design, implementation, integration, testing, optimization and final delivery, with university milestones on the same linear plan.
+
+**Findings:** The timeline is demanding because of multi-client surfaces (two Flutter apps, Admin, NestJS API), OSM routing, AI fare proposal, willingness/assignment, offline maps, chat/media, and dual payment/ledger behaviour. To manage this, the team follows the instructor-required **Waterfall** sequence with gated phases rather than open-ended feature growth, places proposal defense, progress report, Deliverable 1 and internal defense on the Gantt, and keeps exclusions explicit (no live Stripe production claim, no auto-matching, no bilty suite). The CPM critical path (Section 1.6) shows that delaying critical activities delays final delivery, so milestone buffers and weekly supervisor checkpoints are used to keep the plan achievable.
 
 > **Verdict:** Feasible within the academic calendar.
 
 ### 1.2.5 Specification Feasibility
 
-Behaviour is fixed by the locked product stack and the backend/admin phase plans (Phases 0–16 API; Admin A0–A7). Boundaries are explicit: no iOS apps, no live Stripe production charges, no automated bidding/matching, no IoT trackers/NADRA, no GraphQL, and Flutter apps live in separate repositories from this API/admin monorepo.
+**Assessment:** Specification feasibility checks whether requirements are clear, complete enough to build, and bounded so the team is not pulled into unbounded scope.
+
+**Findings:** Behaviour is fixed by the updated FYP proposal (15 modules), the locked product stack, and backend/admin phase plans. Boundaries are explicit: no iOS-first commitment, no live Stripe production charges, no automated bidding/matching, no IoT trackers/NADRA, no GraphQL, no full bilty/consignment suite, and Flutter apps live in separate repositories from this API/admin monorepo. Remaining open items (exact offline tile provider licence, AI training pipeline documentation) are recorded as implementation tasks rather than undefined product scope.
 
 > **Verdict:** Requirements are clear and bounded.
 
 ### 1.2.6 Information Feasibility
 
-Pickup/drop coordinates and addresses come from the customer (with OSM geocode helpers). Route distance/duration/polylines come from OSRM. AI trip cost is computed on-device and validated server-side against distance sanity checks; the **server bill** (`lockedBaseRate + aiTripCost`, times `truckCount`) is authoritative. User, dispatch, trip, chat, payment and commission records sit in PostgreSQL with defined keys and constraints. Live GPS is held in Redis with periodic/last-known snapshots. Calculator and AI costs are labelled as estimates where appropriate.
+**Assessment:** Information feasibility examines whether the data needed to operate Captain Truck can be obtained, stored and trusted.
+
+**Findings:** Pickup/drop coordinates and addresses come from the customer (with OSM geocode helpers). Route distance/duration/polylines come from OSRM. AI trip cost is computed on-device and validated server-side; the customer proposal is checked against the admin-configured band; the **server bill** remains authoritative. User, dispatch, trip, chat, payment and commission records sit in PostgreSQL with defined keys and constraints. Live GPS is held in Redis with last-known timestamps. AI costs are labelled as estimates. Where public OSM data is incomplete, pin override and fallback messaging keep the request flow usable.
 
 > **Verdict:** Information is available and reliable.
 
 ### 1.2.7 Motivational Feasibility
 
-The team is building a real multi-client logistics product with industry-relevant NestJS, Flutter, React and realtime skills. Customers gain transparent cost and live tracking; drivers gain structured assignments; administrators replace phone/WhatsApp coordination with one panel. Regular supervisor reviews keep progress steady.
+**Assessment:** Motivational feasibility asks whether the team and target users have enough reason to build and adopt the system.
+
+**Findings:** The team is building a real multi-client logistics product with industry-relevant NestJS, Flutter, React and realtime skills under supervisor guidance. Customers gain transparent route/cost options and live tracking; drivers gain structured assignments and offline-aware maps; administrators replace phone/WhatsApp coordination with one panel. Regular reviews and milestone demos keep progress steady.
 
 > **Verdict:** All stakeholders are motivated to use the system.
 
 ### 1.2.8 Legal & Ethical Feasibility
 
-- Personal data is handled in line with Pakistan’s **Prevention of Electronic Crimes Act 2016** (and good practice for location/chat data).
-- Stripe card details are entered on Stripe’s hosted Checkout / Elements; **Captain Truck never stores raw card numbers**. Cash flows are confirmed by drivers and visible to admins without storing unnecessary payment secrets.
-- Permissions (location, microphone, notifications, storage for media) are requested only when needed, as Play Store policies require.
-- Licences: NestJS, React, Flutter and packages used are open source (MIT, Apache, BSD); OSM services are used under their usage policies; Stripe and Cloudinary under their terms (Test Mode / free tier for FYP).
-- Safety / fairness: the admin remains in the assignment loop; chat messages older than **90 days** are auto-deleted; abuse reporting is supported on messages.
+**Assessment:** Legal and ethical feasibility checks privacy, payment handling, licences and fair use of location/chat data under applicable Pakistani and platform rules.
+
+**Findings:** Personal data is handled in line with Pakistan’s **Prevention of Electronic Crimes Act 2016** and good practice for location/chat data. Stripe card details are entered on Stripe’s hosted Checkout / Elements; **Captain Truck never stores raw card numbers**. Cash flows are confirmed by drivers and visible to admins without storing unnecessary payment secrets. Permissions (location, microphone, notifications, storage for media) are requested only when needed, as Play Store policies require. NestJS, React, Flutter and packages used are open source; OSM services and offline tiles follow provider policies; Stripe and Cloudinary are used under Test Mode / free-tier terms. The admin remains in the assignment loop; chat older than **90 days** is auto-deleted; abuse reporting is supported.
 
 > **Verdict:** No infringement or liability is expected.
 
@@ -172,7 +182,7 @@ Scope lists what is inside the system boundary; anything outside it is treated a
 | **Core features** | JWT role-based auth; truck types & base rates; dispatch create; 2–3 OSM routes + AI trip cost; admin approve/reject/assign; trips + Socket.IO GPS; chat (text/image/voice) + Smart Reply + 90-day TTL; Cash-on-Pickup + Stripe Test Mode; commission ledger; FCM push; React Admin ops. |
 | **Deliverables** | NestJS API (this repo), React Admin on Vercel (this repo), Flutter Customer app (separate repo), Flutter Driver app (separate repo), documentation and test reports. |
 | **Stakeholders** | Customers (shippers), drivers, administrators, supervisor, project team. |
-| **Timeline** | September 2026 to June 2027 (Waterfall plan). |
+| **Timeline** | 3 September 2026 to 16 April 2027 (Waterfall plan; 226 calendar days). |
 | **Process model** | Waterfall Model (sequential phases with gated milestones). |
 | **Exclusions** | iOS apps; live Stripe production charges; automated load bidding/matching; IoT trackers / NADRA; GraphQL; hardware/fleet ownership; ISO 27001 certification. |
 | **Optional units** | Advanced admin analytics, multi-driver assignment for `truckCount > 1` beyond lead-driver policy, production Stripe go-live. |
@@ -365,143 +375,265 @@ The FP-oriented models on slide 23 take the adjusted function point count. Our *
 
 ## 1.5 Task Dependency Table
 
-Tasks follow the **Waterfall** Gantt. Durations are in weeks; **week 0** starts at the beginning of **September 2026** (Gantt week W1).
+Tasks follow the **Waterfall** Gantt (Section 1.7). Durations below are the summary-phase durations used for CPM (working-day style estimates aligned to the Gantt bars).
 
-**Table 1.10: Task dependency table**
+**Table 1.10: Task Dependency table**
 
-| ID | Task | Waterfall phase | Weeks | Depends on |
-|----|------|-----------------|------:|------------|
-| A | Planning | Planning | 2 | — |
-| B | Proposal writing | Planning / Proposal | 2 | A |
-| C | Proposal submission | Proposal | 1 | B |
-| D | Proposal defense | Proposal | 2 | C |
-| E | Requirements | Requirements | 2 | D |
-| F | System design | Design | 2 | E |
-| G | Front-end development | Implementation | 3 | F |
-| H | Progress report submission | Milestone | 1 | G |
-| I | Database design | Implementation | 3 | G |
-| J | Deliverable 1 submission | Milestone | 1 | H, I |
-| K | Internal defense | Milestone | 2 | J |
-| L | Development phase (core modules, AI model) | Implementation | 10 | K |
-| M | Integration | Integration | 2 | L |
-| N | Testing and debugging | Testing | 2 | M |
-| O | Optimization | Optimization | 4 | N |
-| P | Final product delivery | Delivery | 2 | O |
+| Task Id | Task Name |
+|---------|-----------|
+| T1 | Planning |
+| T2 | Proposal Writing |
+| T3 | Proposal Submission |
+| T4 | Proposal Defense |
+| T5 | Requirements |
+| T6 | System Design |
+| T7 | Front-End Development |
+| T8 | Progress Report Submission |
+| T9 | Database Design |
+| T10 | Deliverable 1 Submission |
+| T11 | Internal Defense |
+| T12 | Development Phase (Modules, AI) |
+| T13 | Integration |
+| T14 | Testing and Debugging |
+| T15 | Optimization |
+| T16 | Final Product Delivery |
 
 ---
 
 ## 1.6 CPM — Critical Path Method
 
-For each activity we computed earliest start/finish (ES, EF), latest start/finish (LS, LF) and total slack (\(TS = LS - ES\)). Activities with **zero slack** form the critical path. Finish-to-start dependencies are used (each phase completes before the next begins), matching the instructor-required **Waterfall** ordering.
+In 1957, DuPont developed a project management method designed to address the challenge of shutting down chemical plants for maintenance and then restarting the plants once the maintenance had been completed.
 
-**Table 1.11: CPM calculations (weeks)**
+CPM provides the following benefits:
 
-| Activity | Dur. | ES | EF | LS | LF | TS | Critical |
-|----------|-----:|---:|---:|---:|---:|---:|----------|
-| A | 2 | 0 | 2 | 0 | 2 | 0 | Yes |
-| B | 2 | 2 | 4 | 2 | 4 | 0 | Yes |
-| C | 1 | 4 | 5 | 4 | 5 | 0 | Yes |
-| D | 2 | 5 | 7 | 5 | 7 | 0 | Yes |
-| E | 2 | 7 | 9 | 7 | 9 | 0 | Yes |
-| F | 2 | 9 | 11 | 9 | 11 | 0 | Yes |
-| G | 3 | 11 | 14 | 11 | 14 | 0 | Yes |
-| H | 1 | 14 | 15 | 16 | 17 | 2 | No |
-| I | 3 | 14 | 17 | 14 | 17 | 0 | Yes |
-| J | 1 | 17 | 18 | 17 | 18 | 0 | Yes |
-| K | 2 | 18 | 20 | 18 | 20 | 0 | Yes |
-| L | 10 | 20 | 30 | 20 | 30 | 0 | Yes |
-| M | 2 | 30 | 32 | 30 | 32 | 0 | Yes |
-| N | 2 | 32 | 34 | 32 | 34 | 0 | Yes |
-| O | 4 | 34 | 38 | 34 | 38 | 0 | Yes |
-| P | 2 | 38 | 40 | 38 | 40 | 0 | Yes |
+- Provides a graphical view of the project.
+- Predicts the time required to complete the project.
 
-**Critical path:** **A → B → C → D → E → F → G → I → J → K → L → M → N → O → P** (**40 weeks**).
+CPM models the activities and events of a project as a network. Activities are depicted as nodes on the network and events that signify the beginning or ending of activities are depicted as arcs or lines between the nodes. The following is an example of a CPM network diagram for Captain Truck.
 
-Progress report (**H**) has **2 weeks** of slack because Deliverable 1 waits on database design (**I**). Any delay on a critical activity moves final delivery.
+**Steps in CPM Project Planning**
 
-**Figure 1.1: CPM network diagram (activity on node)**
+1. Specify the individual activities.
+2. Determine the sequence of those activities.
+3. Draw a network diagram.
+4. Estimate the completion time for each activity.
+5. Identify the critical path (longest path through the network).
+6. Update the CPM diagram as the project progresses.
+
+### 1. Specify the Individual Activities
+
+**Table 1.6.1: Task Dependency table**
+
+| Task Id | Task Name |
+|---------|-----------|
+| T1 | Planning |
+| T2 | Proposal Writing |
+| T3 | Proposal Submission |
+| T4 | Proposal Defense |
+| T5 | Requirements |
+| T6 | System Design |
+| T7 | Front-End Development |
+| T8 | Progress Report Submission |
+| T9 | Database Design |
+| T10 | Deliverable 1 Submission |
+| T11 | Internal Defense |
+| T12 | Development Phase (Modules, AI) |
+| T13 | Integration |
+| T14 | Testing and Debugging |
+| T15 | Optimization |
+| T16 | Final Product Delivery |
+
+### 2. Determine the Sequence of the Activities
+
+**Table 1.6.2: Sequence of the activities**
+
+| Activity | Predecessor | Duration in Days |
+|----------|-------------|-----------------:|
+| T1 | None | 12 |
+| T2 | T1 | 9 |
+| T3 | T2 | 4 |
+| T4 | T3 | 11 |
+| T5 | T4 | 12 |
+| T6 | T5 | 12 |
+| T7 | T6 | 19 |
+| T8 | T7 | 2 |
+| T9 | T6 | 20 |
+| T10 | T8, T9 | 2 |
+| T11 | T10 | 11 |
+| T12 | T11 | 45 |
+| T13 | T12 | 13 |
+| T14 | T13 | 13 |
+| T15 | T14 | 13 |
+| T16 | T15 | 11 |
+
+*(T7 Front-End and T9 Database Design both start after System Design, matching the NeoTeach-style branch; Deliverable 1 waits on both the progress-report path and database design.)*
+
+### 3. Draw the Network Diagram
+
+CPM originally was developed as an activity-on-node (AON) network, but some project planners prefer to specify the activities on the arcs. Captain Truck uses an **activity-on-node** diagram in the same style as the NeoTeach sample SRS.
+
+**Figure 1.6.1: Network Diagram of Captain Truck System**
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffffff', 'primaryTextColor': '#000000', 'primaryBorderColor': '#000000', 'lineColor': '#000000', 'secondaryColor': '#ffffff', 'tertiaryColor': '#ffffff', 'background': '#ffffff', 'mainBkg': '#ffffff', 'nodeBorder': '#000000', 'clusterBkg': '#ffffff', 'clusterBorder': '#000000', 'titleColor': '#000000', 'edgeLabelBackground': '#ffffff'}}}%%
 flowchart LR
-  classDef crit fill:#c62828,stroke:#7f0000,color:#fff,stroke-width:2px
-  classDef slack fill:#1565c0,stroke:#0d47a1,color:#fff
-
-  A["A Planning<br/>0|2|2"]:::crit
-  B["B Proposal writing<br/>2|2|4"]:::crit
-  C["C Proposal submit<br/>4|1|5"]:::crit
-  D["D Proposal defense<br/>5|2|7"]:::crit
-  E["E Requirements<br/>7|2|9"]:::crit
-  F["F System design<br/>9|2|11"]:::crit
-  G["G Front-end<br/>11|3|14"]:::crit
-  H["H Progress report<br/>14|1|15<br/>TS=2"]:::slack
-  I["I Database design<br/>14|3|17"]:::crit
-  J["J D1 submit<br/>17|1|18"]:::crit
-  K["K Internal defense<br/>18|2|20"]:::crit
-  L["L Dev + AI<br/>20|10|30"]:::crit
-  M["M Integration<br/>30|2|32"]:::crit
-  N["N Testing<br/>32|2|34"]:::crit
-  O["O Optimization<br/>34|4|38"]:::crit
-  P["P Final delivery<br/>38|2|40"]:::crit
-
-  A --> B --> C --> D --> E --> F --> G
-  G --> H --> J
-  G --> I --> J
-  J --> K --> L --> M --> N --> O --> P
+  Start((Start)) --> T1[T1 Planning]
+  T1 --> T2[T2 Proposal Writing]
+  T2 --> T3[T3 Proposal Submission]
+  T3 --> T4[T4 Proposal Defense]
+  T4 --> T5[T5 Requirements]
+  T5 --> T6[T6 System Design]
+  T6 --> T7[T7 Front-End Development]
+  T6 --> T9[T9 Database Design]
+  T7 --> T8[T8 Progress Report]
+  T8 --> T10[T10 Deliverable 1]
+  T9 --> T10
+  T10 --> T11[T11 Internal Defense]
+  T11 --> T12[T12 Development Phase]
+  T12 --> T13[T13 Integration]
+  T13 --> T14[T14 Testing]
+  T14 --> T15[T15 Optimization]
+  T15 --> T16[T16 Final Delivery]
+  T16 --> End((End))
 ```
+
+**Diagram code (Figure 1.6.1):**
+
+```text
+Start → T1 → T2 → T3 → T4 → T5 → T6
+T6 → T7 → T8 → T10
+T6 → T9 → T10
+T10 → T11 → T12 → T13 → T14 → T15 → T16 → End
+```
+
+### 4. Estimate Activity Completion Time
+
+The time required to complete each activity can be estimated using experience or the estimates of knowledgeable people. Earliest start/finish (ES, EF), latest start/finish (LS, LF) and total slack (\(TS = LS - ES\)) are shown below. Activities with **zero slack** lie on the critical path. T10 cannot start until both T8 and T9 finish (\(ES(T10) = \max(EF(T8), EF(T9))\)).
+
+**Table 1.6.3: Estimation of Activity Completion Time (CPM)**
+
+| Activity | Duration | ES | EF | LS | LF | TS | Critical Path |
+|----------|---------:|---:|---:|---:|---:|---:|:-------------:|
+| T1 | 12 | 0 | 12 | 0 | 12 | 0 | Yes |
+| T2 | 9 | 12 | 21 | 12 | 21 | 0 | Yes |
+| T3 | 4 | 21 | 25 | 21 | 25 | 0 | Yes |
+| T4 | 11 | 25 | 36 | 25 | 36 | 0 | Yes |
+| T5 | 12 | 36 | 48 | 36 | 48 | 0 | Yes |
+| T6 | 12 | 48 | 60 | 48 | 60 | 0 | Yes |
+| T7 | 19 | 60 | 79 | 60 | 79 | 0 | Yes |
+| T8 | 2 | 79 | 81 | 79 | 81 | 0 | Yes |
+| T9 | 20 | 60 | 80 | 61 | 81 | 1 | No |
+| T10 | 2 | 81 | 83 | 81 | 83 | 0 | Yes |
+| T11 | 11 | 83 | 94 | 83 | 94 | 0 | Yes |
+| T12 | 45 | 94 | 139 | 94 | 139 | 0 | Yes |
+| T13 | 13 | 139 | 152 | 139 | 152 | 0 | Yes |
+| T14 | 13 | 152 | 165 | 152 | 165 | 0 | Yes |
+| T15 | 13 | 165 | 178 | 165 | 178 | 0 | Yes |
+| T16 | 11 | 178 | 189 | 178 | 189 | 0 | Yes |
+
+### 5. Identify the Critical Path
+
+The critical path is the longest-duration path through the network. The significance of the critical path is that the activities that lie in it cannot be delayed without delaying the project. Because of its impact on the entire project, critical path analysis is an important aspect of project planning.
+
+By making the network diagram of Captain Truck, there are two possible paths that can be made from the network diagram, and the path identifiers and their per-path duration are given below:
+
+**Path#01:**
+
+1. T1 → T2 → T3 → T4 → T5 → T6 → T9 → T10 → T11 → T12 → T13 → T14 → T15 → T16  
+
+Duration: 12 + 9 + 4 + 11 + 12 + 12 + 20 + 2 + 11 + 45 + 13 + 13 + 13 + 11 = **188 Days**  
+
+After going along path 1, total duration taken by the system is: **188 Days**.
+
+**Path#02:**
+
+2. T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T10 → T11 → T12 → T13 → T14 → T15 → T16  
+
+Duration: 12 + 9 + 4 + 11 + 12 + 12 + 19 + 2 + 2 + 11 + 45 + 13 + 13 + 13 + 11 = **189 Days**  
+
+After going through path 2, total duration taken by the system is: **189 Days**.
+
+**Conclusion:** We choose **Path#02** because it is the longer path; any delay on Path#02 activities delays final delivery. Database Design (T9) has **1 day** of total slack relative to that critical path.
+
+*(Calendar span on the approved Gantt is **226 days** from 03-09-2026 to 16-04-2027 because weekends and milestone gaps sit between bars; CPM above uses contiguous activity durations in the NeoTeach style.)*
+
+### 6. Update CPM Diagram
+
+A new critical path may emerge, and structural changes may be made in the network if project requirements change. As the project progresses, the actual task completion times will be known, and the network diagram can be updated to include this information.
+
+**Figure 1.6.2: Updated Network/CPM Diagram**
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#ffffff', 'primaryTextColor': '#000000', 'primaryBorderColor': '#000000', 'lineColor': '#000000', 'secondaryColor': '#ffffff', 'tertiaryColor': '#ffffff', 'background': '#ffffff', 'mainBkg': '#ffffff', 'nodeBorder': '#000000', 'clusterBkg': '#ffffff', 'clusterBorder': '#000000', 'titleColor': '#000000', 'edgeLabelBackground': '#ffffff'}}}%%
+flowchart LR
+  Start((Start)) --> T1[T1 Planning]
+  T1 --> T2[T2 Proposal Writing]
+  T2 --> T3[T3 Proposal Submission]
+  T3 --> T4[T4 Proposal Defense]
+  T4 --> T5[T5 Requirements]
+  T5 --> T6[T6 System Design]
+  T6 --> T7[T7 Front-End Development]
+  T6 --> T9[T9 Database Design]
+  T7 --> T8[T8 Progress Report]
+  T8 --> T10[T10 Deliverable 1]
+  T9 --> T10
+  T10 --> T11[T11 Internal Defense]
+  T11 --> T12[T12 Development Phase]
+  T12 --> T13[T13 Integration]
+  T13 --> T14[T14 Testing]
+  T14 --> T15[T15 Optimization]
+  T15 --> T16[T16 Final Delivery]
+  T16 --> End((End))
+```
+
+**Updated CPM Path Duration:**
+
+1. T1 → T2 → T3 → T4 → T5 → T6 → T7 → T8 → T10 → T11 → T12 → T13 → T14 → T15 → T16  
+
+Duration: 12 + 9 + 4 + 11 + 12 + 12 + 19 + 2 + 2 + 11 + 45 + 13 + 13 + 13 + 11 = **189 Days**  
+
+After going along the updated critical path, total duration taken by the system is: **189 Days**.
 
 ---
 
 ## 1.7 Gantt chart
 
-The Gantt chart follows the **Waterfall Model**. Phases are sequential: planning and proposal, requirements, system design, implementation (front-end, database, then core modules and AI), integration, testing and debugging, optimization, and final product delivery. University milestones are shown as short bars on the same timeline.
+The Gantt chart follows the **Waterfall Model**. Phases are sequential: planning and proposal, requirements, system design, front-end development, progress report, database design, Deliverable 1, internal defense, development (core modules and AI), integration, testing and debugging, optimization, and final product delivery. University milestones and member assignments (Umair, Shahzaib, Ali) are shown on the same timeline.
 
-**Figure 1.2: Captain Truck Waterfall Gantt chart**
+**Figure 1.7.1: Gantt Chart**
 
-```mermaid
-gantt
-  title Captain Truck — Waterfall schedule (Sep 2026 – Jun 2027)
-  dateFormat  YYYY-MM-DD
-  axisFormat  %b %Y
+![Figure 1.7.1: Gantt Chart — Captain Truck (03-09-2026 to 16-04-2027, 226 days)](figures/Figure_1_7_1_Gantt_Chart.png)
 
-  section Planning / Proposal
-  A Planning                         :a, 2026-09-01, 14d
-  B Proposal writing                 :b, after a, 14d
-  C Proposal submission              :milestone, c, after b, 7d
-  D Proposal defense                 :d, after c, 14d
+**Project summary (from Figure 1.7.1):**
 
-  section Requirements / Design
-  E Requirements                     :e, after d, 14d
-  F System design                    :f, after e, 14d
+| Field | Value |
+|-------|-------|
+| Project | Captain Truck |
+| Start | 03-09-2026 |
+| Finish | 16-04-2027 |
+| Duration | 226 days |
+| Resources | Umair, Shahzaib, Ali |
 
-  section Implementation
-  G Front-end development            :g, after f, 21d
-  H Progress report submission       :milestone, h, after g, 7d
-  I Database design                  :i, after g, 21d
-  J Deliverable 1 submission         :milestone, j, after i, 7d
-  K Internal defense                 :k, after j, 14d
-  L Development phase Core + AI      :l, after k, 70d
+**Table 1.12: Waterfall phase plan and milestones (aligned to Figure 1.7.1)**
 
-  section Integration / Test / Deliver
-  M Integration                      :m, after l, 14d
-  N Testing and debugging            :n, after m, 14d
-  O Optimization                     :o, after n, 28d
-  P Final product delivery           :p, after o, 14d
-```
-
-**Table 1.12: Waterfall phase plan and milestones**
-
-| Phase | Content | Gantt weeks | Calendar |
-|-------|---------|-------------|----------|
-| Planning / Proposal | Planning, proposal writing, submission, defense | W1–W6 | Sep–Oct 2026 |
-| Requirements | Requirements analysis | W7–W8 | Oct 2026 |
-| System design | Architecture and detailed design | W9–W10 | Nov 2026 |
-| Implementation (UI / DB) | Front-end development; progress report; database design | W11–W16 | Nov 2026–Jan 2027 |
-| Milestones | Deliverable 1; internal defense | W17–W18 | Jan 2027 |
-| Implementation (core) | Core modules and AI trip-cost model | W19–W28 | Jan–Mar 2027 |
-| Integration | System integration | W29–W30 | Apr 2027 |
-| Testing | Testing and debugging | W31–W32 | Apr 2027 |
-| Optimization | Performance and polish | W33–W36 | May 2027 |
-| Delivery | Final product delivery | W37–W38 | Jun 2027 |
+| Phase | Content | Calendar |
+|-------|---------|----------|
+| Planning | Project scope; feasibility and work plan | 03-09-2026 – 14-09-2026 |
+| Proposal Writing | Problem statement; proposal draft | 16-09-2026 – 24-09-2026 |
+| Proposal Submission | Compile and submit proposal | 25-09-2026 – 28-09-2026 |
+| Proposal Defense | Defense slides; proposal defense | 29-09-2026 – 09-10-2026 |
+| Requirements | Requirement gathering; SRS | 12-10-2026 – 23-10-2026 |
+| System Design | Architecture design; UI/UX design | 26-10-2026 – 06-11-2026 |
+| Front-End Development | Mobile app screens; Admin panel screens | 09-11-2026 – 27-11-2026 |
+| Progress Report Submission | Compile and submit progress report | 01-12-2026 – 02-12-2026 |
+| Database Design | Schema design; migrations and seed | 03-12-2026 – 22-12-2026 |
+| Deliverable 1 Submission | Package and submit Deliverable 1 | 23-12-2026 – 24-12-2026 |
+| Internal Defense | Defense material; internal defense | 29-12-2026 – 08-01-2027 |
+| Development Phase | Core modules; AI trip-cost model; Admin operations | 12-01-2027 – 25-02-2027 |
+| Integration | API integration; client integration | 26-02-2027 – 10-03-2027 |
+| Testing and Debugging | System testing; bug fixing | 11-03-2027 – 23-03-2027 |
+| Optimization | Performance tuning; UI polish | 24-03-2027 – 05-04-2027 |
+| Final Product Delivery | Final documentation; deployment and handover | 06-04-2027 – 16-04-2027 |
 
 ---
 
@@ -514,8 +646,8 @@ The Captain Truck team has three members (University of Gujrat), supervised by *
 | Member | Role | Skill set |
 |--------|------|-----------|
 | Muhammad Umair 23011598-062 | Team lead; NestJS API, realtime, payments, commission | TypeScript, NestJS, Prisma/PostgreSQL, Socket.IO, JWT auth, Stripe Test Mode, Redis, Git, Oracle/PM2 deploy |
-| Muhammad Ali *[Roll No.]* | Flutter Customer & Driver apps; maps & on-device AI | Flutter/Dart, `flutter_map`, TFLite cost model, ML Kit Smart Reply, FCM client, Android release builds |
-| Muhammad Shahzaib *[Roll No.]* | React Admin Panel; documentation; testing | React + Vite + Tailwind, Leaflet/OSM admin maps, technical writing, e2e/smoke testing, Vercel |
+| Muhammad Ali 23011598-063 | Flutter Customer & Driver apps; maps & on-device AI | Flutter/Dart, `flutter_map`, TFLite cost model, ML Kit Smart Reply, FCM client, Android release builds |
+| Muhammad Shahzaib 23011598-109 | React Admin Panel; documentation; testing | React + Vite + Tailwind, Leaflet/OSM admin maps, technical writing, e2e/smoke testing, Vercel |
 
 Each module has a primary owner and a second member who reviews it, so no part of the system depends on one person.
 
@@ -523,26 +655,26 @@ Each module has a primary owner and a second member who reviews it, so no part o
 
 ## 1.9 Task and Member Assignment Table
 
-**Table 1.14: Task and member assignment**
+**Table 1.14: Task and member assignment** (aligned to Figure 1.7.1)
 
-| ID | Task | Weeks | Assigned to |
-|----|------|------:|-------------|
-| A | Planning | 2 | All (lead: Umair) |
-| B | Proposal writing | 2 | All |
-| C | Proposal submission | 1 | All |
-| D | Proposal defense | 2 | All |
-| E | Requirements | 2 | All (lead: Umair) |
-| F | System design | 2 | Umair, Shahzaib |
-| G | Front-end development | 3 | Ali, Shahzaib |
-| H | Progress report submission | 1 | Shahzaib (all contribute) |
-| I | Database design | 3 | Umair |
-| J | Deliverable 1 submission | 1 | All |
-| K | Internal defense | 2 | All |
-| L | Development phase (core modules, AI model) | 10 | Umair (API), Ali (apps/AI), Shahzaib (admin) |
-| M | Integration | 2 | All (lead: Umair) |
-| N | Testing and debugging | 2 | All (lead: Shahzaib) |
-| O | Optimization | 4 | Umair, Ali |
-| P | Final product delivery | 2 | All (lead: Umair) |
+| ID | Task | Days | Assigned to |
+|----|------|-----:|-------------|
+| T1 | Planning | 12 | Umair, Shahzaib |
+| T2 | Proposal Writing | 9 | Umair, Shahzaib |
+| T3 | Proposal Submission | 4 | Shahzaib, Umair |
+| T4 | Proposal Defense | 11 | Shahzaib, Umair |
+| T5 | Requirements | 12 | Ali, Shahzaib |
+| T6 | System Design | 12 | Umair, Shahzaib |
+| T7 | Front-End Development | 19 | Ali, Shahzaib |
+| T8 | Progress Report Submission | 2 | Shahzaib, Umair |
+| T9 | Database Design | 20 | Umair |
+| T10 | Deliverable 1 Submission | 2 | Shahzaib, Umair |
+| T11 | Internal Defense | 11 | Shahzaib, Umair |
+| T12 | Development Phase (Modules, AI) | 45 | Umair, Ali, Shahzaib |
+| T13 | Integration | 13 | Umair, Ali |
+| T14 | Testing and Debugging | 13 | Shahzaib, Umair |
+| T15 | Optimization | 13 | Umair, Ali |
+| T16 | Final Product Delivery | 11 | Shahzaib, Umair |
 
 ---
 
@@ -624,7 +756,7 @@ Probability (P) and impact (I) are rated 1–5; the list is sorted by exposure (
 | R7 | Unauthorized cross-role access (IDOR) | 2 | 5 | 10 | Role guards + ownership checks; IDOR sweep before delivery |
 | R8 | Team member unavailable during exams | 3 | 3 | 9 | Second owner per module; slack on progress-report task (H) |
 | R9 | On-device AI cost outliers vs distance | 3 | 3 | 9 | Server clamps/rejects outliers; bill uses locked base rate only |
-| R10 | Late discovery of defects (Waterfall late testing) | 3 | 4 | 12 | Design reviews at system-design gate; unit tests during development phase; dedicated testing phase W31–W32 |
+| R10 | Late discovery of defects (Waterfall late testing) | 3 | 4 | 12 | Design reviews at system-design gate; unit tests during development phase; dedicated testing phase W26–W27 |
 
 ---
 
@@ -715,9 +847,9 @@ flowchart TB
 |------|--------|
 | **Process / SDLC model** | **Waterfall Model** (instructor requirement) |
 | **Not used as SDLC** | Incremental, Agile/Scrum, Spiral |
-| **Schedule tools** | CPM + Gantt (Figure 1.2 matches the approved Waterfall chart) |
-| **Calendar** | September 2026 → June 2027 |
-| **Critical path length** | 40 weeks |
+| **Schedule tools** | CPM network (Figures 1.6.1–1.6.2) + Gantt (Figure 1.7.1) |
+| **Calendar** | 03-09-2026 → 16-04-2027 (226 calendar days) |
+| **Critical path length** | 189 activity-days (Path#02); Gantt calendar span 226 days |
 
 ---
 

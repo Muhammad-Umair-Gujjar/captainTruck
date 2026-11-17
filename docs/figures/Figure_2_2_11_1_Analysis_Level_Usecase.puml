@@ -1,0 +1,137 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName "Times New Roman"
+skinparam defaultFontSize 11
+skinparam ActorBackgroundColor white
+skinparam ActorBorderColor black
+skinparam UsecaseBackgroundColor white
+skinparam UsecaseBorderColor black
+skinparam PackageBackgroundColor white
+skinparam PackageBorderColor black
+skinparam ArrowColor black
+skinparam Padding 2
+top to bottom direction
+
+actor "Customer" as Customer
+actor "Driver" as Driver
+actor "Administrator" as Admin
+
+rectangle "Captain Truck: Real-Time Logistics and Dispatch Platform" {
+  package "1. Auth" as P1 {
+    usecase "UC_Register_Customer" as R
+    usecase "UC_Login" as L
+    usecase "UC_Session_Manage" as S
+    usecase "UC_Get_Me" as ME
+  }
+
+  package "2. Profiles / Users" as P2 {
+    usecase "UC_Update_Profile" as UP
+    usecase "UC_Admin_Manage_Users" as AU
+    usecase "UC_Admin_Create_Driver" as AD
+  }
+
+  package "3. Truck Types & Rates" as P3 {
+    usecase "UC_List_Truck_Types" as LT
+    usecase "UC_Admin_Truck_Types" as TT
+    usecase "UC_Admin_Base_Rates" as BR
+  }
+
+  package "4-6. Dispatch / Route / Fare" as P4 {
+    usecase "UC_Create_Dispatch" as CD
+    usecase "UC_View_Dispatches" as VD
+    usecase "UC_Cancel_Dispatch" as CX
+    usecase "UC_Generate_Routes" as GR
+    usecase "UC_Select_Route" as SR
+    usecase "UC_Compute_Bill" as CB
+    usecase "UC_Propose_Fare" as PF
+  }
+
+  package "7. Approval / Willingness / Assign" as P7 {
+    usecase "UC_Admin_Review_Dispatch" as AR
+    usecase "UC_Admin_Reject_Dispatch" as AJ
+    usecase "UC_Driver_Willingness" as DW
+    usecase "UC_Admin_Assign_Driver" as AA
+  }
+
+  package "8-9. Trip / GPS / Offline" as P8 {
+    usecase "UC_Update_Trip_Status" as US
+    usecase "UC_Track_Trip_GPS" as TG
+    usecase "UC_Offline_Maps" as OM
+    usecase "UC_Complete_Trip" as CP
+  }
+
+  package "10-11. Chat & Media" as P10 {
+    usecase "UC_Chat_Message" as CH
+    usecase "UC_Upload_Media" as UM
+  }
+
+  package "12-13. Payments & Ledger" as P12 {
+    usecase "UC_Pay_Trip" as PY
+    usecase "UC_Confirm_Commission" as CC
+    usecase "UC_Ledger_Adjust" as LA
+  }
+
+  package "14-15. Push & Admin UI" as P14 {
+    usecase "UC_Manage_Push_Tokens" as PT
+    usecase "UC_Admin_Ops_Panel" as AP
+  }
+}
+
+' Customer associations
+Customer --> R
+Customer --> L
+Customer --> S
+Customer --> ME
+Customer --> UP
+Customer --> LT
+Customer --> CD
+Customer --> VD
+Customer --> CX
+Customer --> GR
+Customer --> SR
+Customer --> CB
+Customer --> PF
+Customer --> TG
+Customer --> CH
+Customer --> UM
+Customer --> PY
+Customer --> PT
+
+' Driver associations (no register)
+Driver --> L
+Driver --> S
+Driver --> ME
+Driver --> UP
+Driver --> DW
+Driver --> US
+Driver --> TG
+Driver --> OM
+Driver --> CP
+Driver --> CH
+Driver --> UM
+Driver --> PY
+Driver --> PT
+
+' Admin associations
+Admin --> L
+Admin --> S
+Admin --> ME
+Admin --> AU
+Admin --> AD
+Admin --> TT
+Admin --> BR
+Admin --> AR
+Admin --> AJ
+Admin --> DW
+Admin --> AA
+Admin --> US
+Admin --> TG
+Admin --> CP
+Admin --> CH
+Admin --> UM
+Admin --> CC
+Admin --> LA
+Admin --> AP
+
+@enduml

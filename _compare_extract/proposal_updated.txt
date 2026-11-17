@@ -1,0 +1,432 @@
+Captain Truck — Updated FYP Proposal | Page 1
+UNIVERSITY OF GUJRAT
+Faculty of Computing & IT
+Department of Software Engineering
+FINAL YEAR PROJECT PROPOSAL
+Captain Truck: A Comprehensive Real-Time
+Logistics and Dispatch Platform
+Submitted By
+Muhammad Umair | 23011598-062
+Muhammad Ali | 23011598-063
+Muhammad Shahzaib | 23011598-109
+Supervised By
+Mr. Touqeer Ul Ameen
+Updated proposal reflecting the agreed NestJS + PostgreSQL architecture, 15 functional
+modules, offline-aware maps, AI-assisted fare proposals, and hybrid cash / online
+test-payment workflows.
+
+-- 1 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 2
+Table of Contents
+1.1 Introduction
+1.1.1 Problem Statement
+1.1.2 Proposed Solution and Distinguishing Features
+1.1.3 Comparative Positioning
+1.2 Project Title
+1.3 Project Overview Statement
+1.4 Project Goal and Objectives
+1.4.1 Project Success Criteria
+1.4.2 Assumptions, Risks and Obstacles
+1.5 High-Level System Components
+1.6 Functional Modules and How They Work
+1.7 Exclusions and Boundaries
+1.8 Application Architecture
+1.9 Development Plan and Timeline
+1.10 Hardware and Software Specifications
+1.11 Tools and Technologies with Reasoning
+1.12 Security, Privacy, and Data Management
+1.13 Testing and Evaluation
+1.14 Optional Future Enhancements
+1.15 Conclusion
+
+-- 2 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 3
+1.1 Introduction
+Truck-based logistics depends on coordination among customers, transport agents, truck owners, drivers, and administrators.
+Booking and dispatch activities may be managed through calls, messages, paper records, and separate tracking tools. These
+fragmented workflows can make it difficult to compare routes, establish an agreed fare, confirm driver assignment, monitor a
+trip, and reconcile collected money.
+Captain Truck is a mobile-and-web logistics and dispatch platform designed to coordinate full-truck transportation requests
+from initial booking to trip completion and financial reconciliation. It will provide three connected interfaces: a Flutter Customer
+Mobile Application, a Flutter Driver Mobile Application, and a React-based Web Admin Dashboard. A NestJS backend will
+enforce business rules and connect the clients to a PostgreSQL database and external services.
+The platform will combine OpenStreetMap-based geocoding and routing, an on-device AI-assisted fare estimate,
+customer-proposed pricing within an administrator-configured adjustment range, human-reviewed dispatch and driver
+assignment, real-time GPS tracking, offline map access for drivers, in-app chat, notifications, media uploads, and two
+payment collection paths. Cash payments will be collected by the driver; online payments will be collected by the platform
+through Stripe Test Mode for demonstration and testing.
+Captain Truck is intended as a digital full-truckload booking and dispatch platform inspired by the intermediary role found in
+Pakistan’s transport market. It is not proposed as a complete consignment/bilty management system; detailed multi-sender
+load consolidation and full goods-consignment accounting are outside the current scope.
+1.1.1 Problem Statement
+Customers may find it difficult to compare route options and understand an estimated freight amount before requesting a
+truck. Drivers and operators may rely on manual communication to receive trip details and report progress. Administrators
+may need to coordinate approvals, driver willingness, assignments, trip monitoring, and commission collection across
+separate channels. Cash and online transactions also require distinct records to prevent confusion between customer fare,
+platform commission, and amounts owed to a truck operator.
+The project addresses these problems by bringing dispatch requests, route comparison, AI-assisted pricing, admin approval,
+driver assignment, live location, trip communication, payment records, and reconciliation into one controlled platform.
+1.1.2 Proposed Solution and Distinguishing Features
+• Customer-adjustable AI estimate: the model suggests a fare, but the customer proposes the final amount within a
+configurable range, such as ±10% or ±20%. The admin can approve it or reject it with a reason.
+• Admin-mediated assignment: the system does not automatically assign a driver. The admin sends a direct willingness
+inquiry to a suitable driver and assigns the trip after confirmation.
+• Route comparison with price context: the customer can compare up to three OSRM route alternatives using distance,
+estimated duration, route geometry, and an estimated cost.
+• Offline-aware driver map: the driver downloads supported map tiles for the planned route area before departure. The app
+can display cached maps and route details when internet connectivity is lost.
+• Hybrid payment and reconciliation: cash is collected by the driver; online payments are collected by the platform. The
+system maintains separate records for fare payment, platform commission, driver collection, operator payable, and
+remittance.
+• On-device assistance: the prototype uses a TensorFlow Lite-compatible fare-estimation model and ML Kit Smart Reply
+suggestions, avoiding a paid cloud generative-AI dependency.
+1.1.3 Comparative Positioning
+Captain Truck belongs to the digital truck-booking and freight-dispatch category. Freight marketplaces, load boards, and
+traditional transport agents already address parts of the same problem. Captain Truck’s proposed emphasis is a single
+controlled workflow combining customer route selection, an AI-informed but customer-adjustable fare, admin-mediated
+assignment, offline-aware driver mapping, live tracking, chat, and method-specific financial reconciliation.
+Any final comparison table with named commercial products should be checked against current public product documentation
+before submission. Feature availability varies by region, subscription, and product version; this proposal therefore does not
+
+-- 3 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 4
+claim that every listed feature is unique to Captain Truck.
+1.2 Project Title
+Captain Truck: A Comprehensive Real-Time Logistics and Dispatch Platform
+1.3 Project Overview Statement
+Captain Truck provides a coordinated ecosystem for customers who need full-truck transportation, drivers who fulfil approved
+trips, and administrators who manage dispatch operations. Customers submit pickup and destination details, select a route,
+review an AI-suggested estimate, propose a fare, and agree to pay the amount they submit. Administrators review the
+request, approve or reject it, and arrange a willing driver and truck. During an active trip, authorized users can view location
+updates, communicate through in-app chat, and receive notifications. The system records cash and online payment flows
+separately and supports commission reconciliation through an auditable ledger.
+Project Manager: Muhammad Umair. Project Members: Muhammad Umair (23011598-062), Muhammad Ali (23011598-063),
+and Muhammad Shahzaib (23011598-109). Supervisor: Mr. Touqeer Ul Ameen.
+1.4 Project Goal and Objectives
+Project Goal: To develop a secure, real-time logistics and dispatch platform that connects customers with truck drivers,
+supports route selection and AI-assisted customer-proposed pricing, enables admin-controlled dispatch and trip monitoring,
+and records cash and online payments with transparent financial reconciliation.
+• Develop secure authentication, JWT access/refresh token handling, logout, account status controls, and role-based
+authorization for customers, drivers, and administrators.
+• Build customer and driver Flutter applications and a React/Vite/Tailwind admin dashboard connected to a NestJS API and
+PostgreSQL database.
+• Enable customers to submit truck requests, compare up to three route options, receive an AI estimate, adjust the proposed
+fare within an admin-configured limit, and track request status.
+• Implement admin approval/rejection with a mandatory reason, direct driver-willingness inquiry, and manual driver/truck
+assignment.
+• Provide trip lifecycle management, real-time GPS tracking, offline map access for drivers, in-app chat, media upload, and
+push notifications.
+• Implement on-device fare estimation and Smart Reply as bounded FYP prototype features, with documented evaluation
+and limitations.
+• Support cash collection by the driver and online payment collection by the platform through Stripe Test Mode, with distinct
+reconciliation paths and verified server-side payment status.
+• Evaluate security, functional correctness, usability, offline recovery, route selection, payment-state transitions, and
+financial-ledger accuracy using defined test cases and representative users.
+1.4.1 Project Success Criteria
+• A user can register or log in and only access functionality permitted for their role.
+• A customer can create a dispatch request, compare available routes, submit a fare proposal within the allowed range, and
+see the request status.
+• An administrator can review a request, approve or reject it with a reason, ask a driver whether they are willing to accept it,
+and assign a confirmed driver and truck.
+• A driver can access assigned trip details, update trip status, use cached map data where available, and share location
+updates when connectivity permits.
+• Customer and administrator tracking views display the latest server-received location and its timestamp; stale/offline status
+is shown when updates stop.
+
+-- 4 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 5
+• Cash and test-mode online payment records are processed through separate, testable workflows without duplicating
+transactions or mixing commission with fare.
+• The system maintains an auditable record of approved fares, payment events, commission calculations, collections,
+remittances, and administrative adjustments.
+• The prototype’s AI output is labelled as an estimate and evaluated against a simple baseline; no claim of production-grade
+freight-price accuracy is made.
+1.4.2 Assumptions, Risks and Obstacles
+Assumptions: customers and drivers have compatible smartphones; drivers grant GPS permissions; the driver downloads
+supported map data before travel when offline access is required; administrators register and manage driver accounts; and
+external mapping, notification, media, and payment test services remain available under their terms.
+Risks: public geocoding/routing services may rate-limit or become unavailable; offline tile coverage and storage vary by
+device and provider; GPS can be inaccurate or delayed; AI training data may be sparse; cash collection and remittance may
+be disputed; online payment webhooks may be delayed or repeated; and payment-provider production eligibility may differ
+from test-mode availability.
+Mitigations: use timeouts and graceful fallbacks for external services; cache route details and supported map tiles; show
+location freshness; validate fares on the backend; use unique payment references and idempotent webhook processing;
+maintain audit records; and clearly label Stripe integration as test-only for this FYP unless production eligibility is
+independently confirmed.
+1.5 High-Level System Components
+The platform has three client applications, a central API/business-logic tier, a persistent data tier, a real-time communication
+layer, external service integrations, and on-device capabilities. The 15 functional modules are described in Section 1.6.
+1.6 Functional Modules and How They Work
+Module 1 — Authentication and Authorization
+Customers can register and log in. Drivers are created by an administrator rather than through public driver registration. The
+system issues short-lived JWT access tokens and refresh tokens, supports logout and a current-user endpoint, and applies
+role-based access control for Customer, Driver, and Admin. Repeated failed logins trigger a temporary lockout or rate limit.
+Passwords are stored using a suitable password-hashing algorithm; tokens and secrets are not stored in plaintext.
+Module 2 — User Management
+Users can view and update permitted profile fields. Driver profiles include licence details and availability information.
+Administrators can search and filter users and drivers, enable or disable accounts, edit administrative profile fields, and
+create driver accounts. Disabled accounts cannot start new authenticated sessions or perform protected actions.
+Module 3 — Truck Types and Base Rates
+Administrators manage truck categories and their base rates. Rate changes are versioned with an effective date. When a
+dispatch request is created, the applicable rate version is copied into the request so later rate changes do not silently alter an
+existing proposal. Example truck categories and rates are configurable demonstration data, not fixed market prices.
+Module 4 — Dispatch Request Management
+A customer enters truck count, truck type(s), pickup and drop-off addresses, optional map pins, desired pickup date, and
+notes. The request follows a controlled lifecycle such as Draft (if drafts are implemented), Awaiting Route Selection, Pending
+Admin, Approved or Rejected, and then Assigned once a driver/truck is confirmed. Cancellation is permitted only in defined
+pre-trip states. A trip record is created only after the request has been approved and assigned.
+
+-- 5 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 6
+Module 5 — Route Selection and OpenStreetMap Integration
+The app uses geocoding/autocomplete services such as Nominatim and Photon and requests route alternatives from OSRM.
+When available, it displays up to three alternatives with distance, estimated duration, and route geometry. The fastest route
+can be labelled Recommended, but the customer remains able to select another available route. If only one route is returned
+or routing fails, the app displays the available result or a clear retry/fallback message. Public service usage must follow the
+respective providers’ policies.
+Module 6 — AI-Assisted Fare Estimation and Customer Proposal
+A TensorFlow Lite-compatible on-device model provides an estimated trip cost using the prototype’s available features,
+initially distance-based. The estimate is combined with the locked truck-type base rate and truck count according to the
+documented pricing formula. The customer may propose an amount within an administrator-configured adjustment band
+around the estimate (for example ±10% or ±20%). The backend validates the range and records the estimate, adjustment
+limit, customer proposal, and rate version. The submitted proposal is not treated as approved until the administrator accepts
+it. The AI result is advisory, not a guarantee of market price.
+The prototype may use the most recent 20 completed trips as a limited training/evaluation window. Training/retraining and
+model-version distribution must be implemented as a separate supported process; TensorFlow Lite inference alone does not
+automatically train a model. The final implementation will document exactly where training occurs and how model versions
+are evaluated.
+Module 7 — Admin Approval, Driver Willingness and Assignment
+Administrators review route details, truck count/type, the AI estimate, the customer’s proposed fare, the allowed adjustment
+band, and the total bill. They may approve or reject the request; rejection requires a reason visible to the customer. For
+approved requests, the admin directly asks a candidate driver whether they are willing to accept the trip. Only after a positive
+response does the admin assign the driver and truck. There is no automatic driver matching. The approved fare is locked;
+changes require an explicit amendment or reapproval record.
+Module 8 — Trip Management
+A trip becomes active only after request approval and assignment. The driver receives pickup, destination, route, customer
+contact/chat, and payment instructions. The driver updates defined statuses such as Assigned, En Route to Pickup, Arrived
+at Pickup, In Transit, Arrived at Destination, and Completed. The system validates allowed transitions and records
+timestamps. Payment settlement and trip completion are related but separate states; exceptional completion with an
+outstanding payment must follow an explicit admin-controlled rule.
+Module 9 — Real-Time GPS Tracking and Offline Maps
+The driver app sends GPS updates during the permitted trip stages through Socket.IO. The backend associates updates with
+the correct trip and broadcasts them to authorized customer and admin views. The system stores the latest received location
+and timestamp and handles temporary disconnection by showing stale status. The driver downloads supported map tiles for
+the planned route area before departure and caches route geometry and essential trip details. GPS can continue locally
+without internet, but remote users cannot receive live updates until connectivity returns. Queued updates must be
+timestamped so delayed points are not mistaken for the current location. Offline map downloads must use a tile provider
+whose licence and terms permit the intended caching.
+Module 10 — In-App Chat and Smart Reply
+The platform supports trip-related customer-driver and driver-admin conversations. Messages can include text, images, voice
+notes, and preset messages. Socket.IO provides live delivery where connected; message records remain in the database.
+ML Kit Smart Reply may suggest up to three English replies based on recent messages on the device. Suggestions are
+optional and are not sent automatically. Reporting, input validation, access checks, and a documented 90-day
+message-retention/cleanup policy are included. Chat becomes read-only after the relevant trip is closed, subject to the final
+operational rules.
+Module 11 — Media Upload
+The client requests a short-lived signed upload configuration from the backend and uploads supported images or voice files
+directly to Cloudinary. The backend stores only validated metadata and the resulting asset reference. File type, size, access
+permissions, and ownership are checked. Secret Cloudinary credentials remain on the server; they are never embedded in
+the mobile or web clients.
+
+-- 6 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 7
+Module 12 — Payments: Cash and Stripe Test Mode
+Captain Truck uses two payment paths. For cash, the driver collects the agreed fare at pickup and records the collection; the
+platform tracks the expected amount and any confirmation or discrepancy. For online payment, the customer pays through
+Stripe Test Mode, the platform receives the payment, and the backend verifies the final state through signed webhooks and
+provider references. A browser/app success redirect alone does not mark a payment as paid. Repeated webhook events are
+handled idempotently. The Stripe integration is for demonstration and testing; production availability for the intended business
+must be verified separately.
+Payment states are distinct from trip states. The system records the agreed fare, payment method, amount,
+transaction/reference ID, status, timestamps, and any failure or refund/test reversal where implemented. Online collection
+creates an amount payable to the truck operator after the platform’s agreed commission and any explicitly modelled
+adjustments. Cash collection creates a potential commission remittance due from the driver/operator to the platform. These
+are separate accounting directions.
+Module 13 — Commission Ledger and Reconciliation
+For each trip, the backend calculates the platform commission according to the configured policy and records it separately
+from the customer fare. For cash trips, the ledger records expected commission, amount remitted, outstanding balance, and
+admin confirmation. For online trips, the ledger records the platform-collected fare, commission, and operator payable. The
+admin can review discrepancies and record permitted adjustments with a reason and audit trail. Financial values are stored
+using integer minor units (for example, paisa) rather than floating-point numbers.
+Module 14 — Push Notifications
+The client registers and refreshes its Firebase Cloud Messaging token with the backend and can remove it on logout or token
+rotation. Notifications inform users about request submission, approval/rejection, driver willingness/assignment, trip status
+changes, payment events, and other defined events. Notifications contain minimal sensitive information; the app retrieves
+protected details from the API after authorization. FCM is used for push delivery, not as the primary database.
+Module 15 — Admin Dashboard and Operational Controls
+The React, Vite, and Tailwind dashboard gives administrators a central view of dispatch counts, pending requests, request
+details, routes, fare estimates and proposals, approvals/rejections, driver willingness, assignments, active trips, user/driver
+management, truck types and rate history, payment records, commission ledgers, and operational status. The dashboard
+communicates with the NestJS API; it does not directly modify PostgreSQL or bypass backend authorization. Live trip
+locations and operational updates use authorized real-time channels.
+1.7 Exclusions and Boundaries
+• No live Stripe merchant/payment production claim; Stripe Test Mode is used for FYP demonstration unless production
+eligibility is independently confirmed.
+• No in-app wallet, escrow, automatic bank payout, or automated settlement to truck operators.
+• No automatic driver matching, bidding marketplace, or driver broadcast; admin-mediated willingness and assignment are
+used.
+• No hardware GPS trackers, vehicle telematics, IoT sensors, or fuel sensors; tracking relies on the driver’s smartphone.
+• No NADRA integration, biometric verification, or automated government identity verification.
+• No multi-stop route planning or manual route editing in the initial scope.
+• No guaranteed production-grade AI pricing accuracy; the model is an evaluated FYP prototype and its output remains
+advisory.
+• No full traditional bilty/consignment workflow, multi-sender cargo consolidation, warehouse management, or freight
+forwarding suite.
+• No multilingual UI in the initial release; Smart Reply is English-only.
+• Advanced analytics/export, rating and review, and other optional features may be deferred if the core modules require
+additional time.
+
+-- 7 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 8
+1.8 Application Architecture
+1. Presentation Tier
+Flutter Customer App and Flutter Driver App target Android and, where supported by testing resources, iOS. The
+React.js/Vite/Tailwind Admin Dashboard runs in a modern browser.
+2. API and Business Logic Tier
+NestJS exposes versioned REST endpoints under /api/v1 for account management, truck types, dispatch requests, routes,
+fare proposals, approvals, assignments, trips, payments, ledger entries, media signing, and notifications. DTO validation,
+authentication guards, role checks, rate limits, and service-layer business rules are enforced on the backend.
+3. Persistent Data Tier
+PostgreSQL stores users, driver profiles, truck types, rate versions, dispatch requests, route options/selections, fare
+proposals, trips, assignments, GPS latest/history records as scoped by retention policy, conversations, messages, media
+metadata, payment records, commission entries, remittances, notifications, and audit events. Transactions and constraints
+protect important state changes and financial consistency.
+4. Real-Time Layer
+Socket.IO supports authenticated trip-room location updates, chat delivery, and authorized admin operational events. Redis
+may be added as a Socket.IO adapter/shared coordination layer when multiple backend instances are deployed; it is not the
+primary database. A single-instance FYP deployment can use a simpler configuration while preserving authorization and
+room boundaries.
+5. External Services
+OpenStreetMap-related services provide map tiles, geocoding/autocomplete, and OSRM routing; Cloudinary handles media
+assets; Firebase Cloud Messaging delivers push notifications; Stripe Test Mode demonstrates online payment flow.
+External-service failure must not bypass backend validation or corrupt financial state.
+6. On-Device AI and Offline Capability
+TFLite-compatible inference estimates trip cost locally; ML Kit provides optional Smart Reply suggestions. The driver app
+caches route details and permitted map tiles for offline display. Local GPS collection can continue offline, but server-side
+tracking, remote chat, notifications, and payment verification require connectivity and synchronize or resume when service
+returns.
+Dispatch and payment flow
+Customer authenticates → creates request → selects route → receives AI estimate → submits an allowed fare proposal →
+backend validates and records it → admin approves or rejects → admin confirms driver willingness and assigns driver/truck
+→ trip begins → driver and customer/admin use tracking/chat → fare is collected through cash or test-mode online payment
+→ platform commission and operator payable/remittance are reconciled → trip is closed under the defined status rules.
+1.9 Development Plan and Timeline
+Planned duration: September 2026 to June 2027 (approximately two semesters, subject to the department calendar). The
+plan is iterative; integration and testing will occur throughout development.
+• Month 1: requirements confirmation, stakeholder review, user stories, scope baseline, architecture, database ERD, and
+interface wireframes.
+• Months 2–3: PostgreSQL schema, NestJS project structure, authentication/RBAC, user management, truck types, rate
+history, and core API tests.
+• Months 3–4: customer request creation, geocoding, route alternatives, AI estimate integration, customer fare proposal, and
+admin approval workflow.
+• Months 4–5: driver app, willingness inquiry, assignment, trip lifecycle, GPS tracking, offline map caching, and reconnection
+handling.
+• Months 5–6: chat, media upload, FCM notifications, and admin dashboard operational views.
+• Months 6–7: cash collection, Stripe Test Mode, commission ledger, reconciliation, webhook security, and audit records.
+
+-- 8 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 9
+• Months 7–8: integration testing, authorization/security tests, offline scenarios, payment idempotency, AI baseline
+evaluation, usability testing, and bug fixing.
+• Months 9–10: deployment/demo preparation, documentation, results analysis, final report, presentation, and buffer for
+supervisor feedback.
+1.10 Hardware and Software Specifications
+Development hardware: student laptops/PCs with a modern multi-core CPU, preferably 8–16 GB RAM, sufficient free disk
+space, and Android smartphones with GPS, camera, and microphone. An emulator may supplement, but not fully replace,
+testing on physical devices.
+Client software: Flutter and Dart for mobile apps; React.js with Vite and Tailwind CSS for the web dashboard.
+Backend and data: Node.js runtime, NestJS, PostgreSQL, and a suitable PostgreSQL client/migration tool. Redis is optional
+for multi-instance real-time coordination.
+Real-time and integrations: Socket.IO, Firebase Cloud Messaging, Cloudinary signed uploads, Stripe Test Mode, and the
+OpenStreetMap/OSRM ecosystem.
+AI: TensorFlow Lite-compatible model inference and Google ML Kit Smart Reply. Model training/retraining must use a
+documented, supported pipeline separate from inference.
+Development and collaboration: Git, GitHub, API testing tools, UI design/prototyping tools, automated tests, and
+environment-variable/secret management. Deployment targets will be selected according to free-tier limits and the team’s
+budget.
+1.11 Tools and Technologies with Reasoning
+Technology Purpose and rationale
+Flutter / Dart Shared mobile codebase for customer and driver applications.
+React + Vite + Tailwind CSS Component-based, responsive admin dashboard with fast development.
+NestJS / Node.js Modular backend with validation, guards, dependency injection, and testable business
+services.
+PostgreSQL Relational integrity and transactional storage for dispatch, trips, payments, rates, and
+ledger records.
+JWT access/refresh tokens Stateless API authentication with role checks and controlled session renewal.
+Socket.IO Authenticated real-time location, chat, and operational event delivery.
+Redis (optional) Shared Socket.IO adapter/coordination if multiple backend instances are used.
+OpenStreetMap, Nominatim,
+Photon, OSRM
+Map display, address search, autocomplete, and route alternatives without a paid Google
+Maps dependency; provider policies apply.
+TensorFlow Lite-compatible
+inference
+Local fare-estimation prototype without per-request cloud AI charges.
+Google ML Kit Smart Reply Optional on-device English quick-reply suggestions.
+Cloudinary Direct signed media uploads without routing large media files through the API server.
+Firebase Cloud Messaging Push notifications to mobile devices.
+Stripe Test Mode Demonstration of online checkout and server-verified payment events; not a claim of
+production merchant eligibility.
+Git and GitHub Version control, code review, issue tracking, and team collaboration.
+
+-- 9 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 10
+1.12 Security, Privacy, and Data Management
+• Enforce role checks and object-level access on the backend; a user must not access another customer’s request or an
+unrelated trip’s GPS/chat records.
+• Use TLS in deployment, password hashing, secure token handling, environment-managed secrets, validation, rate limiting,
+and safe error messages.
+• Verify Stripe webhook signatures and process events idempotently. Never trust client-submitted payment status.
+• Keep financial changes auditable. Correct mistakes through explicit adjustment entries rather than silently overwriting
+ledger history.
+• Limit GPS access to authorized active-trip participants and administrators with a legitimate operational role. Show location
+freshness and define a retention period.
+• Retain chat media and messages according to the proposed 90-day cleanup policy, subject to final privacy and audit
+requirements. Define separate retention rules for financial and trip records.
+• Use a map tile provider whose terms permit offline caching; do not assume public OpenStreetMap tile servers permit bulk
+offline downloads.
+• Avoid placing private customer addresses, tokens, or sensitive payment details in push-notification payloads or application
+logs.
+1.13 Testing and Evaluation
+• Unit tests for fare calculations, adjustment limits, commission calculations, role checks, and trip-state transitions.
+• API integration tests for request submission, approval/rejection, assignment, payment creation, webhook processing, and
+ledger reconciliation.
+• End-to-end tests covering customer, admin, and driver workflows, including rejection and resubmission of a fare proposal.
+• Security tests for unauthorized access, disabled accounts, invalid tokens, cross-user data access, repeated webhook
+events, and invalid payment amounts.
+• Offline tests for cached map display, local GPS collection, stale-location indicators, reconnection, and delayed update
+ordering.
+• AI evaluation comparing the model’s predictions with a simple baseline on available completed-trip data; report dataset
+size, error metric, and limitations.
+• Usability evaluation with representative users and a documented set of tasks; record task completion, errors, and
+feedback.
+1.14 Optional Future Enhancements
+• Customer/driver ratings and reviews after trip completion.
+• Operational analytics and CSV/Excel exports.
+• Urdu and other regional-language localization.
+• Digital proof of delivery and richer shipment documentation.
+• Additional production payment providers after eligibility and compliance review.
+• More advanced freight-price features if sufficient reliable training data becomes available.
+
+-- 10 of 11 --
+
+Captain Truck — Updated FYP Proposal | Page 11
+1.15 Conclusion
+Captain Truck proposes a unified, role-controlled platform for full-truck booking and dispatch. By combining route alternatives,
+AI-assisted customer-proposed pricing, administrator-led assignment, live and offline-aware trip support, chat, notifications,
+and method-specific financial reconciliation, the project provides substantial work across mobile development, web
+development, backend engineering, databases, real-time systems, mapping, applied machine learning, security, and software
+testing. The implementation will prioritize a consistent architecture and verifiable end-to-end workflows over unsupported
+claims of fully automated logistics or production-grade AI.
+
+-- 11 of 11 --
+

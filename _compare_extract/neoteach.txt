@@ -1,0 +1,2644 @@
+Department of Software Engineering
+University of Gujrat
+NEOTEACH
+Session: BSSE 2022
+Project Advisor: Mr. Tauqeer Ul Amin
+Submitted By
+Hussain Muhammad 22011598-036
+Ayesha Shafaqat 22011598-062
+Department of Software Engineering
+University of Gujrat
+
+-- 1 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+2
+STATEMENT OF SUBMISSION
+This is certified that Hussain Muhammad Roll No. 22011598-036 and Ayesha Shafaqat
+Roll No. 22011598-062 has successfully completed the final year project named as
+NeoTeach at the Department of Information Technology, University of Gujrat, to fulfill
+the requirement of the degree of Bachelor’s in Software Engineering.
+______________________ _____________________
+Project Supervisor Project Coordination Office
+Faculty of C&IT -UOG
+______________________
+Head of the Department
+
+-- 2 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+3
+Acknowledgement
+We truly acknowledge the cooperation and help make by Mr. Tauqeer ul Amin,
+Chairman, Department of Software Engineering, University of Gujrat. He has been a
+constant source of guidance throughout the course of this project. We would also like to
+thank Mr. Tauqeer ul Amin for his help and guidance throughout this project. We are also
+thankful to our friends and families whose silent support led us to complete our project.
+Date: 21st April 2026.
+
+-- 3 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+4
+Abstract
+The rapid evolution of digital education has created a growing demand for intelligent,
+personalized, and automated learning platforms that go beyond the limitations of traditional
+e-learning systems. NeoTeach is an AI-powered course builder and personalized learning
+platform developed to address these gaps by integrating artificial intelligence,
+gamification, and real-time analytics into a unified educational ecosystem. Built using
+Flutter and Dart for cross-platform mobile deployment, Node.js for backend processing,
+and MongoDB for scalable data storage, NeoTeach enables teachers to instantly generate
+structured courses, lessons, quizzes, and assignments through natural language prompts
+processed by the OpenAI or Gemini API, drastically reducing content preparation time and
+allowing instructors to focus on meaningful student interaction. For students, the platform
+delivers a highly engaging and personalized learning experience through AI-driven quiz
+generation with instant auto-grading, progress tracking dashboards, and a gamification
+engine that awards badges, maintains daily streaks, and displays competitive leaderboards
+to sustain motivation. The system further incorporates a tutoring marketplace where
+teachers can publish sessions and students can book one-on-one or group tutoring slots, a
+real-time communication hub for student-teacher interaction, and a secure payment module
+supporting Stripe, JazzCash, and Easypaisa. Administrative functionality includes
+comprehensive user management, course moderation, content removal, activity
+monitoring, and platform-wide reporting to ensure quality control and system integrity.
+NeoTeach targets students, freelance educators, and academic institutions seeking an
+affordable, scalable, and AI-driven alternative to conventional learning management
+systems, positioning itself as a complete solution that simultaneously reduces instructor
+workload, enhances student engagement, and delivers measurable learning outcomes
+through data-driven insights.
+
+-- 4 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+5
+TABLE OF CONTENTS
+............................................................................................................................................. 1
+ACKNOWLEDGEMENT ...................................................................................................... 3
+CHAPTER 1: PROJECT FEASIBILITY REPORT..................................................... 8
+............................................................................................................................................. 8
+1.1. INTRODUCTION .................................................................................................... 9
+1.2. PROJECT/PRODUCT FEASIBILITY REPORT .................................................................. 9
+1.2.1. Technical Feasibility ......................................................................................... 9
+1.2.2. Operational Feasibility ................................................................................... 10
+1.2.3. Economic Feasibility ...................................................................................... 10
+1.2.4. Schedule Feasibility ........................................................................................ 11
+1.2.5. Specification Feasibility.................................................................................. 11
+1.2.6. Information Feasibility ................................................................................... 11
+1.2.7. Motivational Feasibility .................................................................................. 11
+1.2.8. Legal & Ethical Feasibility............................................................................. 11
+1.2. PROJECT/PRODUCT SCOPE ................................................................................. 12
+1.4. PROJECT/PRODUCT COSTING .................................................................................. 12
+1.4.1. Project Cost Estimation by Function Point Analysis ...................................... 12
+1.4.2. Project Cost Estimation by using COCOMO’81 (Constructive Cost Model) 17
+1.4.3. Activity Based Costing .................................................................................... 18
+1.5. TASK DEPENDENCY TABLE ..................................................................................... 18
+1.6. CPM - CRITICAL PATH METHOD ............................................................................. 19
+1.7. GANTT CHART ......................................................................................................... 24
+1.8. INTRODUCTION TO TEAM MEMBERS AND THEIR SKILL SET ...................................... 25
+1.9. TASK AND MEMBER ASSIGNMENT TABLE ............................................................... 25
+1.10. TOOLS AND TECHNOLOGY WITH REASONING ........................................................ 26
+1.11. VISION DOCUMENT ............................................................................................... 26
+1.12. RISK LIST .............................................................................................................. 28
+1.13. PRODUCT FEATURES/ PRODUCT DECOMPOSITION ................................................. 28
+CHAPTER 2: SOFTWARE REQUIREMENT SPECIFICATION (FOR OBJECT
+ORIENTED APPROACH) ............................................................................................ 29
+2.1 INTRODUCTION: ....................................................................................................... 30
+2.1.1 Systems Specifications ..................................................................................... 30
+3.1.2. Identifying External Entities ........................................................................... 34
+2.1.3. Context Level Data Flow Diagram: ............................................................... 35
+2.1.4. Capture "shall" Statements: ............................................................................ 36
+2.1.5. Allocate Requirements: ................................................................................... 38
+2.1.6. Prioritize Requirements: ................................................................................. 41
+2.1.7. Requirements Trace-ability Matrix: ............................................................... 45
+2.2.10. High Level Usecase Diagram: ...................................................................... 49
+2.2.11. Analysis Level Usecase Diagram: ................................................................ 50
+2.2.12. Usecase Description ..................................................................................... 51
+
+-- 5 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+6
+CHAPTER 3: DESIGN DOCUMENT (FOR OBJECT ORIENTED APPROACH)
+........................................................................................................................................... 65
+........................................................................................................................................... 65
+3.1. INTRODUCTION: ...................................................................................................... 66
+3.2. DOMAIN MODEL ..................................................................................................... 67
+3.3. SYSTEM SEQUENCE DIAGRAM ................................................................................ 68
+3.4. SEQUENCE DIAGRAM .............................................................................................. 69
+3.5. COLLABORATION DIAGRAM .................................................................................... 75
+3.6. OPERATION CONTRACTS ......................................................................................... 76
+3.7. DESIGN CLASS DIAGRAM ........................................................................................ 82
+3.8. STATE CHART DIAGRAM .......................................................................................... 83
+3.9. DATA MODEL.......................................................................................................... 85
+CHAPTER 4: USER INTERFACE DESIGN .............................................................. 86
+4.1. INTRODUCTION........................................................................................................ 87
+4.2. SITE MAPS .............................................................................................................. 87
+4.2.1. Student Site Map ............................................................................................. 87
+4.2.2. Teacher Site Map ............................................................................................ 87
+4.2.3. Admin Site Map ............................................................................................... 88
+4.2.4. Site Map Diagram of NeoTeach ..................................................................... 89
+4.3. STORY BOARDS ....................................................................................................... 90
+4.4. NAVIGATIONAL MAPS: .......................................................................................... 111
+4.4.1. Login & Registration Flow ........................................................................... 111
+4.4.2. Student Navigation Flow............................................................................... 111
+4.4.3. Teacher Navigation Flow ............................................................................. 112
+4.4.4. Admin Navigation Flow ................................................................................ 113
+4.4.5: Navigational Map Diagram.......................................................................... 114
+4.5 TRACE-ABILITY MATRIX ........................................................................................ 115
+CHAPTER 5: SOFTWARE TESTING ...................................................................... 129
+5.1 INTRODUCTION: ..................................................................................................... 130
+5.2. TEST PLAN ............................................................................................................. 130
+7.2.1. Purpose ......................................................................................................... 130
+7.2.2. Outline........................................................................................................... 130
+5.3. TEST DESIGN SPECIFICATION ................................................................................. 137
+5.3.1. Purpose ......................................................................................................... 137
+5.4. TEST CASE SPECIFICATION.................................................................................... 137
+5.4.1. Purpose ......................................................................................................... 137
+5.4.2. Outline.......................................................................................................... 138
+5.5. TEST PROCEDURE SPECIFICATION .......................................................................... 144
+5.5.1. Purpose ......................................................................................................... 144
+5.5.2 Outline............................................................................................................ 144
+5.5.3 Test Cases ...................................................................................................... 145
+5.5.4: API Testing ................................................................................................... 154
+5.6. TEST ITEM TRANSMITTAL REPORT ......................................................................... 156
+
+-- 6 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+7
+5.6.1. Purpose ......................................................................................................... 156
+5.6.2. Outline........................................................................................................... 156
+5.7. TEST LOG .............................................................................................................. 158
+5.7.1. Purpose ........................................................................................................ 158
+5.7.2. Outline........................................................................................................... 158
+5.8. TEST INCIDENT REPORT ......................................................................................... 161
+5.8.1. Purpose ......................................................................................................... 161
+5.8.2. Outline........................................................................................................... 161
+5.9. TEST SUMMARY REPORT........................................................................................ 163
+5.9.1. Purpose ......................................................................................................... 163
+5.9.2. Outline........................................................................................................... 163
+CHAPTER 6: USER TECHNICAL MANUAL ......................................................... 165
+......................................................................................................................................... 165
+6.1 GENERAL INFORMATION ..................................................................................... 166
+6.1.1 System Overview ............................................................................................ 166
+6.2. SYSTEM SUMMARY ............................................................................................... 167
+6.3. LOGGING ON ......................................................................................................... 168
+6.3.1 System Menu .................................................................................................. 169
+6.3.2 Changing User ID and Password .................................................................. 181
+6.3.3 Exit System ..................................................................................................... 181
+6.4. USING THE SYSTEM ............................................................................................... 181
+6.4.1 Special Instructions for Error Correction ..................................................... 181
+6.4.2 Caveats and Exceptions ................................................................................. 183
+
+-- 7 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+8
+Chapter 1: Project Feasibility Report
+
+-- 8 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+9
+1.1. Introduction
+Education today is rapidly moving online, but most platforms either focus only on
+prerecorded courses (like Coursera/Udemy) or gamified learning apps (like Duolingo).
+Both approaches have Strengths, but they lack flexibility, personalization, and automation.
+NEOTEACH is an AI-powered course builder that solves these gaps. The unique feature
+in our system is instant AI courses and quizzes generation, reducing workload for teachers
+while keeping students motivated through gamification and progress analytics and best
+approach for subtends to practice the courses, they learn by giving quizzes using
+NEOTEACH.
+In this system, its AI-powered course builder, which allows teachers to instantly generate
+structured lessons, quizzes, and video recommendations based on a given topic or prompt.
+This drastically reduces preparation time and helps teachers focus more on interaction
+rather than manual content creation. For students, NeoTeach offers an engaging learning
+experience through features like badges and streaks, encouraging continuous participation.
+1.2. Project/Product Feasibility Report
+When an organization or individual initiates a new project, one of the first steps of project
+is to determine its feasibility, to check whether the idea is practical, achievable, and worth
+pursuing. Feasibility determines how easily required data, tools, and resources can be
+accessed and used to develop the system effectively. The main goal of the NeoTeach
+project is to build an AI-powered e-learning platform that helps teachers create structured
+courses, lessons, and quizzes automatically, keeping students motivated through
+gamification and progress analytics.
+There are many types of feasibilities:
+• Technical
+• Operational
+• Economics
+• Schedule
+• Specification
+• Information
+• Motivational
+• Legal and Ethical
+1.2.1. Technical Feasibility
+The technical feasibility of NeoTeach focuses on whether the proposed AI-powered
+learning platform can be successfully developed using the available tools, technologies,
+and team skills.
+• Flutter and Dart: The NeoTeach will be built using Flutter, a cross-platform
+framework that allows deployment on both Android and iOS, and suitable to build
+web pages.
+• MongoDB: MongoDB will be used as the main database to store user data, course
+information, and analytics. Its flexibility, scalability, and JSON-style document
+structure make it ideal.
+
+-- 9 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+10
+• Node.js: Node.js efficiently handles high-speed API requests, such as OpenAI,
+payment gateways, and real-time messaging making it ideal for NeoTeach’s AI-
+driven and interactive features.
+• AI Tools: These technologies will be used for content generation, quiz creation,
+and natural language understanding.
+The development team is good in Flutter and Dart but has limited experience with AI. To
+handle this, the team will take some steps:
+• Get guidance from experts for best implementation practices.
+• Use reliable pre-built libraries like OpenAI API or Gemini API, and PyTorch
+to simplify integration.
+1.2.2. Operational Feasibility
+This section evaluates how NeoTeach will fit into the daily teaching and learning process
+and how easily users (i.e. teachers, students, and admins) will adapt to the new system. Our
+application is operationally feasible due to its alignment with user needs, its focus on
+personalized learning management. But some teachers may initially face difficulty relying
+on AI-generated content, and students might need time to get engaged with NeoTeach.
+To address these challenges, we take some steps:
+• Training sessions and video tutorials will be provided to help teachers and
+students understand how to use the system effectively.
+• User feedback will be collected during early testing phases to improve usability
+and ensure a smooth experience for all users.
+1.2.3. Economic Feasibility
+This study evaluates the overall cost of developing NeoTeach compared to the long-term
+benefits it will provide. The main expenses include development tools, hosting, AI API
+usage, and system maintenance, while the benefits focus on time savings for teachers,
+improved student performance, and session or tutors booking. Because NeoTeach uses
+open-source technologies like Flutter, MongoDB, Figma and Draw.io, the development
+cost remains low.
+• Maintenance Cost: Since NeoTeach uses open-source technologies, initial
+maintenance costs will be minimal and estimated around 45,000 to 75,000 PKR per
+year.
+• Benefit Estimates: Tangible Benefits: NeoTeach will offer all features free for
+the first 1–3 months and later charge small fees for using platform and course
+promotions. Through subscriptions, and ads, it can earn around PKR 65,000
+approx. per month. Intangible Benefits: NeoTeach saves teachers time by
+automating content creation and improving student motivation through
+gamification.
+
+-- 10 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+11
+1.2.4. Schedule Feasibility
+The schedule feasibility study determines whether the NeoTeach system can be developed
+and delivered within the proposed six-month timeline (15th September 2025 – 1st April
+2026).
+To ensure that system is completed on time we must:
+• The first phase will cover essential modules like user authentication, course
+creation, and basic quizzes.
+• The later phases will include advanced AI features, gamification, analytics, and
+marketplace integration.
+1.2.5. Specification Feasibility
+Considering the goals, user needs, and resources, the NeoTeach project specifications are
+well-defined and achievable. All core and optional features such as AI-based course
+generation, quizzes, gamification, and the course marketplace can be developed using
+selected technologies. To merge understanding:
+• The system’s design and technical scope match the team’s capabilities and available
+tools, ensuring that the project can be completed within the proposed timeline.
+• Based on current resources, technology, and team expertise, all functional and non-
+functional requirements of NeoTeach are realistic and fully implementable.
+1.2.6. Information Feasibility
+This feasibility study determines whether the required data for NeoTeach can be collected
+and managed effectively. The main data sources include user profiles, AI-generated course
+content, quizzes, progress analytics, and marketplace records.
+• However, integrating AI-generated data and ensuring data accuracy between
+teachers, students, and admin modules will require careful synchronization.
+• To ensure smooth and reliable data management, a centralized database and secure
+API integration plan will be used.
+1.2.7. Motivational Feasibility
+This study evaluates whether the NeoTeach development team and its potential users are
+motivated to adopt and use the system. Initial feedback indicates strong interest from
+teachers who want to reduce their workload and from students who prefer interactive,
+gamified learning experiences.
+To maintain motivation and ensure adoption:
+• Regular progress reviews will be held to keep the development team motivated.
+• Feedback and collaboration will be encouraged.
+1.2.8. Legal & Ethical Feasibility
+Legally and ethically, the NeoTeach project complies with all regulations and does not
+violate any laws or standards. All tools and technologies used are properly licensed or open
+source.
+To ensure compliance and ethical integrity:
+• User data (such as profiles, courses, and progress) will be securely stored using
+encrypted databases and protected API communication.
+
+-- 11 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+12
+1.2. Project/Product Scope
+NeoTeach is an AI-powered, cross-platform learning system designed to make education
+more personalized, efficient, and engaging. NeoTeach project includes the development of
+a complete AI-powered e-learning platform that connects teachers, students, and
+administrators through a unified system. The platform will allow teachers to create AI-
+generated courses, lessons, and quizzes, while students can browse, enroll, and interact
+with content through gamified learning and progress tracking. Administrators will manage
+users, approve courses, monitor analytics, and ensure quality control.
+The system also includes features such as a course marketplace, communication hub, and
+an assignment and peer review module to enhance collaboration. A communication hub
+will allow teachers and students to connect through discussion boards and study groups.
+Additionally, optional features like AI-based recommendations, voice input support, and
+secure payment integration will further improve user experience. NeoTeach aims to
+provide an accessible, user-friendly, and secure learning environment where information
+is safely stored in a centralized database, and users can easily navigate and interact with all
+system features.
+• The information on the system is maintained in a database.
+• The system is eased to use and flexible.
+1.4. Project/Product Costing
+A metric is some measurement we can make of a product or process in the overall
+development process. Metrics are split into two broad categories:
+• Knowledge oriented metrics: these are oriented to tracking the process to evaluate,
+predict or monitor some part of the process.
+• Achievement oriented metrics: these are often oriented to measuring some product
+aspect, often related to some overall measure of quality of the product.
+The cost of the NeoTeach project is moderate, as most tools and frameworks used—such
+as Flutter, React.js, Node.js, and MongoDB—are open-source. However, the primary
+expense arises from using AI model APIs (like OpenAI)/Gemini for generating lessons,
+quizzes, and content. These APIs operate on a usage-based pricing model, where small
+costs are incurred per request or token usage.
+1.4.1. Project Cost Estimation by Function Point Analysis
+Function-oriented software metrics measure the functionality delivered by a system using
+Function Point Analysis (FPA). Since functionality cannot be directly measured, it is
+estimated through measurable software attributes like inputs, outputs, files, and user
+interactions.
+Originally introduced by Albrecht, function points help evaluate software size and
+complexity. They are also useful for tracking scope changes throughout the development
+cycle; by comparing function point counts at different stages (requirements, design, and
+implementation), teams can identify growth or scope creep, reflecting how effectively
+project requirements were gathered and managed. Function points are computed by
+
+-- 12 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+13
+completing the table shown in the figure below. Five information domain characteristics
+are determined, and counts are provided in the appropriate table location.
+Table 1.4.1.1: Unadjusted Function Points
+Type of Components Complexity
+of
+Components
+Low Average High Total
+External Input 21 * 3 = 63 17 * 4 = 68 0 *6 = 0 131
+External Output 9 * 4 = 36 0* 5 = 0 0 * 7 = 0 36
+External Inquiries 2 * 3 = 6 0* 4 = 0 0 * 6 = 0 6
+Internal Logical Files 0 * 7 = 7 1 * 10 = 10 0 * 15 = 0 10
+External Interface
+Files
+1* 5 = 5 0* 7 = 0 0 * 8 = 0 5
+188
+Information domain values are defined in the following manner:
+1.Number of user inputs:
+Information domain values are defined in the following manner:
+User Authentication
+1. Login
+• User Email
+• Password
+2. Sign Up
+• Full Name
+• Email
+• Role (Student / Teacher)
+• Password
+3. Forgotten Password
+• Email
+• New Password
+4. Profile Update
+• Full Name
+• Phone Number
+• Password
+• Email
+• Gender
+• Bio
+• Location
+AI Course Generator (Teacher Side)
+• Topic Details (Lesson Title)
+
+-- 13 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+14
+• Skill Level (Beginner / Intermediate / Advanced)
+• Course Description
+• Difficulty Level
+• Keywords
+Student Interaction
+• Course Search
+• Quiz Attempt (Answers Selected)
+• Assignment Submission
+• Attempt Case Study
+Communication Hub
+• Message / Question Text
+• Reply / Comment Text
+Marketplace
+• Set Course Status
+• Set Price
+Session & Booking
+Teacher Side
+• Set Schedule
+• Bio
+• Hourly Rate
+Student Side
+• Select Available Slot
+• Meeting Type
+• Session Note
+Payment Module
+Teacher Side
+• Add Payment Method
+Student Side
+• Payment Method
+• Transaction Details
+• Upload Receipt image
+2.Number of user outputs:
+User Authentication
+1. Login
+o Login success or failure message
+2. Sign Up
+o Account confirmation message
+3. Forgotten Password
+o Password reset confirmation message
+AI Course Generator (Teacher Side)
+• Confirmation message after publishing course
+Course Management (CMS)
+• Display courses
+
+-- 14 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+15
+Student Interaction
+• Quiz score & Assignment submission
+Communication Hub
+• Posted messages or questions visible in chat
+Sessions Display
+• Display approved, pending and rejected sessions
+Payment Module
+• Payment confirmation message or invoice
+3.Number of user inquiries:
+• Search & view Courses
+• Search Teacher Availability
+4.Number of Internal Logical files:
+• System Database
+5.Number of external interfaces:
+• GPT Model API
+So, these data have been collected, a complexity value is associated with each count. We
+use function point methods to develop criteria for determining whether a particular entry
+is simple, average, or complex.
+To compute function points (FP), the following relationship is used:
+FP est. = Count Total * [0.65 + 0.01 * (Fi)]
+Where count total is the sum of all FP entries obtained from above figure and (Fi) is value
+adjustment factor (VAF) is based on 14 general system characteristics (GSC's) that rate the
+general functionality of the application being counted. The degrees of influence range from
+zero to five, from no influence on strong influence
+Finally, Total Project Cost and Total Project Effort are calculated given the average
+productivity parameter for the system.
+Table 1.4.1.2: Unadjusted Function Points
+Sr. No Value adjustment Factor (VAF) Value Values
+1 Data communications 2
+2 Distributed data processing 1
+3 Performance 3
+4 Heavily used configuration 1
+5 Transaction rate 1
+6 On-Line data entry 2
+7 End-user efficiency 2
+8 On-Line update 2
+
+-- 15 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+16
+9 Complex processing 1
+10 Reusability 2
+11 Installation ease 2
+12 Operational ease 2
+13 Multiple sites 3
+14 Facilitate change 1
+25
+The formulae are given as follows:
+Total Unadjusted Function Points (UFP) = 188 UFP
+Product Complexity Adjustment (PC) = 0.65 + (0.01 * 25) = 0.9
+Total Adjusted Function Points (FP) = UFP * PC = 188 * 0.9 = 169.2 ~ 169
+For our Project:
+Team Size: 2 Students
+Labor Rate: Rs. 15,000/Month
+Table 1.4.1.3: Productivity (LOC/PM)
+Project Type Productivity (LOC per
+Person-Month)
+Organic 8-12
+Semi-Detached 5-8
+Embedded 2-5
+Our system is organic, so we choose productivity 8.
+Average Productivity = 3 x 8 = 24 FP/PM (function points per person-month)
+Estimated Function Points (FP): 141
+EFP=Cost / FP = Labor Rate
+Productivity Parameter
+Cost / FP = 15000
+24 = 𝑅𝑠. 625/𝐹𝑃
+Calculate Total Project Cost
+Total Project Cost = FP est. × (Cost / FP)
+Total Project Cost = 169 × 625 = 𝑅𝑠. 105,625
+Calculate Total Estimated Effort
+Total Estimated Effort = FP est.
+Productivity Parameter
+Total Estimated Effort = 169
+24 = 7.04 PM
+So results are given below:
+• Total Project Cost: Rs. 105,625
+• Total Effort Required: 7.04 PM
+• Development Team: 2 Students
+
+-- 16 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+17
+1.4.2. Project Cost Estimation by using COCOMO’81 (Constructive Cost Model)
+Boehm's COCOMO model is one of the mostly used models commercially. The first
+version of the model was delivered in 1981 and COCOMO II is available now. COCOMO
+81 is a model that allows one to estimate the cost, effort, and schedule when planning a
+new software development activity.
+Three levels:
+Basic: Is used mostly for rough, early estimates.
+Intermediate: Is the most used version including 15 different factors to account
+for the influence of various project attributes such as personnel capability, use of
+modern tools.
+Detailed: Accounts for the influence of the different factors on individual project
+phases: design, coding/testing, and integration/testing.
+Each level includes three software development types:
+1. Organic: Relatively small software teams develop familiar types of software in an
+in-house environment.
+2. Embedded: The project may require new technology, unfamiliar algorithms, or an
+innovative new method
+3. Semi-detached: Is an intermediate stage between organic and embedded types.
+Basic COCOMO Table 1.4.2.1: Basic COCOMO
+Parameters Organic Semi- Detached Embedded
+Size 2 – 50 KLOC 50 – 300 KLOC 300 KLOC or above
+Team Small Medium Large
+Developer
+Experience
+Experienced
+Developer
+Average Little Experience
+Environment Familiar Less Familiar Changed
+Deadline Flexible Medium Tight Deadline
+So, by looking at above table NeoTeach would be organic as KLOC of NeoTeach
+is 8.45KLOC; so, we used Organic Cocomo Method:
+Type Effort Schedule
+Organic PM= 2.4 (KLOC)1.05 TD= 2.5(PM)0.38
+There’s no official COCOMO table entry for Flutter, but we can approximate it using Dart
+language of productivity level.
+Dart (Flutter) = 45-55 LOC per FP, so we`ll use 50 LOC per FP as a realistic value for
+flutter apps.
+LOC = 169 * 50
+LOC= 8,450
+169FP = 8,450 LOC
+FP = LOC/1000 = KLOC
+
+-- 17 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+18
+169 FP = 8450 /1000 = 8.45 KLOC
+Effort (Person-Month)
+PM = 2.4 (KLOC)^ 1.05
+PM = 2.4 (8.45) ^ 1.05
+E = PM = 22.56PM
+Schedule (Duration)
+TD= 2.5 (PM) ^ 0.38
+TD = 2.5 (22.56) ^ 0.38
+TD = 8.1 Months
+People Required = Effort / Duration
+People Required = 22.56 / 8.1
+People Required = 2.4 ~ 2
+1.4.3. Activity Based Costing
+Table 1.4.3.1: Basic COCOMO
+S/No Activity Name Duration Cost
+1 Feasibility Analysis 3 Days 1.5k
+2 Requirement Gathering 6 Days 3k
+3 SRS 2 Days 1k
+4 Validation 3 Days 1.5k
+5 UI/UX Design 21 Days 10.5k
+6 Backend Design 15 Days 7.5k
+7 Frontend Development 40 Days 20k
+8 Backend Development 58 Days 29k
+9 Integration Testing 12 Days 6k
+10 Verification And Validation 10 Days 5k
+11 Refinements and Regression Testing 10 Days 5k
+12 System Testing 7 Days 3.5k
+13 Deployment 3 Days 1.5k
+14 Final Submission & Viva 5 Days 2.5k
+1.5. Task Dependency Table
+Table 1.5.1: Task Dependency table
+Task Id Task Name Dependent on
+Predecessor
+T1 Feasibility Analysis --
+T2 Requirement Gathering T1
+T3 SRS T2
+T4 Validation T3
+T5 UI/UX Design T4
+T6 Backend Design T4
+T7 Frontend Development T5
+
+-- 18 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+19
+T8 Backend Development T6
+T9 Integration Testing T8
+T10 Verification and Validation T7, T8
+T11 Refinement & Regression
+Testing
+T10
+T12 System Testing T11
+T13 Deployment T12
+T14 Maintenance T13
+1.6. CPM - Critical Path Method
+In 1957, DuPont developed a project management method designed to address the
+challenge of shutting down chemical plants for maintenance and then restarting the plants
+once the maintenance had been completed.
+CPM provides the following benefits:
+• Provides a graphical view of the project.
+• Predicts the time required to complete the project.
+CPM models the activities and events of a project as a network. Activities are depicted as
+nodes on the network and events that signify the beginning or ending of activities are
+depicted as arcs or lines between the nodes. The following is an example of a CPM network
+diagram:
+Steps in CPM Project Planning
+1. Specify the individual activities.
+2. Determine the sequence of those activities.
+3. Draw a network diagram.
+4. Estimate the completion time for each activity.
+5. Identify the critical path (longest path through the network)
+6. Update the CPM diagram as the project progresses.
+1. Specify the Individual Activities
+Table 1.6.1: Task Dependency table
+Task Id Task Name
+T1 Feasibility Analysis
+T2 Requirement Gathering
+T3 SRS
+T4 Validation
+T5 UI/UX Design
+T6 Backend Design
+T7 Frontend Development
+T8 Backend Development
+
+-- 19 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+20
+T9 Integration Testing
+T10 Verification and Validation
+T11 Refinement & Regression
+Testing
+T12 System Testing
+T13 Deployment
+T14 Maintenance
+2. Determine the Sequence of the Activities
+Table 1.6.2: sequence of the activities
+Activity Predecessor Duration in Days
+T1 None 3 Days
+T2 T1 6 Days
+T3 T2 2 Days
+T4 T3 3 Days
+T5 T4 21 Days
+T6 T4 15 Days
+T7 T5 40 Days
+T8 T6 58 Days
+T9 T8 12 Days
+T10 T7, T8 10 Days
+T11 T 10 10 Days
+T12 T11 7 Days
+T13 T12 3 Days
+T14 T13 5 Days
+
+-- 20 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+21
+3. Draw the Network Diagram: CPM originally was developed as an activity on node
+(AON) network, but some project planners prefer to specify the activities on the arcs.
+Figure 1.6.1: Network Diagram of NeoTeach System
+4. Estimate Activity Completion Time
+The time required to complete each activity can be estimated using experience or the
+estimates of knowledgeable people.
+Table 1.6.3: Estimation of Activity Completion Time (CPM)
+Activity Duration ES EF LS LF TS Critical Path
+T1 3 Days 0 3 0 3 0 Yes
+T2 6 Days 3 9 3 9 0 Yes
+T3 2 Days 9 11 9 11 0 Yes
+T4 3 Days 11 14 11 14 0 Yes
+T5 21 Days 14 35 26 47 12 No
+
+-- 21 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+22
+T6 15 Days 14 29 14 29 0 Yes
+T7 40 Days 35 75 47 87 12 No
+T8 58 Days 29 87 29 87 0 Yes
+T9 12 Days 87 99 110 122 23 No
+T10 10 Days 87 97 87 97 0 Yes
+T11 10 Days 97 107 97 107 0 Yes
+T12 7 Days 107 114 107 114 0 Yes
+T13 3 Days 114 117 114 117 0 Yes
+T14 5 Days 117 122 117 122 0 Yes
+5. Identify the Critical Path
+The critical path is the longest-duration path through the network. The significance of the
+critical path is that the activities that lie in it cannot be delayed without delaying the project.
+Because of its impact on the entire project, critical path analysis is an important aspect of
+project planning.
+By making network diagram of NeoTeach, there are two possible paths that can be made
+from network diagram, and the path identifiers and their per path taking duration are given
+below:
+Path#01:
+1. T1 → T2 → T3 → T4 → T6→ T8 → T10 → T11 → T12→ T13 → T14
+Duration: 3 + 6 + 2 + 3 + 15 + 58 + 10 + 10 + 7 + 3 + 5 = 122 Days
+After going along path 1, total duration that taken by system is: 122Days.
+Path#02:
+2. T1 → T2 → T3 → T4 → T5→ T7 → T10 → T11 → T12→ T13 → T14
+Duration: 3 + 6 + 2 + 3 + 21 + 40 + 10 + 10 + 7 + 3 + 5 = 110 Days
+After going through path 2, total duration that is taken by system is: 110Days.
+Conclusion: We choose path 1 because by choosing that path the system face delay in
+deployment.
+
+-- 22 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+23
+6. Update CPM Diagram
+A new critical path may emerge, and structural changes may be made in the network if
+project requirements change. As the project progresses, the actual task completion times
+will be known, and the network diagram can be updated to include this information. A
+new critical path may emerge, and structural changes may be made in the network if
+project requirements change.
+Figure 1.6.2: Updated Network/CPM Diagram
+Updated CPM Path Duration:
+1. T1 → T2 → T3 → T4 → T6→ T8 → T10 → T11 → T12→ T13 → T14
+Duration: 3 + 6 + 2 + 3 + 15 + 58 + 10 + 10 + 7 + 3 + 5 = 122 Days
+After going along path 1, total duration that taken by system is: 122Days.
+
+-- 23 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+24
+1.7. Gantt chart
+Figure 1.7.1: Gannt Chart
+
+-- 24 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+25
+1.8. Introduction to Team members and their skill set
+Table 1.8.1: Team Members & their Skills
+Name of Member Skillset Task
+Hussain Muhammad
+22011598-036
+Backend development,
+Frontend development,
+Integration, Requirement
+Engineering and SRS
+Feasibility Analysis,
+Developing Admin
+Panel, Teacher Panel,
+Core backend, Backend
+Integration, Database
+Creation, Refinement and
+Regression Testing and
+Validation,
+Ayasha Shafaqat
+21011598-062
+Frontend Development,
+Backend Development,
+Testing, Integration,
+Requirement Engineering
+and SRS
+Requirement Gathering,
+UI/UX design, Integration
+Testing, Deploy App,
+System Testing, Fully
+Deployment &
+Documentation
+1.9. Task and Member Assignment Table
+Table 1.9.1: Task & Member Assignment Table
+Activity Predecessor Duration in Days
+T1 Hussain 3 Days
+T2 Ayesha 6 Days
+T3 Hussain 2 Days
+T4 Ayesha 3 Days
+T5 Ayesha 21 Days
+T6 Hussain 15 Days
+T7 Ayesha, Hussain 40 Days
+T8 Ayesha, Hussain 58 Days
+T9 Ayesha 12 Days
+T10 Hussain 10 Days
+T11 Hussain 10 Days
+T12 Ayesha, Hussain 7 Days
+T13 Ayesha, Hussain 3 Days
+T14 Ayesha, Hussain 5 Days
+
+-- 25 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+26
+1.10. Tools and Technology with reasoning
+Flutter with Dart (Front-End)
+Flutter is a popular open-source framework by Google used to build cross-platform mobile
+applications. It allows developers to write code once and deploy it on both Android and
+iOS, saving time and effort.
+Figma & Canva:
+Used for designing UI prototypes, logos and visual assets to enhance user interface and
+user experience.
+Draw.io:
+To create UML diagrams, Dataflow diagrams, project documentation and sequence
+diagram to visualize workflows of the system and system architecture.
+MongoDB
+MongoDB is a flexible NoSQL database designed for scalability and high availability. It
+stores data in JSON-like documents, which makes it easier.
+Node.js (Backend)
+Using Node.js as the backend makes NeoTeach fast and efficient because it handles
+multiple requests at the same time without slowing down. Node.js efficiently handles high-
+speed API requests, such as OpenAI, payment gateways, and real-time messaging making
+it ideal for NeoTeach’s AI-driven and interactive features.
+AI Frameworks
+• OpenAI API / GPT models or Gemini API or DeepSeek API: For natural
+language processing, generating lessons, and quizzes.
+• PyTorch: Analyze student performance data to predict weaknesses and suggest
+targeted lesson
+1.11. Vision Document
+1. Purpose
+The purpose of NeoTeach is to transform digital education by introducing an AI-powered
+course builder and personalized learning ecosystem. It enables teachers to instantly create
+structured courses, quizzes, and recommendations while providing students with a
+gamified and adaptive learning experience.
+2. Scope
+NeoTeach will provide:
+For Students:
+Personalized learning paths, AI-generated quizzes, progress tracking dashboards, and
+gamified rewards (badges, streaks, certificates).
+For Teachers:
+Smart course creation tools, performance analytics, content management, and tutoring
+session bookings.
+For Admins:
+User and content moderation, system monitoring, and management of marketplace
+transactions.
+3. Stakeholders
+
+-- 26 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+27
+Primary Users: Students and teachers actively participating in course creation and
+learning.
+Secondary Users: Administrators managing content, payments, and user activities.
+Other Stakeholders: Investors, academic institutions, and developers maintaining or
+extending the platform.
+4. High-Level Requirements
+1. Student Panel:
+• Account management and personalized dashboards.
+• AI-generated quizzes and progress analytics.
+• Gamified elements (badges, streaks, leaderboards).
+2. Teacher Panel:
+• AI-based course and quiz generation.
+• Course publishing and tutoring session scheduling.
+• Access to performance and feedback analytics.
+3. Admin Panel:
+• Manage users, payments, and reported content.
+• System monitoring and data security enforcement.
+5. Goals and Objectives
+Goals:
+• Simplify course creation through AI automation.
+• Personalize learning for each student using data analytics.
+• Enhance engagement via gamification and feedback systems.
+Objectives:
+• Build a scalable, modular system integrating AI and NLP.
+• Ensure smooth collaboration between students and teachers.
+• Maintain data security and compliance with privacy standards.
+6. Target Audience
+• Students, teachers, and institutions seeking affordable, AI-driven educational
+solutions.
+• Freelance tutors aim to deliver interactive courses and monetize their expertise.
+7. Assumptions and Constraints
+Assumptions:
+• Users have stable internet connection.
+• Teachers and institutions will provide valid educational content.
+Constraints:
+• Integration with external APIs (e.g., OpenAI, payment gateways).
+• Must comply with privacy and educational data regulations.
+8. Risks and Challenges
+Risks:
+• API downtime or limitations for AI and payment gateways.
+• User adaptation challenges due to AI-based interfaces.
+Mitigation Strategies:
+• Implement fallback AI models and caching.
+
+-- 27 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+28
+• Provide tutorials and documentation onboard.
+9. Product Positioning
+NeoTeach differentiates itself from traditional LMS platforms by integrating AI-based
+content generation, real-time analytics, and gamification under one system. It delivers
+personalized education that saves instructors’ time and motivates learners.
+10. Vision Statement
+NeoTeach envisions redefining online education by merging artificial intelligence,
+analytics, and gamification to deliver a personalized, efficient, and inspiring digital
+learning experience for all.
+1.12. Risk List
+Dependence on third-party APIs (OpenAI, payment gateways) may cause downtime or cost
+variation.
+• Challenges in achieving accurate NLP interpretation for diverse user queries.
+• Ensuring data privacy and compliance with academic regulations (FERPA/GDPR).
+• Potential resistance or slow adaptation by educators unfamiliar with AI systems.
+• Possible increase in development costs due to integration of AI and analytics
+modules.
+• Risk of inconsistent performance on low-end devices or unstable networks.
+1.13. Product Features/ Product Decomposition
+1. User and Admin Panels: Role-based interfaces for students, teachers, and admins.
+2. AI-Powered Course and Quiz Generator: Automatically generates structured lessons,
+quizzes, and video recommendations.
+3. Personalized Learning Dashboard: Tracks progress recommends improvements, and
+awards badges.
+4. Gamification Module: Includes streaks, certificates, and leaderboards for motivation.
+5. Content Management System (CMS): Allows teachers to upload, edit, and manage
+materials.
+6. Tutor Marketplace & Session Booking: Enables teachers to publish courses and
+manage one-to-one or group sessions.
+7. Payment & Transaction Module: Handles secure payments through integrated
+gateways (Stripe, JazzCash, Easypaisa).
+8. Communication Hub: Supports Q/A boards, chatrooms, and feedback channels for
+student-teacher interaction.
+9. Analytics & Reporting: Provides insights into student engagement, course
+performance, and learning trends.
+
+-- 28 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+29
+Chapter 2: Software Requirement Specification (For Object Oriented
+Approach)
+
+-- 29 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+30
+2.1 Introduction:
+A Software Requirements Specification (SRS) document for an object-oriented project like
+NeoTeach would cover the functional, non-functional, and interface requirements. Here
+are a structured outline and details for the SRS, tailored for NeoTeach object-oriented
+approach, the task of capturing, structuring, and accurately representing the user's
+requirements so that they can be correctly embodied in systems:
+• Requirements elicitation
+• Requirements analysis and negotiation
+• Requirements specification
+• System modeling
+• Requirements validation
+• Requirements management
+Figure 2.1.1: System Specifications
+2.1.1 Systems Specifications
+The following are the clauses that must be included while describing the system
+specifications.
+Introduction
+The NeoTeach project focuses on developing an innovative AI-powered learning platform
+that transforms the way teachers create courses and students engage with learning. The
+system is designed to reduce the workload by automatically generating structured lessons,
+quizzes, and assignments using AI. It also enhances the learning experience for students
+through gamification, interactive content, and real-time progress tracking. With built-in
+communication tools and a course marketplace, NeoTeach provides a complete and
+modern solution for online education.
+
+-- 30 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+31
+Area Knowledge:
+In the field of online education, technology has greatly changed how teachers teach and
+how students learn. Many current e-learning platforms mainly focus on video-based
+courses or language learning apps, but they often lack automation, personalization, and real
+engagement. There is still a gap in systems that can automatically create complete,
+structured courses while keeping students motivated and involved. NeoTeach aims to fill
+this gap by offering an AI-powered course creation and learning platform that helps
+teachers save time and provides students with an interactive and personalized learning
+experience.
+Organization Overview:
+The NeoTeach project is being developed by students from the Department of Software
+Engineering at the University of Gujrat, under the supervision of Sir Tauqeer Ul Amin.
+The team is dedicated to building a smart and user-friendly system that aligns with real-
+world educational needs. As a final year project, NeoTeach focuses on applying best
+practices in software design, artificial intelligence integration, and user experience.
+Current Market Status:
+Most existing e-learning platforms like Coursera, Udemy, or Khan Academy are popular
+but limited by static content and manual course creation. Teachers spend a lot of time
+preparing materials and manual course creation, and students often lose interest due to lack
+of interactivity. NeoTeach plans to stand out in this competitive space with its AI-driven
+course generator, gamified learning environment, and communication features that
+promote collaboration.
+Business Regions Overview:
+The focus of the NeoTeach system lies in two key areas:
+Teacher Support and Productivity: NeoTeach helps teachers by reducing the time and
+effort required to create courses, quizzes, and study materials. Through AI-powered
+content generation, it allows teachers to quickly design structured lessons and assessments.
+Student Learning and Engagement: For students, NeoTeach offers an interactive and
+enjoyable learning experience through gamification, progress tracking, and AI-driven
+recommendations. The system keeps learners motivated while helping them understand
+their weaknesses and improve through personalized guidance.
+Existing System
+Current e-learning platforms mainly provide basic features such as video lessons, course
+browsing, and online assessments. While these features help users learn and access
+educational material, they lack personalization, automation, and continuous engagement.
+Most systems rely on pre-recorded content, which limits flexibility and makes learning less
+interactive. Teachers still spend a lot of time creating lessons, quizzes, and study materials
+manually, while students often lose interest due to repetitive or non-interactive learning
+formats. Feedback and progress tracking in existing systems are also limited and do not
+use real-time analytics to help students improve or guide teachers in enhancing their
+courses.
+Overall, while existing platforms cover the basic needs of online education, they fail to
+meet modern expectations for AI integration, personalization, and engagement. This
+creates a clear gap in the market — one that NeoTeach aims to fill by combining
+
+-- 31 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+32
+automation, intelligent analytics, and interactive learning experiences into a single
+platform.
+Organizational Chart
+Figure 2.1.1.1: Organization Chart
+Scope of the System
+The scope of the NeoTeach system covers the development of an advanced AI-powered e-
+learning platform that serves both teachers and students through smart, automated, and
+interactive features. The system will focus on simplifying course creation for teachers
+while keeping students motivated through personalized learning and gamification. The
+NeoTeach System is structured into the development phases to gradually expand the
+platform's capabilities and meet the evolving needs of the teachers and students.
+Phase 1:
+Phase 1 will focus on building the core features essential for the basic operation of the
+platform and teacher-student engagement. This phase will include:
+• User Roles and Authentication: Separate interfaces for teachers, students, and
+admins for managing accounts and access.
+• AI-Based Course & Quiz Generator: AI module to automatically generate
+courses, assignments and quizzes from teacher prompts.
+• Basic Course Management: Teachers can upload lessons and videos, and students
+can enroll and access materials.
+• Gamification Dashboard: Progress tracking with badges and certificates for
+motivation.
+Phase 2:
+Phase 2 will aim to enhance interactivity, support, and personalization with advanced
+features. This phase will include:
+• Enhanced Communication Tools: Expansion of discussion forums and group
+learning spaces for better collaboration.
+
+-- 32 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+33
+• Tutor Availability & Booking Module: Teachers can schedule online or physical
+tutoring sessions through the marketplace.
+• Improved User Experience: Enhanced UI with onboarding tutorials and
+voice/NLP support for accessibility.
+Summary of Requirements: (Initial Requirements)
+Functional Requirements – NeoTeach
+User and Admin Panel: Separate dashboards for students and teachers. Users can manage
+their profiles, courses, and progress, while admins can monitor platform activities.
+AI Course Generator: Teachers can enter a topic or prompt, and the AI automatically
+generates structured lessons, quizzes, and video suggestions.
+Course Management System (CMS): Teachers can create, edit, or delete courses and
+lessons. Students can browse, enroll, and access course materials.
+Gamified Learning Dashboard: Students earn badges, streaks, and certificates based on
+course completion and quiz performance to stay motivated.
+Assignment & Peer Review System: Allows students to submit assignments, review peer
+work, and receive feedback with integrated plagiarism detection.
+Communication Hub: Includes discussion forums, Q/A boards, and messaging tools for
+student-teacher and peer interaction.
+Tutor Booking and Marketplace: Students can book online or in-person tutoring
+sessions, and teachers can manage their availability and payments.
+Non-Functional Requirements – NeoTeach
+Usability:
+• The system should have a clean, simple, and interactive interface with no more than
+4 clicks to reach key features (like viewing a course or submitting a quiz).
+• Each screen should load within 2 seconds under a stable internet connection.
+• Students and teachers should easily access core features (Courses, Dashboard,
+Assignments) within 5 seconds.
+Performance:
+• Login and authentication should be completed within 2-3 seconds after valid
+credentials are entered.
+• Course generation through AI should take no longer than 45-90 seconds.
+• Data synchronization between mobile and web should occur in real-time using
+cloud APIs.
+Security:
+• The system uses JWT authentication and secure API encryption to protect user data.
+• MongoDB ensures secure cloud database storage.
+
+-- 33 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+34
+• Admin access is role-based, preventing unauthorized actions or data access.
+Reliability:
+• The platform should maintain 99.5% uptime to ensure continuous learning access.
+• The system should scale efficiently to support 10,000+ concurrent users without
+performance loss.
+Compatibility:
+• The NeoTeach application must run smoothly on all major browsers: Google
+Chrome, Firefox, Edge, and Safari.
+• The mobile app (built in Flutter) must function consistently on both Android and
+iOS devices.
+3.1.2. Identifying External Entities
+To identify the external entities related to the NeoTeach project, a two-phase process is
+used to determine which users and systems interact directly with the platform.
+a. Over Specify Entities from Abstract:
+Based on the project description, the following potential external entities can be
+identified:
+1. Students: Users who browse courses, take quizzes, submit assignments, and
+interact with teachers through discussions or feedback.
+2. Teachers/Instructors: Educators who create or manage courses, generate lessons
+and quizzes using AI, and review student progress.
+3. Admins: Responsible for managing platform users, approving courses, moderating
+discussions, and maintaining overall system stability.
+4. AI Content Generation Service: External AI APIs (like OpenAI) used to generate
+lessons, quizzes, and content summaries based on teacher prompts.
+5. Payment Gateway: Third-party service used for secure processing of course
+purchases or tutoring session fees.
+6. Students Seeking Support: Users who use chat or help sections for assistance with
+courses, accounts, or system navigation.
+7. System Maintenance Team: Developers or IT personnel who handle updates, bug
+fixes, and system monitoring.
+8. Database Management System (DBMS): Manages storage and retrieval of user
+profiles, course materials, and analytics data.
+9. Notification Services: External APIs (like Firebase Cloud Messaging) used for
+sending real-time notifications and updates.
+10. External Media Platforms: YouTube or other APIs integrated to fetch and embed
+educational video resources into courses.
+b. Perform Refinement:
+After analyzing the list, only the entities directly connected with NeoTeach`s core
+operations are retained.
+1. Students: Remain the primary users who interact with the platform for learning,
+assessment, and communication.
+
+-- 34 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+35
+2. Teachers/Instructors: Continue as key contributors who create and manage AI-
+assisted courses.
+3. Admins: Essential for monitoring activities, maintaining content quality, and
+ensuring platform security.
+4. AI Content Generation Service: Retained as a critical external service for course
+and quiz generation.
+5. Payment Gateway: Included as it supports monetized courses and tutoring
+services.
+6. Notification Service: Kept as an important external system to provide real-time
+updates and alerts.
+7. External Media Platforms: Maintained for integrating external learning
+resources, like YouTube videos.
+2.1.3. Context Level Data Flow Diagram:
+Figure 2.1.3.1: Context Flow Diagram
+
+-- 35 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+36
+2.1.4. Capture "shall" Statements:
+Table 2.1.4.1: Capture “shall” Requirements
+Para Initial Requirements
+#
+1. User Management (User Authentication)
+1.0 The system shall allow students and teachers to create accounts by entering required
+information such as full name, email, password, and role (student/teacher), and
+verifying their identity before the account is activated.
+1.1 The system shall allow users (students and teachers) to log in securely using their
+registered email and password by validating credentials and granting access only if the
+information is correct.
+1.2 The system shall allow users to view and edit their profile details, including name,
+profile picture, contact information, and educational/teaching details, through a
+dedicated profile management page.
+1.3 The system shall allow users to reset forgotten passwords safely by entering the email
+or phone number linked with their account, receiving a system-generated OTP, and
+setting a new password after OTP verification.
+1.4 The system shall allow users to delete or deactivate their accounts by submitting a
+request, after which the system verifies identity and either permanently removes or
+temporarily disables the user’s data depending on user choice.
+2. Course Management
+2.0 The system shall allow teachers to create and manage AI-generated courses by entering
+course details, uploading resources, customizing AI-generated content, and publishing
+the course for students.
+2.1 The system shall allow students to browse, view, and enroll in available courses
+through a course catalog that displays course title, instructor name, difficulty level, and
+description.
+2.2 The system shall allow teachers to edit, update, or delete course content at any time,
+including lessons, quizzes, and descriptions, with changes automatically reflected for
+enrolled students.
+3. AI Content Generation
+3.0 The system shall use the OpenAI API or Gemini API to generate course content by
+processing the teacher’s prompts and producing structured lessons, explanations,
+examples, and summaries.
+3.1 The system shall allow teachers to input topics, outlines, or prompts and receive auto-
+generated lessons, explanations, summaries, and practice questions created through the
+AI engine.
+
+-- 36 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+37
+3.2 The system shall automatically generate quizzes and assignments aligned with the
+course material, using AI to ensure relevance, difficulty balance, and learning
+objectives.
+4. Quiz and Assessment Management
+4.0 The system shall allow teachers to create quizzes automatically through AI generation
+by selecting a topic or chapter and receiving auto-generated MCQs, short questions, or
+long questions.
+4.1 The system shall allow students to attempt quizzes from their course dashboard, with
+the quiz timer, navigation, and scoring handled automatically by the system.
+4.2 The system shall automatically evaluate quiz answers, calculate scores instantly, and
+update student performance records.
+4.3 The system shall allow students to give feedback on courses and quizzes through rating
+options and comment forms that store responses for teacher review.
+5. Student Dashboard & Progress Tracking
+5.0 The system shall provide each student with a personalized dashboard showing enrolled
+courses, quiz results, progress charts, badges earned, and pending activities.
+5.1 The system shall highlight weak areas based on quiz performance and recommend AI-
+generated learning suggestions or extra practice materials to help students improve.
+5.2 The system shall display completed courses, grades, quiz performance graphs, and
+learning analytics to help students track progress over time.
+6. Communication Hub
+6.0 The system shall allow real-time messaging between students and teachers, supporting
+text messages, attachments, and discussion threads for academic communication.
+6.1 The system shall send important announcements and updates (e.g., new lessons, quiz
+availability, deadlines) to students through in-app notifications and email alerts.
+7. Gamification & Analytics
+7.0 The system shall award badges, points, or completion rewards to students when they
+finish quizzes, courses, or milestones, automatically updating their gamification
+status.
+7.1 The system shall show leaderboards displaying top performers based on quiz scores,
+course completion speed, and earned points to boost motivation.
+7.2 The system shall allow students to share achievements, earned badges, and progress
+summaries on their public profile or dashboard.
+8. Payment Management
+8.0 The system shall allow students and teachers to subscribe for premium or AI-enhanced
+features by choosing monthly or yearly subscription plans.
+8.1 The system shall securely handle payments using verified gateways and confirm
+successful transactions.
+
+-- 37 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+38
+8.2 The system shall store digital receipts for every transaction and allow users to
+download or access them at any time through their subscription history.
+9. Admin Management
+9.0 The system shall allow the admin to manage users, teachers, courses, and reports by
+providing tools to edit, block, verify, or view account activities.
+9.1 The system shall allow the admin to monitor content quality, user reports, and
+suspicious activity logs to ensure the platform remains safe and compliant.
+9.2 The system shall allow the admin to update or remove inappropriate content,
+misleading information, or harmful material posted by teachers or students.
+9.3 The system shall allow admin to prevent unauthorized system access by using
+authentication rules, access control levels, and session monitoring tools.
+10. Marketplace & Session Booking Module
+10.0 The system shall allow teachers to publish their courses and tutoring services in a
+public marketplace, including details such as pricing, availability, subject expertise,
+and session formats (online/in-person).
+10.1 The system shall allow students to book, reschedule, or cancel online or in-person
+tutoring sessions with teachers by viewing available time slots and receiving instant
+booking confirmations.
+2.1.5. Allocate Requirements:
+Table 2.1.5.1: Allocate Requirements
+Para # Initial Requirements Use Case Name
+1.0 The system shall allow students and teachers to create
+accounts by entering required information such as full name,
+email, password, and role (student/teacher), and verifying
+their identity before the account is activated.
+UC_Registration
+1.1 The system shall allow users (students and teachers) to log
+in securely using their registered email and password by
+validating credentials and granting access only if the
+information is correct.
+UC_Login
+1.2 The system shall allow users to view and edit their profile
+details, including name, profile picture, contact information,
+and educational/teaching details, through a dedicated profile
+management page.
+UC_Update_Profile
+1.3 The system shall allow users to reset forgotten passwords
+safely by entering the email or phone number linked with
+their account, receiving a system-generated OTP, and setting
+a new password after OTP verification.
+UC_Reset_Password
+1.4 The system shall allow users to delete or deactivate their
+accounts by submitting a request, after which the system
+verifies identity and either permanently removes or
+UC_Delete_Profile
+
+-- 38 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+39
+temporarily disables the user’s data depending on user
+choice.
+2.0 The system shall allow teachers to create and manage AI-
+generated courses by entering course details, uploading
+resources, customizing AI-generated content, and
+publishing the course for students.
+UC_Create_Course
+2.1 The system shall allow students to browse, view, and enroll
+in available courses through a course catalog that displays
+course title, instructor name, difficulty level, and
+description.
+UC_Enroll_Course
+2.2 The system shall allow teachers to edit, update, or delete
+course content at any time, including lessons, quizzes, and
+descriptions, with changes automatically reflected for
+enrolled students.
+UC_Manage_Course
+3.0 The system shall use the OpenAI API or Gemini API to
+generate course content by processing the teacher’s prompts
+and producing structured lessons, explanations, examples,
+and summaries.
+UC_Generate_Content
+3.1 The system shall allow teachers to input topics, outlines, or
+prompts and receive auto-generated lessons, explanations,
+summaries, and practice questions created through the AI.
+UC_Generate_Quiz
+3.2 The system shall automatically generate quizzes and
+assignments aligned with the course material, using AI to
+ensure relevance, difficulty balance, and learning
+objectives.
+UC_AI_Adaptation
+4.0 The system shall allow teachers to create quizzes
+automatically through AI generation by selecting a topic or
+chapter and receiving auto-generated MCQs, short
+questions, or long questions.
+UC_Create_Quiz
+4.1 The system shall allow students to attempt quizzes from
+their course dashboard, with the quiz timer, navigation, and
+scoring handled automatically by the system.
+UC_Attempt_Quiz
+4.2 The system shall automatically evaluate quiz answers,
+calculate scores instantly, and update student performance
+records.
+UC_Grade_Quiz
+4.3 The system shall allow students to give feedback on courses
+and quizzes through rating options and comment forms that
+store responses for teacher review.
+UC_Quiz_Results
+5.0 The system shall provide each student with a personalized
+dashboard showing enrolled courses, quiz results, progress
+charts, badges earned, and pending activities.
+UC_View_Dashboard
+5.1 The system shall highlight weak areas based on quiz
+performance and recommend AI-generated learning
+suggestions or extra practice materials to help students
+improve.
+UC_Track_Progress
+
+-- 39 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+40
+5.2 The system shall display completed courses, grades, quiz
+performance graphs, and learning analytics to help students
+track progress over time.
+UC_View_Reports
+6.0 The system shall allow real-time messaging between
+students and teachers, supporting text messages,
+attachments, and discussion threads for academic
+communication.
+UC_Message
+6.1 The system shall send important announcements and
+updates (e.g., new lessons, quiz availability, deadlines) to
+students through in-app notifications and email alerts.
+UC_Send_Notification
+7.0 The system shall award badges, points, or completion
+rewards to students when they finish quizzes, courses, or
+milestones, automatically updating their gamification status.
+UC_Reward_System
+7.1 The system shall show leaderboards displaying top
+performers based on quiz scores, course completion speed,
+and earned points to boost motivation.
+UC_Leaderboard
+7.2 The system shall allow students to share achievements,
+earned badges, and progress summaries on their public
+profile or dashboard.
+UC_Sharing_Rewards
+8.0 The system shall allow students and teachers to subscribe
+for premium or AI-enhanced features by choosing monthly
+or yearly subscription plans.
+UC_Set_Pricing
+8.1 The system shall securely handle payments using verified
+gateways and confirm successful transactions.
+UC_Process_Payment
+8.2 The system shall store digital receipts for every transaction
+and allow users to download or access them at any time
+through their subscription history.
+UC_Payment_Receipt
+9.0 The system shall allow the admin to manage users, teachers,
+courses, and reports by providing tools to edit, block, verify,
+or view account activities.
+UC_Manage_Users
+9.1 The system shall allow the admin to monitor content quality,
+user reports, and suspicious activity logs to ensure the
+platform remains safe and compliant.
+UC_Remove_Content
+9.2 The system shall allow the admin to update or remove
+inappropriate content, misleading information, or harmful
+material posted by teachers or students.
+UC_Admin_Report
+9.3 The system shall allow admin to prevent unauthorized
+system access by using authentication rules, access control
+levels, and session monitoring tools.
+UC_Admin_Report
+10.0 The system shall allow teachers to publish their courses and
+tutoring services in a public marketplace, including details
+such as pricing, availability, subject expertise, and session
+formats (online/in-person).
+UC_Publish_Course
+10.1 The system shall allow students to book, reschedule, or
+cancel online or in-person tutoring sessions with teachers by
+UC_Session_Booking
+
+-- 40 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+41
+viewing available time slots and receiving instant booking
+confirmations.
+2.1.6. Prioritize Requirements:
+Table 2.1.6.1: Prioritize Requirements
+Para
+#
+Rank Initial Requirements Use
+Case ID
+Use Case Name
+1.0 Highest The system shall allow students
+and teachers to create accounts by
+entering required information such
+as full name, email, password, and
+role (student/teacher), and
+verifying their identity before the
+account is activated.
+UC_1 UC_Registration
+1.1 Highest The system shall allow users
+(students and teachers) to log in
+securely using their registered
+email and password by validating
+credentials and granting access
+only if the information is correct.
+UC_2 UC_Login
+1.2 Highest The system shall allow users to
+view and edit their profile details,
+including name, profile picture,
+contact information, and
+educational/teaching details,
+through a dedicated profile
+management page.
+UC_3 UC_Update_Profile
+2.0 Highest The system shall allow teachers to
+create and manage AI-generated
+courses by entering course details,
+uploading resources, customizing
+AI-generated content, and
+publishing the course for students.
+UC_4 UC_Create_Course
+2.1 Highest The system shall allow students to
+browse, view, and enroll in
+available courses through a course
+catalog that displays course title,
+instructor name, difficulty level,
+and description.
+UC_5 UC_Enroll_Course
+3.0 Highest The system shall use the OpenAI
+API or Gemini API to generate
+course content by processing the
+teacher’s prompts and producing
+structured lessons, explanations,
+examples, and summaries.
+UC_6 UC_Generate_Content
+
+-- 41 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+42
+3.1 Highest The system shall allow teachers to
+input topics, outlines, or prompts
+and receive auto-generated
+lessons, explanations, summaries,
+and practice questions created
+through the AI engine.
+UC_7 UC_Generate_Quiz
+4.0 Highest The system shall allow teachers to
+create quizzes automatically
+through AI generation by selecting
+a topic or chapter and receiving
+auto-generated MCQs, short
+questions, or long questions.
+UC_8 UC_Create_Quiz
+4.1 Highest The system shall allow students to
+attempt quizzes from their course
+dashboard, with the quiz timer,
+navigation, and scoring handled
+automatically by the system.
+UC_9 UC_Attempt_Quiz
+5.0 Highest The system shall provide each
+student with a personalized
+dashboard showing enrolled
+courses, quiz results, progress
+charts, badges earned, and pending
+activities.
+UC_10 UC_View_Dashboard
+6.0 Highest The system shall allow real-time
+messaging between students and
+teachers, supporting text messages,
+attachments, and discussion
+threads for academic
+communication.
+UC_11 UC_Message
+7.0 Highest The system shall award badges,
+points, or completion rewards to
+students when they finish quizzes,
+courses, or milestones,
+automatically updating their
+gamification status.
+UC_12 UC_Reward_System
+8.1 Highest The system shall securely handle
+payments using verified gateways
+and confirm successful
+transactions.
+UC_13 UC_Process_Payment
+9.0 Highest The system shall allow the admin
+to manage users, teachers, courses,
+and reports by providing tools to
+edit, block, verify, or view account
+activities.
+UC_14 UC_Manage_Users
+
+-- 42 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+43
+10.0 Highest The system shall allow teachers to
+publish their courses and tutoring
+services in a public marketplace,
+including details such as pricing,
+availability, subject expertise, and
+session formats (online/in-person).
+UC_15 UC_Publish_Course
+10.1 Highest The system shall allow students to
+book, reschedule, or cancel online
+or in-person tutoring sessions with
+teachers by viewing available time
+slots and receiving instant booking
+confirmations.
+UC_16 UC_Session_Booking
+1.4 Medium The system shall allow users to
+delete or deactivate their accounts
+by submitting a request, after
+which the system verifies identity
+and either permanently removes or
+temporarily disables the user’s
+data depending on user choice.
+UC_17 UC_Delete_Profile
+1.3 Medium The system shall allow users to
+reset forgotten passwords safely
+by entering the email or phone
+number linked with their account,
+receiving a system-generated
+OTP, and setting a new password
+after OTP verification.
+UC_18 UC_Reset_Password
+2.2 Medium The system shall allow teachers to
+edit, update, or delete course
+content at any time, including
+lessons, quizzes, and descriptions,
+with changes automatically
+reflected for enrolled students.
+UC_19 UC_Manage_Course
+3.2 Medium The system shall automatically
+generate quizzes and assignments
+aligned with the course material,
+using AI to ensure relevance,
+difficulty balance, and learning
+objectives.
+UC_20 UC_AI_Adaptation
+4.2 Medium The system shall automatically
+evaluate quiz answers, calculate
+scores instantly, and update
+student performance records.
+UC_21 UC_Grade_Quiz
+4.3 Medium The system shall allow students to
+give feedback on courses and
+quizzes through rating options and
+UC_22 UC_Quiz_Results
+
+-- 43 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+44
+comment forms that store
+responses for teacher review.
+5.1 Medium The system shall highlight weak
+areas based on quiz performance
+and recommend AI-generated
+learning suggestions or extra
+practice materials to help students
+improve.
+UC_23 UC_Track_Progress
+7.1 Medium The system shall show
+leaderboards displaying top
+performers based on quiz scores,
+course completion speed, and
+earned points to boost motivation.
+UC_24 UC_Leaderboard
+8.0 Medium The system shall allow students
+and teachers to subscribe for
+premium or AI-enhanced features
+by choosing monthly or yearly
+subscription plans.
+UC_25 UC_Set_Pricing
+9.1 Medium The system shall allow the admin
+to monitor content quality, user
+reports, and suspicious activity
+logs to ensure the platform
+remains safe and compliant.
+UC_26 UC_Remove_Content
+5.2 Lowest The system shall display
+completed courses, grades, quiz
+performance graphs, and learning
+analytics to help students track
+progress over time.
+UC_27 UC_View_Reports
+6.1 Lowest The system shall send important
+announcements and updates (e.g.,
+new lessons, quiz availability,
+deadlines) to students through in-
+app notifications and email alerts.
+UC_28 UC_Send_Notification
+7.2 Lowest The system shall allow students to
+share achievements, earned
+badges, and progress summaries
+on their public profile or
+dashboard.
+UC_29 UC_Sharing_Rewards
+8.2 Lowest The system shall store digital
+receipts for every transaction and
+allow users to download or access
+them at any time through their
+subscription history.
+UC_30 UC_Payment_Receipt
+9.2 Lowest The system shall allow the admin
+to update or remove inappropriate
+UC_31 UC_Admin_Report
+
+-- 44 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+45
+content, misleading information,
+or harmful material posted by
+teachers or students.
+9.3 Lowest The system shall allow admin to
+prevent unauthorized system
+access by using authentication
+rules, access control levels, and
+session monitoring tools.
+UC_32 UC_Admin_Report
+2.1.7. Requirements Trace-ability Matrix:
+Table 2.1.7.1: Requirements Traceability Matrix
+Sr
+#
+Para
+#
+System Specification Text Build Use Case Name Category
+1 1.0 The system shall allow students and
+teachers to create accounts by entering
+required information such as full
+name, email, password, and role
+(student/teacher), and verifying their
+identity before the account is activated.
+Build
+1.0
+UC_Registration User
+Management
+2 1.1 The system shall allow users (students
+and teachers) to log in using their
+registered email and password by
+validating credentials and granting
+access only if the information is
+correct.
+Build
+1.0
+UC_Login User
+Management
+3 1.2 The system shall allow users to view
+and edit their profile details, including
+name, profile picture, contact
+information, and educational/teaching
+details, through a dedicated profile
+management page.
+Build
+1.0
+UC_Update_Profile User
+Management
+4 1.3 The system shall allow users to reset
+forgotten passwords safely by entering
+the email or phone number linked with
+their account, receiving a system-
+generated OTP, and setting a new
+password after OTP verification.
+Build
+1.1
+UC_Reset_Password User
+Management
+5 1.4 The system shall allow users to delete
+or deactivate their accounts by
+submitting a request, after which the
+system verifies identity and either
+permanently removes or temporarily
+disables the user’s data depending on
+user choice.
+Build
+1.1
+UC_Delete_Profile User
+Management
+
+-- 45 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+46
+6 2.0 The system shall allow teachers to
+create and manage AI-generated
+courses by entering course details,
+uploading resources, customizing AI-
+generated content, and publishing the
+course for students.
+Build
+2.0
+UC_Create_Course Course
+Management
+7 2.1 The system shall allow students to
+browse, view, and enroll in available
+courses through a course catalog that
+displays course title, instructor name,
+difficulty level, and description.
+Build
+2.1
+UC_Enroll_Course Course
+Management
+8 2.2 The system shall allow teachers to edit,
+update, or delete course content at any
+time, including lessons, quizzes,
+media, and descriptions, with changes
+automatically reflected for enrolled
+students.
+Build
+2.2
+UC_Manage_Course Course
+Management
+9 3.0 The system shall use the OpenAI API
+or Gemini API to generate course
+content by processing the teacher’s
+prompts and producing structured
+lessons, explanations, examples, and
+summaries.
+Build
+3.0
+UC_Generate_Content AI Content
+Generation
+10 3.1 The system shall allow teachers to
+input topics, outlines, or prompts and
+receive auto-generated lessons,
+explanations, summaries, and practice
+questions created through the AI
+engine.
+Build
+3.1
+UC_Generate_Quiz AI Content
+Generation
+11 3.2 The system shall automatically
+generate quizzes and assignments
+aligned with the course material, using
+AI to ensure relevance, difficulty
+balance, and learning objectives.
+Build
+3.2
+UC_AI_Adaptation AI Content
+Generation
+12 4.0 The system shall allow teachers to
+create quizzes automatically through
+AI generation by selecting a topic or
+chapter and receiving auto-generated
+MCQs, short questions, or long
+questions.
+Build
+4.0
+UC_Create_Quiz Quiz &
+Assessment
+13 4.1 The system shall allow students to
+attempt quizzes from their course
+dashboard, with the quiz timer,
+navigation, and scoring handled
+automatically by the system.
+Build
+4.1
+UC_Attempt_Quiz Quiz &
+Assessment
+
+-- 46 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+47
+14 4.2 The system shall automatically
+evaluate quiz answers, calculate scores
+instantly, and update student
+performance records.
+Build
+4.2
+UC_Grade_Quiz Quiz &
+Assessment
+15 4.3 The system shall allow students to give
+feedback on courses and quizzes
+through rating options and comment
+forms that store responses for teacher
+review.
+Build
+4.3
+UC_Quiz_Results Quiz &
+Assessment
+16 5.0 The system shall provide each student
+with a personalized dashboard
+showing enrolled courses, quiz results,
+progress charts, badges earned, and
+pending activities.
+Build
+5.0
+UC_View_Dashboard Student
+Progress &
+Dashboard
+17 5.1 The system shall highlight weak areas
+based on quiz performance and
+recommend AI-generated learning
+suggestions or extra practice materials
+to help students improve.
+Build
+5.1
+UC_Track_Progress Student
+Progress &
+Dashboard
+18 5.2 The system shall display completed
+courses, grades, quiz performance
+graphs, and learning analytics to help
+students track progress over time.
+Build
+5.2
+UC_View_Reports Student
+Progress &
+Dashboard
+19 6.0 The system shall allow real-time
+messaging between students and
+teachers, supporting text messages,
+attachments, and discussion threads for
+academic communication.
+Build
+6.0
+UC_Message Communication
+Hub
+20 6.1 The system shall send important
+announcements and updates (e.g., new
+lessons, quiz availability, deadlines) to
+students through in-app notifications
+and email alerts.
+Build
+6.2
+UC_Send_Notification Communication
+Hub
+21 7.0 The system shall award badges, points,
+or completion rewards to students
+when they finish quizzes, courses, or
+milestones, automatically updating
+their gamification status.
+Build
+7.0
+UC_Reward_System Gamification &
+Motivation
+22 7.1 The system shall show leaderboards
+displaying top performers based on
+quiz scores, course completion speed,
+and earned points to boost motivation.
+Build
+7.1
+UC_Leaderboard Gamification &
+Motivation
+23 7.2 The system shall allow students to
+share achievements, earned badges,
+Build
+7.2
+UC_Sharing_Reward Gamification &
+Motivation
+
+-- 47 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+48
+and progress summaries on their public
+profile or dashboard.
+24 8.0 The system shall allow students and
+teachers to subscribe for premium or
+AI-enhanced features by choosing
+monthly or yearly subscription plans.
+Build
+8.0
+UC_Set_Pricing Payment &
+Subscription
+25 8.1 The system shall securely handle
+payments using verified gateways and
+confirm successful transactions.
+Build
+8.1
+UC_Process_Payment Payment &
+Subscription
+26 8.2 The system shall store digital receipts
+for every transaction and allow users to
+download or access them at any time
+through their subscription history.
+Build
+8.2
+UC_Payment_Receipt Payment &
+Subscription
+27 9.0 The system shall allow the admin to
+manage users, teachers, courses, and
+reports by providing tools to edit,
+block, verify, or view account
+activities.
+Build
+9.0
+UC_Manage_Users Admin
+Management
+28 9.1 The system shall allow the admin to
+monitor content quality, user reports,
+and suspicious activity logs to ensure
+the platform remains safe and
+compliant.
+Build
+9.1
+UC_Remove_Content Admin
+Management
+29 9.2 The system shall allow the admin to
+update or remove inappropriate
+content, misleading information, or
+harmful material posted by teachers or
+students.
+Build
+9.2
+UC_Admin_Report Admin
+Management
+30 9.3 The system shall allow admin to
+prevent unauthorized system access by
+using authentication rules, access
+control levels, and session monitoring
+tools.
+Build
+9.3
+UC_Access_Control Admin
+Management
+31 10.0 The system shall allow teachers to
+publish their courses and tutoring
+services in a public marketplace,
+including details such as pricing,
+availability, subject expertise, and
+session formats (online/in-person).
+Build
+10.0
+UC_Publish_Course Marketplace &
+Session
+Booking
+Management
+32 10.1 The system shall allow students to
+book, reschedule, or cancel online or
+in-person tutoring sessions with
+teachers by viewing available time
+Build
+10.1
+UC_Session_Booking Marketplace &
+Session
+Booking
+Management
+
+-- 48 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+49
+slots and receiving instant booking
+confirmations.
+2.2.10. High Level Usecase Diagram:
+Figure 2.2.10.1: High Level Use-case Diagram
+
+-- 49 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+50
+2.2.11. Analysis Level Usecase Diagram:
+Figure 2.2.11.1: Analysis Level Use-case Diagram
+
+-- 50 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+51
+2.2.12. Usecase Description
+Registration Use-case
+Table 2.2.12.1: Registration
+Use-case Name: UC_Registeration Use-case ID: UI_1.0
+Actor: Student, Teacher Created By: Hussain, Ayesha
+Date: 03/11/2025
+Description: Allows teacher /tutors and students to manage their accounts (registration, login,
+profile updates) and admins to handle roles.
+Pre-Condition:
+• First, users (Teachers, tutors & students) must have the app installed.
+• Admin credentials must be verified.
+• The user must have internet access and a valid email.
+Basic Flow:
+User System
+1. The user enters their personal details
+such as name, email, phone number,
+password, and selects role
+(Student/Teacher).
+2. The system checks that the email format,
+password strength, and phone number format
+are valid.
+3. The user clicks “Register”. 4. The system verifies if an account with the
+same email already exists. If not, it registered
+the account.
+5. System confirms identity and creates a
+new user profile in the database.
+6. User logs in using the newly created
+email & password.
+7. System authenticates the credentials and
+loads the appropriate dashboard (Student
+Dashboard or Teacher Dashboard).
+8. User may update profile (picture, bio,
+skills, subjects) if needed.
+9. System stores updated info and sends a
+confirmation email of successful account
+setup.
+Alternative Flow:
+• In step 3.1, at any step where the user enters incomplete or incorrect data (invalid email
+format, weak password, missing fields), the system displays an error message and
+highlights the incorrect fields.
+
+-- 51 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+52
+• In step 4.1, if the user enters an email that is already in the system, the system shows
+“Email already in use” and suggests logging in or resetting the password.
+Post-Condition:
+• A new user account (Student or Teacher) is successfully created and stored in the
+system database.
+• The user identity is verified through OTP or email verification.
+• The user can now log in and access all system features related to their role.
+Login Use-case
+Table 2.2.12.2: Login User Description
+Use-case Name: UC_Login Use-case ID: UI_1.1
+Actor: Student, Teacher and Admin Created By: Hussain, Ayesha
+Date: 03/11/2025
+Description: This case allows registered users (students, teachers & admin) to authenticate
+themselves by providing valid credentials (username, password) and enables registered users
+to log in using their credentials to access the platform.
+Pre-Condition:
+• Users must be registered in the system.
+• System must be online and have internet access.
+Basic Flow:
+User System
+1. User opens NeoTeach and navigates to
+the Login Page.
+2. System loads and displays the login form
+(email + password fields).
+3. User enters email and password. 4. System captures the input and forwards it
+to the authentication service.
+5. User clicks the login button 6. System verifies the credentials, checks if
+the account exists, confirms the role
+(Student/Teacher), and checks if the account
+is active.
+7. If valid, system redirects the user to their
+role-based dashboard. If invalid, an
+appropriate error message is displayed.
+
+-- 52 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+53
+Alternative Flow:
+A1 – Invalid Password
+• At step 3.1, if the user enters an incorrect password, the system displays “Incorrect
+password. Please try again.”
+A2 – Forgot Password
+• If the user clicks “Forgot Password?”, the system redirects them to the password reset
+process where reset email is sent.
+A3 – Inactive or Blocked Account
+• If the account is blocked or deactivated by the admin, the system displays: “Your
+account is currently inactive. Contact support.”
+Post-Condition:
+• The user is successfully authenticated and gains access to the system based on their
+role (Student Dashboard, Teacher Dashboard, or Admin Panel).
+• A secure login session is established.
+Course Creation (Teacher) Use Case
+Table 2.2.12.3: Course Creation User Description
+Use-case Name: UC_Create_Course Use-case ID: UI_2.0
+Actor: Teacher Created By: Hussain, Ayesha
+Date: 03/11/2025
+Description: Allows teachers to create new courses using AI-generated content.
+Pre-Condition:
+• Teacher must be logged in.
+Basic Flow:
+User System
+1. Teacher navigates to the Course Creation
+section and selects “Create New Course”.
+2. System loads the course creation page
+and displays fields for title, outline, topics,
+description, difficulty level and prompts.
+3. Teacher enters the course title, outline,
+topics, description, select difficulty level
+and any instructional prompts.
+4. System sends the provided inputs to the
+AI Content Generation API to generate
+lessons, modules, and quizzes.
+
+-- 53 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+54
+5. Teacher reviews the AI-generated
+content, makes edits, and clicks “Publish
+Course”.
+6. System saves the course in the database,
+assigns ownership to the teacher’s account,
+and sends a confirmation notification.
+Alternative Flow:
+A1 – AI Generation Failure
+• At Step 3, if the AI API fails, returns empty responses, or times out:
+o The system displays “AI Generation Error – Please try again or enter content
+manually.”
+o Teacher can proceed with manual content entry, save drafts, and publish when
+finished.
+A2 – Missing Required Fields
+• If course title or topics are empty, The system shows: “Missing required fields. Please
+complete all mandatory inputs.”
+Post-Condition:
+• Course is saved in the database.
+• Course is saved and visible to enrolled students or in marketplace.
+Use Case: Enroll in Course
+Table 2.2.12.4: Enroll in Course User Description
+Use-case Name: UC_Enroll_Course Use-case ID: UI_2.1
+Actor: Student Created By: Hussain, Ayesha
+Date: 03/11/2025
+Description: Enables students to browse, enroll, and access AI-generated courses.
+Pre-Condition:
+• Student must be logged in.
+• Courses must already be published and visible in the Course Catalog.
+• (If paid) The student must have a valid payment method registered or available.
+
+-- 54 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+55
+Basic Flow:
+User System
+1. Student browses the list of available
+courses through the Course Catalog.
+2. System retrieves and displays all
+available courses with title, instructor, price
+(free/paid), difficulty level, and summary.
+3. Student selects a desired course to view
+its details.
+4. System opens the course details page
+showing description, lessons, AI-generated
+content, and enrollment button.
+5. Student clicks the “Enroll” button. 6. System verifies whether the course is free
+or paid and enrolls the student accordingly.
+If free, enrollment is confirmed immediately
+and added to the dashboard
+Alternative Flow:
+A1. If the selected course is paid, the system redirects the student to Payment Module.
+A2. System displays the course price, payment methods, and order summary.
+A3. System verifies transaction success with the payment gateway.
+A4. Upon successful payment, the system enrolls the student and adds the course to the
+dashboard. If payment fails, the system displays an error message and does not enroll the
+student.
+Post-Condition:
+• Course is added to the student’s active learning list or dashboard.
+• The student gains access to lessons, AI-generated content, and quizzes for that
+course.
+Use Case: Attempt Quiz
+Table 2.2.12.5: Attempt Quiz User Description
+Use-case Name: UC_Attempt_Quiz Use-case ID: UI_4.1
+Actor: Student Created By: Hussain, Ayesha
+Date: 03/11/2025
+Description: This use case allows students to take AI-generated quizzes, auto grades
+responses and receive instant feedback.
+Pre-Condition:
+• Student must be enrolled in a course.
+• The user must have internet access and a valid email.
+
+-- 55 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+56
+Basic Flow:
+User System
+1. Student opens the enrolled course page
+from the dashboard.
+2. System loads the course details and
+displays available quizzes.
+3. Student selects the “Attempt Quiz”
+button.
+4. System fetches quiz questions and
+displays them in an interactive quiz
+interface.
+5. Student selects answers for each question
+and clicks “Submit”.
+6. System automatically evaluates all
+answers, calculates the score, and displays
+the result along with feedback.
+Alternative Flow:
+A1 – Internet Connection Lost
+• If the internet disconnects during the quiz, The system automatically saves the
+student’s progress (if enabled).When the connection is restored, the student can
+resume the quiz from the saved point.
+A2 – Incomplete Submission
+• If required answers are missing, system prompts: “Please answer all mandatory
+questions before submitting.”
+Post-Condition:
+• The quiz attempt is saved in the system and linked to the student’s course progress.
+The earned score, feedback, and performance analytics appear in the Student
+Dashboard.
+• Earn badges and streaks.
+Use Case: AI Content Generation
+Table 2.2.12.6: AI Content Generation User Description
+Use-case Name: UC_Generate_Content Use-case ID: UI_3.0
+Actor: Teacher Created By: Hussain, Ayesha
+Date: 04/11/2025
+Description: The system uses OpenAI API to generate course materials, lessons, and quizzes
+automatically.
+Pre-Condition:
+• Users must be logged in.
+• Teacher must enter valid topic or keywords.
+
+-- 56 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+57
+• The user must have internet access.
+Basic Flow:
+User System
+1. Teacher selects the “Generate Content”
+option from course creation tools.
+2. System opens the course content
+generation interface and displays input
+fields for topic, outline, or keywords.
+3. Teacher enters the required topic, outline,
+or descriptive content details.
+4. System validates input and sends a
+request to the OpenAI/Gemini API with the
+provided details.
+5. System receives AI-generated content
+(lessons, explanations, examples,
+summaries, or quiz items) and displays it in
+a preview panel for the teacher.
+6. Teacher can save or edit before
+publishing if needed.
+7. System updates the course workspace
+with the saved or edited AI-generated
+content.
+Alternative Flow:
+A1. If the AI API key limit is exceeded, unavailable, or rate-limited:
+• System displays an error notification: “AI service temporarily unavailable. Please try
+again later.”
+• System logs the failed API attempt. Teacher is returned to the content input page
+without losing previously entered topic/keywords.
+Post-Condition:
+• AI-generated content saved in the course database.
+Use Case: Communication (Chat)
+Table 2.2.12.7: Communication User Description
+Use-case Name: UC_Message Use-case ID: UI_6.0
+Actor: Student, Teacher Created By: Hussain, Ayesha
+Date: 10/11/2025
+Description: Enables real-time chat and Q&A between students and teachers.
+
+-- 57 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+58
+Pre-Condition:
+• Both users must be logged in.
+Basic Flow:
+User System
+1. User opens the “Chat” or “Messages”
+section.
+2.System loads the chat interface and
+retrieves existing conversation history.
+3. User types and sends a message. 4. System delivers the message to the
+recipient and updates both chat screens in
+real time.
+5. User receives incoming messages from
+the other party.
+6.System stores each message securely and
+displays it instantly in the conversation
+thread.
+Alternative Flow:
+A1 – Internet Connectivity Loss
+• If the internet disconnects when the user tries to send a message: The system shows
+“Message not sent. Check your connection.” The message remains unsent until the
+user retries after reconnection.
+Post-Condition:
+• Message history stored securely in database for future reference.
+Use Case: View Dashboard
+Table 2.2.12.8: View Dashboard User Description
+Use-case Name: UC_ Leaderboard Use-case ID: UI_7.1
+Actor: Student Created By: Hussain, Ayesha
+Date: 03/11/2025
+Description: Displays student progress, grades, enrolled courses, and recommended learning
+paths.
+Pre-Condition:
+• Student must be logged in.
+
+-- 58 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+59
+Basic Flow:
+User System
+1. Student opens dashboard. 2. System loads the dashboard interface and
+displays summary widgets such as progress,
+badges, and active courses.
+3. Student clicks “Leaderboard” or
+“Progress Reports” section.
+4. System retrieves leaderboard data,
+including quiz scores, course completion
+percentages, badges earned, and activity
+metrics.
+5. System processes the ranking criteria and
+displays the leaderboard with the student’s
+position compared to other learners.
+Alternative Flow:
+A1 — No Data Available
+• If the system finds no progress, score, or badge data, it displays: “No progress
+available yet. Start a course to appear on the leaderboard.”
+Post-Condition:
+• Dashboard refreshed with the latest progress metrics.
+Use Case: Payment Processing
+Table 2.2.12.9: Payment Processing User Description
+Use-case Name: UC_Process_Payment Use-case ID: UI_8.1
+Actor: Student Created By: Hussain, Ayesha
+Date: 03/11/2025
+Description: Handles course payments through secure payment gateways like Stripe.
+Pre-Condition:
+• Student must be logged into the system.
+• Student must have valid payment details (card information or local payment
+method).
+• The selected course must be marked as paid.
+
+-- 59 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+60
+Basic Flow:
+User System
+1. Student selects a paid course from the
+course catalog or course detail page.
+2. System redirects the student to the
+Payment Page, showing course price, order
+summary, and available payment methods.
+3. Student enters payment details (Card
+Number, Security Code/CVV, Expiry Date,
+or local payment method).
+4. System sends the information securely to
+the payment gateway and verifies the
+transaction status.
+5. Upon successful payment, the system
+generates and stores a digital receipt in the
+student’s payment history.
+6. Student is automatically granted full
+access to the course and redirected to the
+course dashboard.
+Alternative Flow:
+A1: Payment Failed
+If the payment is declined by the gateway (incorrect details, insufficient balance, expired
+card):
+• System displays: “Payment Failed. Please try again.”
+• Student may retry with corrected or different payment details.
+A2: Gateway Timeout or Network Error
+• System displays: “Unable to process payment. Check your connection or try again.”
+Transaction is not completed.
+Post-Condition:
+• Course access granted upon successful payment.
+Use Case: Gamification Rewards
+Table 2.2.12.10: Gamification Rewards User Description
+Use-case Name: UC_Reward_System Use-case ID: UI_7.0
+Actor: Student Created By: Hussain, Ayesha
+Date: 10/11/2025
+Description: Provides points, badges, and rankings based on quiz results and participation.
+
+-- 60 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+61
+Pre-Condition:
+• Student must complete quizzes or activities.
+Basic Flow:
+User System
+1. Student completes a quiz. 2. System evaluates the quiz and awards
+points.
+3. Displays badges and updates leaderboard.
+4.Student review the leaderboard and leave
+the page.
+Alternative Flow:
+If system fails to update leaderboard, reward is stored locally and synced later.
+Post-Condition:
+Rewards added to student’s profile.
+Use Case: Admin Management
+Table 2.2.12.11: Admin Management User Description
+Use-case Name: UC_Manage_Users Use-case ID: UI_9.0
+Actor: Admin Created By: Hussain, Ayesha
+Date: 03/11/2025
+Description:
+Admin can manage users, remove inappropriate content, and view reports.
+Pre-Condition:
+• Admin must be logged in.
+Basic Flow:
+User System
+1. Admin opens the Admin Dashboard
+from the system menu.
+2. System loads the dashboard and displays
+an overview of users, courses, and activity
+logs.
+3. Admin selects “Manage Users”. 4. System retrieves a complete list of users
+(students, teachers) and displays their
+profile summaries, status, and activity.
+
+-- 61 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+62
+5. Admin reviews user accounts and selects
+a user to manage.
+6. System displays detailed information for
+that user (reports, activities, flags).
+7.Admin chooses an action (suspend user,
+delete user, block user, or change role).
+8. System performs the requested action and
+updates the database accordingly.
+9. Admin views system-generated reports
+on user activity and content quality.
+10. System generates updated reports and
+reflects all changes.
+Alternative Flow:
+A1: User Deletion/Suspension Fails
+• If the system cannot delete or suspend the user due to database connectivity issues:
+System displays: “Operation failed. Please try again later.” Admin is prompted to retry
+the action or refresh the user list.
+A2: User Not Found
+• If the selected user no longer exists (deleted earlier): System displays: “User not
+found or already removed.”
+Post-Condition:
+• Platform updated with clean and verified data.
+Use Case: Marketplace & Session Booking
+Table 2.2.12.12: Session Booking User Description
+Use-case Name: UC_Session_Booking Use-case ID: UI_10.1
+Actor: Student Created By: Hussain, Ayesha
+Date: 10/11/2025
+Description: Allows students to view available tutoring slots, book sessions with teachers,
+and cancel or reschedule them.
+Pre-Condition:
+• Student must be logged in.
+• Teacher must have at least one published tutoring listing.
+
+-- 62 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+63
+Basic Flow:
+User System
+1. Student opens the Marketplace /
+“Tutoring Sessions” page.
+2. System displays all available teachers,
+subjects, time slots, and session formats.
+3. Student selects a time slot and clicks
+“Book Session.”
+4. System checks availability and session
+conflicts.
+5. Student confirms booking. 6. System finalizes booking, updates
+teacher’s availability, and displays a
+booking confirmation.
+Alternative Flow:
+A1: Slot Already Booked
+• System shows: “Selected time slot is no longer available.”
+A2: Rescheduling
+• Student chooses a new slot → system updates booking.
+Post-Condition:
+• Booking details are stored in the database.
+• Student receives updated session schedule in their dashboard.
+Use Case: MarketplaceTable 2.2.12.13: Marketplace User Description
+Use-case Name: UC_Publish_Course Use-case ID: UI_10.0
+Actor: Teacher Created By: Hussain, Ayesha
+Date: 10/11/2025
+Description: This case allows teachers to publish their courses and tutoring services to the
+public marketplace. Teachers can add pricing, availability, subject specialization, and session
+format.
+Pre-Condition:
+• Teacher must be logged in.
+• Course must be created, or tutoring service must be available.
+• Teacher must provide complete and valid details (price, time slots, session mode).
+
+-- 63 of 64 --
+
+Department of Software Engineering
+© University of Gujrat
+64
+Basic Flow:
+User System
+1. Teacher selects “Publish Course /
+Tutoring Service” option.
+2. System opens the marketplace publishing
+form.
+3. Teacher enters required details: price,
+schedule, subject expertise, session format
+(online/in-person).
+4. System validates the input and checks
+availability conflicts or missing fields.
+5. Teacher clicks “Publish”. 6. System publishes the course/tutoring
+service to the public marketplace and
+confirms the listing.
+Alternative Flow:
+A1: Missing or Invalid Information
+• System displays: “Please fill all required fields.”
+• Teacher must correct and retry.
+Post-Condition:
+• Course or tutoring service becomes visible to all students in the public marketplace.
+• Listing is saved in the database with availability and pricing information.
+
+-- 64 of 64 --
+

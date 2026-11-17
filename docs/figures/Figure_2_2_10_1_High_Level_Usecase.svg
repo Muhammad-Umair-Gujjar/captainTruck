@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1180" viewBox="0 0 1080 1180">
+  <rect width="100%" height="100%" fill="#fff"/>
+  <path d="M135 240 L282 240 L282 140 L380 140" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 240 L282 240 L282 220 L380 220" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 240 L282 240 L282 380 L380 380" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 240 L282 240 L282 460 L380 460" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 240 L282 240 L282 620 L380 620" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 240 L282 240 L282 700 L380 700" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 240 L282 240 L282 780 L380 780" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 240 L282 240 L282 940 L380 940" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 500 L282 500 L282 140 L380 140" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 500 L282 500 L282 220 L380 220" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 500 L282 500 L282 540 L380 540" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 500 L282 500 L282 620 L380 620" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 500 L282 500 L282 700 L380 700" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 500 L282 500 L282 780 L380 780" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 500 L282 500 L282 940 L380 940" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 800 L282 800 L282 140 L380 140" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 800 L282 800 L282 220 L380 220" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 800 L282 800 L282 300 L380 300" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 800 L282 800 L282 540 L380 540" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 800 L282 800 L282 620 L380 620" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 800 L282 800 L282 700 L380 700" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 800 L282 800 L282 860 L380 860" fill="none" stroke="#000" stroke-width="1.35"/><path d="M135 800 L282 800 L282 1020 L380 1020" fill="none" stroke="#000" stroke-width="1.35"/><path d="M940 200 L738 200 L738 380 L640 380" fill="none" stroke="#000" stroke-width="1.35"/><path d="M940 360 L738 360 L738 780 L640 780" fill="none" stroke="#000" stroke-width="1.35"/><path d="M940 520 L738 520 L738 700 L640 700" fill="none" stroke="#000" stroke-width="1.35"/><path d="M940 680 L738 680 L738 940 L640 940" fill="none" stroke="#000" stroke-width="1.35"/><path d="M640 140 L774 140 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 220 L774 220 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 300 L774 300 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 380 L774 380 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 460 L774 460 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 540 L774 540 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 620 L774 620 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 700 L774 700 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 780 L774 780 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 860 L774 860 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 940 L774 940 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/><path d="M640 1020 L774 1020 L774 910 L940 910" fill="none" stroke="#000" stroke-width="0.9" stroke-dasharray="3 3"/>
+  
+  <rect x="300" y="70" width="420" height="1040" fill="#fff" stroke="#000" stroke-width="2" rx="2"/>
+  <text x="510" y="98" text-anchor="middle" font-family="Times New Roman, serif" font-size="13" font-weight="bold">Captain Truck: Real-Time Logistics and Dispatch Platform</text>
+  <ellipse cx="510" cy="140" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="137.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Authentication</text>
+<text x="510" y="150.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">&amp; Registration</text><ellipse cx="510" cy="220" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="217.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Profile &amp;</text>
+<text x="510" y="230.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">User Management</text><ellipse cx="510" cy="300" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="297.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Truck Types</text>
+<text x="510" y="310.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">&amp; Base Rates</text><ellipse cx="510" cy="380" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="377.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Dispatch &amp;</text>
+<text x="510" y="390.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Route Selection</text><ellipse cx="510" cy="460" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="457.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">AI Fare Estimate</text>
+<text x="510" y="470.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">&amp; Customer Proposal</text><ellipse cx="510" cy="540" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="537.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Approval, Willingness</text>
+<text x="510" y="550.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">&amp; Assignment</text><ellipse cx="510" cy="620" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="617.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Trip Ops, GPS</text>
+<text x="510" y="630.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">&amp; Offline Maps</text><ellipse cx="510" cy="700" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="704" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Chat &amp; Media</text><ellipse cx="510" cy="780" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="777.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Payments</text>
+<text x="510" y="790.5" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">(Cash / Stripe Test)</text><ellipse cx="510" cy="860" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="864" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Commission Ledger</text><ellipse cx="510" cy="940" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="944" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Push Notifications</text><ellipse cx="510" cy="1020" rx="130" ry="24" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="510" y="1024" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Admin Ops Panel</text>
+  <g>
+    <circle cx="95" cy="223" r="7" fill="none" stroke="#000" stroke-width="1.6"/>
+    <line x1="95" y1="232" x2="95" y2="247.4" stroke="#000" stroke-width="1.6"/>
+    <line x1="83" y1="237.04" x2="107" y2="237.04" stroke="#000" stroke-width="1.6"/>
+    <line x1="95" y1="247.4" x2="85" y2="260" stroke="#000" stroke-width="1.6"/>
+    <line x1="95" y1="247.4" x2="105" y2="260" stroke="#000" stroke-width="1.6"/>
+    <text x="95" y="276" text-anchor="middle" font-family="Times New Roman, serif" font-size="12">Customer</text>
+  </g>
+  <g>
+    <circle cx="95" cy="483" r="7" fill="none" stroke="#000" stroke-width="1.6"/>
+    <line x1="95" y1="492" x2="95" y2="507.4" stroke="#000" stroke-width="1.6"/>
+    <line x1="83" y1="497.04" x2="107" y2="497.04" stroke="#000" stroke-width="1.6"/>
+    <line x1="95" y1="507.4" x2="85" y2="520" stroke="#000" stroke-width="1.6"/>
+    <line x1="95" y1="507.4" x2="105" y2="520" stroke="#000" stroke-width="1.6"/>
+    <text x="95" y="536" text-anchor="middle" font-family="Times New Roman, serif" font-size="12">Driver</text>
+  </g>
+  <g>
+    <circle cx="95" cy="783" r="7" fill="none" stroke="#000" stroke-width="1.6"/>
+    <line x1="95" y1="792" x2="95" y2="807.4" stroke="#000" stroke-width="1.6"/>
+    <line x1="83" y1="797.04" x2="107" y2="797.04" stroke="#000" stroke-width="1.6"/>
+    <line x1="95" y1="807.4" x2="85" y2="820" stroke="#000" stroke-width="1.6"/>
+    <line x1="95" y1="807.4" x2="105" y2="820" stroke="#000" stroke-width="1.6"/>
+    <text x="95" y="836" text-anchor="middle" font-family="Times New Roman, serif" font-size="12">Administrator</text>
+  </g>
+  <g>
+    <circle cx="980" cy="183" r="7" fill="none" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="192" x2="980" y2="207.4" stroke="#000" stroke-width="1.6"/>
+    <line x1="968" y1="197.04" x2="992" y2="197.04" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="207.4" x2="970" y2="220" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="207.4" x2="990" y2="220" stroke="#000" stroke-width="1.6"/>
+    <text x="980" y="236" text-anchor="middle" font-family="Times New Roman, serif" font-size="12">OSM Services</text>
+  </g>
+  <g>
+    <circle cx="980" cy="343" r="7" fill="none" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="352" x2="980" y2="367.4" stroke="#000" stroke-width="1.6"/>
+    <line x1="968" y1="357.04" x2="992" y2="357.04" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="367.4" x2="970" y2="380" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="367.4" x2="990" y2="380" stroke="#000" stroke-width="1.6"/>
+    <text x="980" y="396" text-anchor="middle" font-family="Times New Roman, serif" font-size="12">Stripe Test Mode</text>
+  </g>
+  <g>
+    <circle cx="980" cy="503" r="7" fill="none" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="512" x2="980" y2="527.4" stroke="#000" stroke-width="1.6"/>
+    <line x1="968" y1="517.04" x2="992" y2="517.04" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="527.4" x2="970" y2="540" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="527.4" x2="990" y2="540" stroke="#000" stroke-width="1.6"/>
+    <text x="980" y="556" text-anchor="middle" font-family="Times New Roman, serif" font-size="12">Cloudinary</text>
+  </g>
+  <g>
+    <circle cx="980" cy="663" r="7" fill="none" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="672" x2="980" y2="687.4" stroke="#000" stroke-width="1.6"/>
+    <line x1="968" y1="677.04" x2="992" y2="677.04" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="687.4" x2="970" y2="700" stroke="#000" stroke-width="1.6"/>
+    <line x1="980" y1="687.4" x2="990" y2="700" stroke="#000" stroke-width="1.6"/>
+    <text x="980" y="716" text-anchor="middle" font-family="Times New Roman, serif" font-size="12">FCM</text>
+  </g>
+  <g>
+    <ellipse cx="980" cy="902" rx="35" ry="8" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <path d="M945,902 L945,938 A35,8 0 0 0 1015,938 L1015,902" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <ellipse cx="980" cy="938" rx="35" ry="8" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <text x="980" y="962" text-anchor="middle" font-family="Times New Roman, serif" font-size="11">Neon PostgreSQL</text>
+  </g>
+</svg>

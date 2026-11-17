@@ -1,0 +1,90 @@
+
+@startuml
+skinparam shadowing false
+skinparam backgroundColor #FFFFFF
+skinparam defaultFontName "Times New Roman"
+skinparam defaultFontSize 12
+skinparam ActorBackgroundColor #FFFFFF
+skinparam ActorBorderColor #000000
+skinparam UsecaseBackgroundColor #FFFFFF
+skinparam UsecaseBorderColor #000000
+skinparam ArrowColor #000000
+skinparam nodesep 45
+skinparam ranksep 55
+skinparam rectangle {
+  BorderColor #000000
+  BackgroundColor #FFFFFF
+  FontStyle bold
+}
+
+left to right direction
+
+actor "Customer" as Customer
+actor "Driver" as Driver
+actor "Administrator" as Admin
+
+rectangle "Captain Truck" {
+  usecase "Authentication &\nRegistration" as UC_Auth
+  usecase "Profile &\nUser Management" as UC_Users
+  usecase "Truck Types &\nBase Rates" as UC_Catalog
+  usecase "Dispatch &\nRoute Selection" as UC_Dispatch
+  usecase "AI Fare Estimate &\nCustomer Proposal" as UC_Fare
+  usecase "Approval, Willingness\n& Assignment" as UC_Assign
+  usecase "Trip Ops, GPS &\nOffline Maps" as UC_Trip
+  usecase "Chat & Media" as UC_Chat
+  usecase "Payments\n(Cash / Stripe Test)" as UC_Pay
+  usecase "Commission Ledger" as UC_Ledger
+  usecase "Push Notifications" as UC_Push
+  usecase "Admin Ops Panel" as UC_Ops
+}
+
+' Customer: register+login, profile, list types, dispatch/route,
+' fare proposal, view GPS, chat/media, pay, push
+Customer --> UC_Auth
+Customer --> UC_Users
+Customer --> UC_Catalog
+Customer --> UC_Dispatch
+Customer --> UC_Fare
+Customer --> UC_Trip
+Customer --> UC_Chat
+Customer --> UC_Pay
+Customer --> UC_Push
+
+' Driver: login only (no register), profile, respond willingness,
+' trip/GPS/offline, chat/media, cash confirm, push
+Driver --> UC_Auth
+Driver --> UC_Users
+Driver --> UC_Assign
+Driver --> UC_Trip
+Driver --> UC_Chat
+Driver --> UC_Pay
+Driver --> UC_Push
+
+' Admin: login, create drivers/manage users, catalog/rates,
+' review/reject/willingness/assign, trip oversight, chat, ledger, ops
+Admin --> UC_Auth
+Admin --> UC_Users
+Admin --> UC_Catalog
+Admin --> UC_Assign
+Admin --> UC_Trip
+Admin --> UC_Chat
+Admin --> UC_Ledger
+Admin --> UC_Ops
+
+actor "OSM Services" as OSM
+actor "Stripe Test Mode" as Stripe
+actor "Cloudinary" as Cloudinary
+actor "FCM" as FCM
+database "Neon PostgreSQL" as DB
+
+OSM --> UC_Dispatch
+Stripe --> UC_Pay
+Cloudinary --> UC_Chat
+FCM --> UC_Push
+DB --> UC_Auth
+DB --> UC_Dispatch
+DB --> UC_Assign
+DB --> UC_Pay
+DB --> UC_Ledger
+
+@enduml

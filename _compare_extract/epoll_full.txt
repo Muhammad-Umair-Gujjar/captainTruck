@@ -1,0 +1,885 @@
+﻿Department of Software Engineering
+University of Gujrat
+Chapter 1: Project Feasibility Report
+E-Poll
+A Blockchain-Based SaaS Election Management System
+Session: BSSE-2023-2027
+Project Advisor: Mr. Touqeer Ul Ameen
+Submitted By:
+Student Name Registration #
+Muhammad Numan Arif Chudhary 23011598-075
+
+-- 1 of 21 --
+
+Statement of Submission
+This is to certify that Muhammad Numan Arif Chudhary (23011598-075) has successfully
+completed Chapter 1 of the Final Year Project named E-Poll at the Department of Software
+Engineering, Faculty of Computing & Information Technology, University of Gujrat, to fulfill
+the requirement of the degree of BS in Software Engineering.
+______________________
+Project Supervisor
+______________________
+Project Coordination Office
+Faculty of C&IT â€” UOG
+______________________
+Head of the Department
+
+-- 2 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+1
+Contents
+Chapter 1: Project Feasibility Report......................................................................................... 2
+1.1 Introduction ...................................................................................................................... 2
+1.2 Project/Product Feasibility Report ................................................................................... 2
+1.2.1 Technical Feasibility ................................................................................................. 2
+1.2.2 Operational Feasibility .............................................................................................. 3
+1.2.3 Economic Feasibility ................................................................................................ 3
+1.2.4 Schedule Feasibility .................................................................................................. 4
+1.2.5 Specification Feasibility............................................................................................ 4
+1.2.6 Information Feasibility.............................................................................................. 4
+1.2.7 Motivational Feasibility ............................................................................................ 4
+1.2.8 Legal & Ethical Feasibility ....................................................................................... 5
+1.3 Project/Product Scope ...................................................................................................... 5
+1.4 Project/Product Costing ................................................................................................... 6
+1.4.1 Project Cost Estimation By Function Point Analysis ............................................... 6
+1.4.2 Project Cost Estimation by using COCOMOâ€™81 (Constructive Cost Model) .......... 7
+1.4.3 Activity Based Costing ............................................................................................. 8
+1.5 Task Dependency Table ................................................................................................. 12
+1.6 CPM â€” Critical Path Method........................................................................................ 12
+1.7 Gantt chart ...................................................................................................................... 14
+1.8 Introduction to Team member and their skill set ........................................................... 15
+1.9 Task and Member Assignment Table ............................................................................ 15
+1.10 Tools and Technology with reasoning ......................................................................... 16
+1.11 Vision Document ......................................................................................................... 17
+1.12 Risk List ....................................................................................................................... 18
+1.13 Product Features / Product Decomposition.................................................................. 19
+
+-- 3 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+2
+Chapter 1: Project Feasibility Report
+1.1 Introduction
+Organizational elections â€” university societies, companies, clubs and similar bodies â€” are
+still often run with paper ballots or ad-hoc digital tools that are hard to trust. Paper processes
+are slow and error-prone. Centralized e-voting systems store ballots in a single database, which
+makes independent audit of vote integrity difficult. Commercial SaaS election products solve
+usability for many organizations but typically remain centralized. Academic Hyperledger
+Fabric samples prove that permissioned ledgers can record votes, yet they are rarely packaged
+as a full multi-tenant SaaS with web administration and a dedicated mobile voting app.
+E-Poll is a multi-tenant Software-as-a-Service (SaaS) election management platform.
+Organizations register on a public website, manage elections through web admin consoles, and
+voters cast ballots through an Android Flutter application. The NestJS backend enforces
+authentication, tenancy and election rules in PostgreSQL, and submits each successful vote to
+a Hyperledger Fabric permissioned network (approximately ten nodes for demonstration) so
+that vote integrity is backed by an immutable ledger transaction ID.
+This chapter assesses whether the project is feasible, fixes its scope, estimates its cost and
+schedule, and introduces the team, tools, vision, risks and product features. Development
+follows the Incremental Model: after a planning phase, the system is delivered in four
+increments, each designed, built and tested before the next is added.
+1.2 Project/Product Feasibility Report
+Feasibility measures how practical the system is to build and use with the staff, skills,
+equipment and time available. E-Poll was assessed in eight areas: technical, operational,
+economic, schedule, specification, information, motivational, and legal and ethical.
+1.2.1 Technical Feasibility
+Every component of E-Poll uses mature, available technology, as summarised below.
+Table 1.1: Technical requirements and availability
+Need Technology Availability
+Public marketing site and
+admin consoles Next.js (React, TypeScript) Stable; App Router; free demo
+hosting (e.g. Vercel)
+Mobile voting client Flutter (Dart) + Bloc Stable; Android APK / emulator for
+FYP demo
+SaaS API and Fabric gateway NestJS (Node.js, TypeScript) Mature modular framework; Fabric
+SDK client
+Off-chain relational data PostgreSQL + Prisma Docker-local; migrations and typed
+models
+
+-- 4 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+3
+Need Technology Availability
+Authentication / roles
+Custom JWT (ORG_ADMIN,
+VOTER, CANDIDATE,
+PLATFORM_OPERATOR)
+Fully under team control; no paid
+auth vendor
+Immutable vote audit Hyperledger Fabric + JS/TS
+chaincode (~10-node Docker demo)
+Official samples and Docker
+tooling; documented gateway modes
+Local multi-service runtime Docker Desktop Free for student machines; Fabric
+peers/orderers/CA
+Design system Ledger Ink CSS tokens (shared
+across web apps)
+In-repo design system; no
+proprietary UI kit licence
+All members have studied OOP, databases, web engineering and software design and are
+building against a locked stack already proven in the repository (Nest phases frozen; Super
+Admin and public web delivered). The newer areas are deep Fabric networking and Flutter
+Bloc flows, both of which are documented. The main technical risk â€” limited laptop RAM for
+many Fabric containers â€” is mitigated by a scaled demo topology, mock Fabric mode for day-
+to-day API work, and a recorded backup demo for viva day.
+Verdict: Technically feasible.
+1.2.2 Operational Feasibility
+Organization administrators need to create elections, manage candidates and voters, and control
+lifecycle (schedule â†’ open â†’ close â†’ publish) without developer help; E-Poll places these
+flows in Org Admin and Super Admin web panels with the shared Ledger Ink shell. Voters
+need a simple ballot and clear confirmation with a Fabric transaction reference in the Flutter
+app. Platform operators need cross-tenant oversight without touching day-to-day org setup.
+Compared with brand-locked or single-election Fabric demos, E-Poll targets multi-
+organization self-serve elections with an integrated mobile vote path.
+Verdict: Operationally feasible.
+1.2.3 Economic Feasibility
+Function Point Analysis (Section 1.4.1) values the development effort at 24.74 person-
+months, or PKR 2,226,420 at market rates. For an FYP this labour is provided by the team, so
+actual spending is limited to developer tooling, electricity/internet, optional cloud frontend
+hosting, printing and documentation. On the benefit side, organizations gain reusable election
+infrastructure; voters gain transparent confirmations; the university gains a demonstrable
+Fabric + SaaS teaching artifact. Intangible benefits include trust, auditability and team industry
+skills.
+
+-- 5 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+4
+Verdict: Economically feasible.
+1.2.4 Schedule Feasibility
+The project runs from 7 September 2026 through final defense in June 2027. The critical path
+(Section 1.6) is 26 weeks, ending around 8 March 2027, which leaves buffer for system
+hardening, documentation polish and viva preparation. University milestones (proposal,
+progress reports, deliverables) fit inside the incremental plan in Section 1.7.
+Verdict: Feasible within the academic calendar.
+1.2.5 Specification Feasibility
+Election behaviour is bounded by explicit Nest API contracts and Prisma models
+(organizations, users, elections, candidates, eligibility, votes). UI screens are inventoried per
+surface (public web, Super Admin, Org Admin, Flutter). Boundaries are explicit: national ID /
+NADRA, iOS store release, paid production Fabric cloud, and advanced cryptographic
+anonymity schemes are excluded (Section 1.3).
+Verdict: Requirements are clear and bounded.
+1.2.6 Information Feasibility
+Election configuration, membership and eligibility live in PostgreSQL with foreign keys and
+tenant filters. Vote integrity is corroborated on Fabric (fabricTxId) with a privacy-preserving
+audit API that omits ballot choices. Public health endpoints expose API/Fabric liveness for
+trust badges. Seed and e2e fixtures provide repeatable demo data.
+Verdict: Information is available and reliable.
+1.2.7 Motivational Feasibility
+The team is building a full-stack product with a real permissioned blockchain component,
+which keeps motivation high and builds marketable skills (NestJS, Next.js, Flutter, Fabric).
+Organizations gain control of their own elections; voters gain clearer trust signals; supervisors
+gain a viva-ready end-to-end story. Regular supervisor reviews keep progress steady.
+Verdict: All stakeholders are motivated to use the system.
+
+-- 6 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+5
+1.2.8 Legal & Ethical Feasibility
+â€¢ Personal data (emails, names, org profiles) will be handled in line with Pakistanâ€™s
+Prevention of Electronic Crimes Act (PECA) 2016 principles: minimize collection,
+protect credentials (argon2 hashes), and restrict access by role.
+â€¢ Votes on the ledger are designed for integrity and audit, not public disclosure of
+individual choices in the admin audit view.
+â€¢ JWT sessions and role checks prevent cross-tenant data access; suspended
+organizations are blocked at the API.
+â€¢ Licences: NestJS, Next.js, Flutter, Prisma, Hyperledger Fabric and supporting packages
+are open source (MIT/Apache/BSD-style); no proprietary election-engine licence is
+required for the FYP.
+â€¢ The system does not claim legal certification for government national elections.
+Verdict: No infringement or liability is expected for the academic scope.
+1.3 Project/Product Scope
+Scope lists what is inside the system boundary; anything outside it is treated as a change
+request.
+Table 1.2: E-Poll project scope
+Component Description
+Objective
+A multi-tenant SaaS platform for organizations to run digital elections with web
+administration and Flutter Android voting, recording votes on Hyperledger Fabric for
+auditability.
+Core features
+Org signup/login; Super Admin (platform ops); Org Admin (elections, candidates,
+voters, lifecycle, results, audit); NestJS JWT API; PostgreSQL off-chain data; Fabric
+vote commit (~10-node demo); Flutter ballot and confirmation.
+Deliverables
+NestJS backend; Next.js public web; Next.js Super Admin; Next.js Org Admin;
+Flutter Android app; Fabric network + chaincode; documentation and test/demo
+scripts.
+Stakeholders Platform operators, organization admins, voters, candidates, supervisor, project team.
+Timeline 7 September 2026 to June 2027 (critical path 26 weeks to ~8 March 2027, then
+buffer).
+Exclusions
+iOS App Store release; paid cloud ~10-node Fabric; NADRA/biometric ID; public
+blockchains / crypto tokens; payment/subscription billing; government national
+election certification; 24/7 production SLA.
+Optional units Email notifications; CSV/PDF results export; richer analytics; invite-by-email flows;
+expanded automated tests; demo video polish.
+
+-- 7 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+6
+1.4 Project/Product Costing
+We estimated cost with three main methods, Function Point Analysis, COCOMO II and
+Activity Based Costing, and then cross-checked the effort with the LOC-oriented and FP-
+oriented empirical models taught in SPM Lecture 6. All amounts are in Pakistani rupees (PKR)
+and effort is in person-months (PM). Intermediate values are rounded to four decimal places,
+effort and schedule to two, and each cost is worked out from the rounded effort and rounded to
+the nearest rupee.
+1.4.1 Project Cost Estimation By Function Point Analysis
+Function points measure the functionality delivered to users. Five information domain values
+are counted and weighted; every item was rated at average complexity.
+Table 1.3: Unadjusted function point count
+Domain value E-Poll items counted Count Weigh
+t Total
+External Inputs (EI)
+Login/register/refresh; org profile; election
+create/update; candidate CRUD; voter eligibility;
+lifecycle actions; cast vote; operator org/user actions;
+change password; contact/member forms
+10 4 40
+External Outputs
+(EO)
+Vote confirmation + Fabric txId; results tallies; audit
+listings; dashboard KPIs; ballot payload; health/Fabric
+status views
+6 5 30
+External Inquiries
+(EQ)
+List/filter elections; candidates; voters; orgs; users;
+me/profile; vote-me status; search 8 4 32
+Internal Logical Files
+(ILF)
+Users; Organizations; Elections; Candidates;
+ElectionVoters; Votes; RefreshTokens;
+ContactMessages
+8 10 80
+External Interface
+Files (EIF)
+Hyperledger Fabric ledger; Fabric CA/MSP; Android
+platform; Web browsers; Docker host for peers/orderers 5 7 35
+Count total 217
+Table 1.4: Value adjustment factors (0 = no influence, 5 = essential)
+# General system
+characteristic Fi Reason
+1 Data communications 5 HTTPS REST clients + Fabric SDK to distributed peers
+2 Distributed data processing 5 Web apps, mobile, Nest API, PostgreSQL and Fabric nodes
+3 Performance 3 Interactive admin/voting; not hard real-time control
+4 Heavily used configuration 2 Ordinary laptops, browsers and Android devices
+5 Transaction rate 3 Moderate: election setup bursts + voting window
+6 On-line data entry 4 Almost all configuration and votes entered on-line
+7 End-user efficiency 4 Shared design system; clear lifecycle stepper; mobile ballot
+8 On-line update 5 Live election state, eligibility and vote commits
+9 Complex processing 5 Multi-tenant rules, lifecycle FSM, Fabric double-vote checks
+
+-- 8 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+7
+# General system
+characteristic Fi Reason
+10 Reusability 3 Shared tokens/UI patterns across Next apps
+11 Installation ease 3 Web URLs; Android APK/emulator; Docker Compose for
+backend/Fabric
+12 Operational ease 4 Health endpoints; seed data; smoke scripts
+13 Multiple sites 3 Multi-tenant orgs; not multi-datacenter production
+14 Facilitate change 3 Prisma migrations; UI-then-API adapters
+Î£ Fi 49
+FP est. = Count Total Ã— [0.65 + 0.01 Ã— Î£(Fi)]
+FP est. = 217 Ã— [0.65 + 0.01 Ã— 49] = 217 Ã— 1.14 = 247.38
+We used a labour rate of PKR 90,000 per person-month (junior full-stack developer market
+rate in Pakistan) and a productivity of 10 FP per person-month.
+Cost / FP = 90,000 Ã· 10 = PKR 9,000
+Total Project Cost = 247.38 Ã— 9,000 = PKR 2,226,420
+Total Estimated Effort = 247.38 Ã· 10 = 24.74 person-months
+Result: 247.38 FP, 24.74 person-months, PKR 2,226,420. Shared by three members, this is
+about 8.25 months each, which fits our academic window with parallel incremental work.
+1.4.2 Project Cost Estimation by using COCOMO II (Constructive Cost Model)
+COCOMO II replaces the COCOMOâ€™81 model of our earlier draft (Basic, organic mode, 26.63
+person-months), because it is the version taught in Lecture 6 and it allows for reuse and modern
+tools. It has three submodels (slide 29). Table 1.5 shows why we chose the Early Design model.
+Table 1.5: Choice of COCOMO II submodel
+Submodel Stage Inputs required Available for E-Poll? Decision
+Application
+Composition
+Early prototyping
+of screens, reports
+and components
+Object points
+(screens, reports,
+3GL components),
+% reuse, PROD
+rating
+No. Object counts, reuse
+and PROD rating are not
+recorded; slide 33 advises
+against it once
+requirements and
+architecture are settled
+Not used
+Early Design
+Requirements
+stabilised and
+basic architecture
+established
+Size (KLOC or FP),
+5 scale factors, 7
+effort multipliers
+Size: yes (9.90 KLOC).
+Factor ratings: not
+recorded, so nominal
+values are assumed
+Selected
+Post-Architecture Detailed design
+and construction
+Size, 5 scale factors,
+17 effort multipliers
+Too early: detailed EM
+ratings not yet measured
+for all modules
+Not used yet
+
+-- 9 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+8
+Size was derived from the function points at 40 LOC per FP, which is lower than the 53
+LOC/FP common for object-oriented languages because Nest modules, Prisma, Next.js and
+Flutter widgets replace much of the hand-written code. Early Design fits E-Poll: the
+requirements and architecture are fixed in the planning phase (task B), Nest API contracts and
+Prisma models are settled, and construction of remaining increments continues under that
+baseline. The model is:
+PM = A Ã— Size^E Ã— Î  EMi , where E = B + 0.01 Ã— Î£ SFj
+TDEV = C Ã— PM^(D + 0.2 Ã— 0.01 Ã— Î£ SFj)
+PM is effort in person-months and Size is new code in KLOC. A = 2.94 and B = 0.91 are
+calibration constants, SFj are the five scale factors (PREC, FLEX, RESL, TEAM, PMAT) and
+EMi the seven Early Design effort multipliers (RCPX, RUSE, PDIF, PERS, PREX, FCIL,
+SCED). TDEV is the schedule in months, with C = 3.67 and D = 0.28. These equations and the
+nominal values below are the published COCOMO II.2000 calibration (Boehm et al., Software
+Cost Estimation with COCOMO II, Prentice Hall, 2000). Lecture 6 names the Early Design
+model but does not give its equations, so they are standard formulas still to be confirmed with
+the course instructor.
+With all scale factors and effort multipliers at Nominal (Î£ SF = 18.96, Î  EM = 1.00):
+KLOC = 247.38 Ã— 40 / 1000 = 9.90
+E = 0.91 + 0.01 Ã— 18.96 = 1.0996
+PM = 2.94 Ã— (9.90)^1.0996 = 36.57 person-months
+TDEV = 3.67 Ã— (36.57)^0.3179 = 11.52 months
+People = PM / TDEV = 36.57 / 11.52 = 3.17 â‰ˆ 3
+COCOMO II also points to a team of about 3, but at nominal ratings it needs 36.57 person-
+months over 11.52 months: more effort than the function point estimate (24.74) and longer than
+our 26-week critical path. The gap comes mainly from the nominal assumption. NestJS,
+Next.js, Flutter and the already-frozen backend may justify better-than-nominal ratings for
+tools (FCIL) and experience (PREX, PERS), which would lower the effort, but we will apply
+them only after agreeing the ratings with our supervisor. The size of 9.90 KLOC also rests on
+the assumed 40 LOC/FP.
+Result: COCOMO II Early Design (nominal): 9.90 KLOC, 36.57 person-months, PKR
+3,291,300, 11.52 months, about 3 people.
+1.4.3 Activity Based Costing
+Each activity is costed from its resources, cost rate, duration and overhead. The weekly rate is:
+90,000 Ã— 12 / 52 â‰ˆ PKR 20,769 per person-week
+
+-- 10 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+9
+Table 1.6: Activity based costing
+Activity Peopl
+e
+Week
+s
+Labour
+(PKR)
+Overhead
+(PKR) Overhead item Cost
+(PKR)
+Planning: requirements,
+architecture, wireframes (Aâ€“C) 3 5 311,535 â€” â€” 311,535
+Proposal and defense (D) 3 3 186,921 6,000 Printing 192,921
+Increment 1: NestJS SaaS
+auth, orgs, elections (Eâ€“F) 2 5 207,690 â€” â€” 207,690
+Increment 2: Fabric network,
+chaincode, vote gateway (Gâ€“I) 2 5 207,690 12,000 Extra disk /
+Docker resources 219,690
+Increment 3: Next.js public
+web + Super Admin + Org
+Admin (Jâ€“K)
+2 5 207,690 â€” â€” 207,690
+Increment 4: Flutter voting app
+(L) + UI integration (M) 2 5 207,690 â€” â€” 207,690
+System testing, hardening,
+E2E demo (Nâ€“P) 3 4 249,228 10,000 Demo media /
+backup recording 259,228
+Documentation (Q) 1 6 124,614 8,000 Printing 132,614
+Shared overhead â€” â€” â€” 115,500
+Internet,
+electricity (3 Ã—
+5,500 Ã— 7 mo)
+115,500
+Total 1,703,058 151,500 1,854,558
+Labour column check: 311,535 + 186,921 + (207,690 Ã— 4) + 249,228 + 124,614 = 1,703,058.
+Person-weeks in labour rows: 3Ã—5 + 3Ã—3 + 2Ã—5Ã—4 + 3Ã—4 + 1Ã—6 = 15 + 9 + 40 + 12 + 6 = 82.
+Overheads assume local Docker (no paid Fabric cloud), free GitHub, free-tier frontend hosting,
+and modest electricity/internet. The ABC total of PKR 1,854,558 is below the FP estimate
+because it counts only scheduled person-weeks. Cash the team actually spends is essentially
+the overhead: PKR 151,500.
+1.4.4 LOC-Oriented Estimation Models
+Lecture 6 (slide 23) gives four empirical models that predict effort E in person-months from
+size in KLOC. We applied them to the same 9.90 KLOC used for COCOMO II. Slide 33 states
+when each model should be avoided; where E-Poll breaks that condition the equation still
+produces a number, but we show it in brackets and do not cost it.
+Table 1.7: LOC-oriented estimates (KLOC = 9.90)
+Model Equation Calculation Effort
+(PM)
+Cost
+(PKR) Applicability
+Walstonâ€“Felix E = 5.2 Ã—
+(KLOC)^0.91
+5.2 Ã— (9.90)^0.91 =
+5.2 Ã— 8.0543 (41.88) Not costed
+Not fully
+applicable: slide
+33 advises
+against small
+projects
+
+-- 11 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+10
+Model Equation Calculation Effort
+(PM)
+Cost
+(PKR) Applicability
+Baileyâ€“Basili E = 5.5 + 0.73 Ã—
+(KLOC)^1.16
+5.5 + 0.73 Ã—
+(9.90)^1.16 = 5.5 +
+0.73 Ã— 14.2869
+15.93 1,433,700
+Applicable: small
+to medium
+projects
+Boehm simple E = 3.2 Ã—
+(KLOC)^1.05
+3.2 Ã— (9.90)^1.05 =
+3.2 Ã— 11.1024 35.53 3,197,700
+Applicable:
+projects of
+modest size
+Doty E = 5.288 Ã—
+(KLOC)^1.047
+5.288 Ã— (9.90)^1.047
+= 5.288 Ã— 11.0263 58.31 5,247,900
+Applicable, but
+marginal: 9.90
+KLOC is only
+just above the
+KLOC > 9 limit
+The applicable models give 15.93 to 58.31 person-months. Baileyâ€“Basili is the lowest
+applicable costed model and Doty the highest. Our size is only 0.90 KLOC above Dotyâ€™s limit
+and depends on the 40 LOC/FP assumption, so a slightly smaller count would make Doty
+invalid. Walstonâ€“Felix is shown for reference only, since E-Poll (about 10 KLOC, three
+developers) is a small project.
+1.4.5 Function Point-Oriented Estimation Models
+The FP-oriented models on slide 23 take the adjusted function point count; the lectureâ€™s own
+example (slide 26) applies them to adjusted FP. Our 247.38 FP from Section 1.4.1 is the same
+measure, so the input is compatible. The equations are regressions on other organisationsâ€™
+projects and have not been calibrated to E-Poll.
+Table 1.8: FP-oriented estimates (FP = 247.38)
+Model Equation Calculation Effort
+(PM)
+Cost
+(PKR) Applicability
+Albrecht and
+Gaffney
+E = âˆ’91.4 + 0.355
+FP
+âˆ’91.4 + 0.355 Ã—
+247.38 = âˆ’91.4 +
+87.82
+-3.58 Not costed
+Not valid:
+negative result
+below about 257
+FP
+Kemerer E = âˆ’37 + 0.96 FP âˆ’37 + 0.96 Ã— 247.38
+= âˆ’37 + 237.48 (200.48) Not costed
+Not fully
+applicable:
+overestimates
+heavily on small
+projects
+Small project
+regression
+E = âˆ’12.88 + 0.405
+FP
+âˆ’12.88 + 0.405 Ã—
+247.38 = âˆ’12.88 +
+100.19
+87.31 7,857,900
+Applicable: small
+projects sized
+from
+requirements
+Only the small project regression model applies. It gives 87.31 person-months, about 3.5 times
+the FPA effort of 24.74. This is not an arithmetic error: FPA uses our own productivity of 10
+FP per person-month, while the regression implies about 2.83 FP per person-month, taken from
+the projects it was fitted to. Without local calibration we keep it only as an upper bound.
+
+-- 12 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+11
+1.4.6 Comparative Analysis of Estimation Results
+Table 1.9 brings all results together. Labour cost is effort Ã— PKR 90,000 per person-month.
+Brackets mark values that are mathematical results only. ABC is listed for context: it prices the
+scheduled person-weeks and adds overheads, so it measures something different from the effort
+models and is never added to them.
+Table 1.9: Comparison of estimates
+Model Category Size input Effort
+(PM)
+Labour cost
+(PKR) Status Notes
+Function Point
+Analysis FPA 247.38 FP 24.74 2,226,420 Applicable Own productivity
+of 10 FP/PM
+COCOMO II
+Early Design
+COCOMO
+II 9.90 KLOC 36.57 3,291,300
+Applicable;
+requires
+additional
+data
+Nominal scale
+factors and
+multipliers;
+TDEV 11.52
+months
+Walstonâ€“Felix LOC-
+oriented 9.90 KLOC (41.88) â€“ Not fully
+applicable
+Not advised for
+small projects
+Baileyâ€“Basili LOC-
+oriented 9.90 KLOC 15.93 1,433,700 Applicable Uncalibrated
+Boehm simple LOC-
+oriented 9.90 KLOC 35.53 3,197,700 Applicable Uncalibrated
+Doty LOC-
+oriented 9.90 KLOC 58.31 5,247,900 Applicable
+(marginal)
+Size only just
+above the 9
+KLOC limit
+Albrecht and
+Gaffney
+FP-
+oriented 247.38 FP -3.58 â€“ Not valid
+Negative result
+below about 257
+FP
+Kemerer FP-
+oriented 247.38 FP (200.48) â€“ Not fully
+applicable
+Overestimates
+small projects
+Small project
+regression
+FP-
+oriented 247.38 FP 87.31 7,857,900 Applicable Implies 2.83 FP
+per person-month
+Activity Based
+Costing ABC 82 person-
+weeks 18.92
+1,703,058
+labour
+(1,854,558
+with
+overhead)
+Applicable
+(different
+scope)
+82 Ã— 12 / 52 PM;
+overhead PKR
+151,500 is the
+only cash spend
+The models disagree for three reasons. Each was fitted to a different set of past projects, with
+its own languages, tools and productivity; they measure size differently (FP directly, or KLOC
+converted from FP through our assumed ratio); and they cover different scope, since the effort
+models include all development work while ABC counts only the scheduled weeks. None has
+been calibrated with E-Poll data.
+Leaving out the invalid and not fully applicable results, the valid estimates run from 15.93 to
+87.31 person-months. The closest to our plan of three members over the 26-week critical path
+are ABC (18.92), FPA (24.74) and Baileyâ€“Basili (15.93). COCOMO II (36.57) and Boehm
+
+-- 13 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+12
+simple (35.53) agree with each other and form a cautious upper case. Doty and the small project
+regression are far above the plan and are not used for budgeting. FPA (PKR 2,226,420)
+therefore stays our planning baseline, COCOMO II is the cross-check, and we will rate its
+factors and re-estimate with measured size and effort after Increment 1.
+Lecture 6 (slide 23) gives four empirical models that predict effort E in person-months from
+size in KLOC. We applied them to the same 9.90 KLOC used for COCOMO II. Slide 33 states
+when each model should be avoided; where E-Poll breaks that condition the equation still
+produces a number, but we show it in brackets and do not cost it.
+1.5 Task Dependency Table
+Tasks are grouped by the planning phase and the four increments. Durations are in weeks; week
+0 starts on 7 September 2026.
+Table 1.10: Task dependency table
+ID Task Phase Weeks Depends on
+A Requirements and scope finalization Planning 3 â€”
+B System architecture and Prisma data model Planning 2 A
+C UI/UX wireframes (web consoles + Flutter) Planning 2 A
+D Proposal review, submission and defense Planning 3 B, C
+E NestJS auth and multi-tenant identity Increment 1 2 D
+F Organizations, elections, candidates, voters APIs Increment 1 3 E
+G Fabric network (~10-node demo) + chaincode Increment 2 4 D
+H NestJS â†” Fabric vote integration Increment 2 3 F, G
+I Integration and testing of Increments 1â€“2 Increment 2 1 H
+J Next.js public web + Super Admin Increment 3 4 F
+K Org Admin console (elections & members UI) Increment 3 3 F
+L Flutter voting app (Bloc) MVP Increment 4 4 F
+M Increment 3â€“4 UI integration testing Increment 4 1 J, K, L
+N End-to-end election demo path (admin â†’ vote â†’ audit) Final release 2 I, M
+O Security hardening, rate limits, polish Final release 2 N
+P System testing and bug fixing Final release 2 O
+Q Documentation (SRS, design, final report) Final release 6 M
+R Final demo builds and viva preparation Final release 2 P, Q
+1.6 CPM â€” Critical Path Method
+For each activity we computed the earliest start and finish (ES, EF), latest start and finish (LS,
+LF), total slack (TS = LS âˆ’ ES) and free slack (FS = earliest ES of successors âˆ’ EF). Activities
+with zero slack form the critical path.
+
+-- 14 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+13
+Table 1.11: CPM calculations (weeks)
+Activity Dur. ES EF LS LF TS FS Critical
+A 3 0 3 0 3 0 0 Yes
+B 2 3 5 3 5 0 0 Yes
+C 2 3 5 3 5 0 0 Yes
+D 3 5 8 5 8 0 0 Yes
+E 2 8 10 8 10 0 0 Yes
+F 3 10 13 10 13 0 0 Yes
+G 4 8 12 10 14 2 1 No
+H 3 13 16 14 17 1 1 No
+I 1 16 17 17 18 1 1 No
+J 4 13 17 13 17 0 0 Yes
+K 3 13 16 14 17 1 1 No
+L 4 13 17 13 17 0 0 Yes
+M 1 17 18 17 18 0 0 Yes
+N 2 18 20 18 20 0 0 Yes
+O 2 20 22 20 22 0 0 Yes
+P 2 22 24 22 24 0 0 Yes
+Q 6 18 24 18 24 0 0 Yes
+R 2 24 26 24 26 0 0 Yes
+The project duration is 26 weeks. Representative critical paths (each 26 weeks) include:
+â€¢ Aâ€“Bâ€“Dâ€“Eâ€“Fâ€“Jâ€“Mâ€“Nâ€“Oâ€“Pâ€“R
+â€¢ Aâ€“Câ€“Dâ€“Eâ€“Fâ€“Lâ€“Mâ€“Nâ€“Oâ€“Pâ€“R
+â€¢ Aâ€“Bâ€“Dâ€“Eâ€“Fâ€“Jâ€“Mâ€“Qâ€“R (documentation on the critical finish)
+G, H, I and K carry slack (1â€“2 weeks) and can absorb small delays. Any delay on a zero-slack
+activity moves the end date.
+
+-- 15 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+14
+Figure 1.1: CPM network diagram (activity on node)
+1.7 Gantt chart
+The Gantt chart follows the Incremental Model. Each increment is analysed, designed, coded
+and tested, then integrated with the earlier ones. Critical activities are marked with â˜….
+Figure 1.2: E-Poll Gantt chart by increment
+
+-- 16 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+15
+Table 1.12: Increment plan and milestones
+Increment Content Weeks Delivered
+Planning Requirements, architecture, Prisma model,
+wireframes, proposal 0â€“8 ~2 Nov 2026
+Increment 1 NestJS auth, organizations, elections,
+candidates, voters 8â€“13 ~7 Dec 2026
+Increment 2 Fabric ~10-node demo, chaincode, Nest vote
+gateway 8â€“17 Progress checkpoint
+~mid Jan 2027
+Increment 3 Public web, Super Admin, Org Admin 13â€“18 ~8 Feb 2027
+Increment 4 Flutter voting MVP + UI integration 13â€“18 ~8 Feb 2027
+Final release E2E demo, hardening, testing,
+documentation, viva
+18â€“26 (+buffer to
+Jun)
+Final defense, June
+2027
+1.8 Introduction to Team member and their skill set
+The E-Poll team has three members, supervised by Mr. Touqeer Ul Ameen. The table below
+lists each memberâ€™s role and main skills.
+Table 1.13: Team members and skills
+Member Role Skill set
+Muhammad Numan Arif
+Chudhary / 23011598-075
+Project Manager; Fabric network,
+chaincode, Nestâ†”Fabric vote
+gateway
+Hyperledger Fabric, Docker, NestJS
+gateway services, TypeScript, Git,
+demo ops
+Adnan Ali / 23011598-073 Backend SaaS; PostgreSQL/Prisma;
+election and auth APIs
+NestJS, Prisma, PostgreSQL,
+JWT/RBAC, API testing, Git
+Zaeem Akhtar / 23011598-083 Web consoles and Flutter voting app
+Next.js, React, Flutter, Bloc, Ledger
+Ink UI, responsive layouts, technical
+writing
+The project is supervised by Mr. Touqeer Ul Ameen. Each module has a primary owner and a
+second member who reviews it, so no part of the system depends on one person.
+1.9 Task and Member Assignment Table
+Each task from the dependency table is assigned to the member best suited to it, so that the
+workload is shared fairly.
+Table 1.14: Task and member assignment
+ID Task Weeks Assigned to
+A Requirements and scope finalization 3 All (lead: Numan)
+B System architecture and Prisma data model 2 Adnan, Numan
+C UI/UX wireframes (web + Flutter) 2 Zaeem
+D Proposal review, submission and defense 3 All
+
+-- 17 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+16
+ID Task Weeks Assigned to
+E NestJS auth and multi-tenant identity 2 Adnan
+F Organizations, elections, candidates, voters APIs 3 Adnan
+G Fabric network + chaincode 4 Numan
+H NestJS â†” Fabric vote integration 3 Numan, Adnan
+I Integration and testing of Increments 1â€“2 1 All (lead: Adnan)
+J Next.js public web + Super Admin 4 Zaeem, Numan
+K Org Admin console 3 Zaeem, Adnan
+L Flutter voting app (Bloc) MVP 4 Zaeem
+M Increment 3â€“4 UI integration testing 1 Zaeem, Adnan
+N End-to-end election demo path 2 All (lead: Numan)
+O Security hardening, rate limits, polish 2 Adnan, Numan
+P System testing and bug fixing 2 All (lead: Adnan)
+Q Documentation (SRS, design, final report) 6 Zaeem (all contribute)
+R Final demo builds and viva preparation 2 All (lead: Numan)
+Including shared tasks, approximate individual ownership load is ~24 weeks for Numan, ~23
+weeks for Adnan and ~25 weeks for Zaeem (documentation and shared milestones inflate
+Zaeemâ€™s calendar span). The chart shows each memberâ€™s primary tasks over time.
+Figure 1.3: Staff allocation
+1.10 Tools and Technology with reasoning
+The technologies and tools below were chosen to match the teamâ€™s skills, multi-tenant SaaS
+needs, and the academic requirement to demonstrate a permissioned blockchain. The first table
+lists the technologies and the second lists the supporting tools, each with its reason.
+Table 1.15: Technologies
+Technology Reason
+NestJS (Node.js + TypeScript) Modular SaaS API; strong typing; natural Fabric SDK gateway
+PostgreSQL + Prisma Relational multi-tenant model; migrations; typed queries
+
+-- 18 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+17
+Technology Reason
+Custom JWT auth Full control of roles without paid vendors
+Hyperledger Fabric + JS/TS
+chaincode
+Permissioned ledger for vote immutability; ~10-node Docker demo;
+no public gas fees
+Next.js Marketing site + Super Admin + Org Admin in one TypeScript
+ecosystem
+Flutter + Bloc Android-first voting client with disciplined state management
+Docker Reproducible Postgres + Fabric network locally at zero cloud Fabric
+cost
+Ledger Ink design tokens One visual system across all web surfaces
+Table 1.16: Tools
+Tool Reason
+VS Code / Cursor / Android Studio Development, emulators and debugging
+Git / GitHub Version control and collaboration
+Docker Desktop Local Postgres and Fabric peers/orderers/CA
+Figma (optional) / design-system
+repo UI consistency
+Draw.io / Lucidchart Architecture, CPM and decomposition diagrams
+Microsoft Word / Markdown Documentation and Chapter submissions
+Postman / Nest e2e / smoke scripts API verification and demo readiness
+1.11 Vision Document
+The vision document states what E-Poll is for, who it serves and what each user group needs
+from it.
+Table 1.17: Problem statement
+The problem of untrusted or non-reusable organizational election processes (paper or
+opaque centralized tools)
+affects universities, societies, companies and similar organizations, plus their
+voters and election officers
+the impact of which is slow counts, weak audit trails, repeated custom builds, and low confidence
+in results
+a successful solution would
+let each organization self-serve elections on the web, let voters cast one
+eligible vote on mobile, and prove each vote with a Fabric transaction audit
+reference
+Product position. For organizations that need digital elections with stronger auditability than
+a plain website database, E-Poll is a multi-tenant SaaS with Next.js administration and a Flutter
+voting app, backed by NestJS and Hyperledger Fabric. Unlike commercial centralized tools
+
+-- 19 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+18
+alone, it demonstrates a permissioned ledger; unlike Fabric-only samples, it delivers a full SaaS
++ mobile product path.
+Table 1.18: Stakeholders and needs
+Stakeholder Key needs
+Organization admin Create elections; manage candidates/voters; run lifecycle; view results/audit
+Voter Authenticate; see ballot; cast one vote; receive confirmation + tx reference
+Candidate View election context / standing where allowed
+Platform operator Oversee tenants; suspend/activate; inspect cross-org health
+Supervisor / university Working end-to-end demo and complete documentation on time
+Constraints: academic year delivery; student hardware for Fabric demo; Android-first mobile;
+no national ID integration. Checkpoints: problem, stakeholders, system boundary, actors,
+constraints and key features have been identified and agreed for Chapter 1.
+1.12 Risk List
+Probability (P) and impact (I) are rated 1â€“5; the list is sorted by exposure (P Ã— I) and reviewed
+after each increment.
+Table 1.19: Risk list
+# Risk P I PÃ—I Mitigation
+R1 Fabric multi-node demo unstable
+on student laptops 4 5 20 Scaled topology; Fabric mock mode for API
+work; recorded backup demo
+R2 Scope creep across
+web/admin/mobile/Fabric 4 4 16 Scope frozen per increment; optional units
+kept separate
+R3 Steep Fabric learning curve delays
+vote path 3 5 15 Early Increment 2; gateway stub first; pair
+Numanâ€“Adnan
+R4 Org member provisioning APIs lag
+behind UI 3 4 12 UI-first with mocks; Nest backlog OA-USER-
+*; seed users for demos
+R5 Cross-tenant data leak 2 5 10 Mandatory organizationId filters; e2e
+isolation tests
+R6 Double voting or lifecycle bypass 2 5 10 DB uniqueness + chaincode checks; state-
+machine guards
+R7 Team member unavailable during
+exams 3 3 9 Second owner per module; slack on G/H/K
+R8 Mobile device fragmentation 3 3 9 Target one Android API level + emulator
+script
+R9 Viva network / Docker failure 3 4 12 Local-only demo checklist; offline recording
+R10 Documentation lag behind code 2 3 6 Doc tasks (Q) parallel after M; freeze
+checklists
+
+-- 20 of 21 --
+
+E-Poll â€” Chapter 1: Project Feasibility Report
+19
+1.13 Product Features / Product Decomposition
+E-Poll is decomposed into modules taken from the high-level system components. Modules
+1â€“2 form Increment 1, Module 3 forms Increment 2, Modules 4â€“5 form Increment 3, and
+Module 6 forms Increment 4, so the decomposition maps directly onto the delivery plan.
+Figure 1.4: Product decomposition of E-Poll
+
+-- 21 of 21 --
+
+
