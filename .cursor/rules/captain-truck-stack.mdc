@@ -1,18 +1,18 @@
 ---
-description: Captain Truck FYP — locked stack; this repo is admin + NestJS backend only
+description: Captain Truck FYP — locked stack; NestJS + admin + customer Flutter in this repo
 alwaysApply: true
 ---
 
 # Captain Truck — Locked Stack & Repo Scope
 
-## This repository builds ONLY
-- NestJS custom backend (TypeScript)
-- React admin dashboard (Vite + Tailwind), hosted on Vercel
+## This repository builds
+- NestJS custom backend (TypeScript) — `backend/`
+- React admin dashboard (Vite + Tailwind), hosted on Vercel — `admin/`
+- Flutter **Customer** app (Android) — `mobile_apps/customer_app/`
+- Vendored UI deps (e.g. liquid glass) — `mobile_apps/vendor/`
 
-## Do NOT build in this repo
-- Flutter Customer app
-- Flutter Driver app  
-(Those live in separate repositories.)
+## Do NOT build in this repo yet
+- Flutter **Driver** app (separate folder/repo later)
 
 ## Locked technologies (do not substitute)
 | Layer | Choice |
@@ -24,18 +24,19 @@ alwaysApply: true
 | Auth | Custom JWT + refresh tokens (roles: customer, driver, admin) |
 | Push | FCM only (not full Firebase) |
 | Files | Cloudinary |
-| Maps/routing | OSM: Nominatim, Photon, OSRM (mobile uses flutter_map) |
-| On-device AI | TFLite cost prediction + ML Kit Smart Reply (mobile repos) |
+| Maps/routing | OSM: Nominatim, Photon, OSRM (mobile: flutter_map) |
+| On-device AI | TFLite cost prediction + ML Kit Smart Reply (mobile) |
+| Customer UI | Flutter + **BLoC** + `liquid_glass_renderer` (vendored from GitHub) |
 | Payments | Cash-on-Pickup **and** Stripe **Test Mode** |
 | API host | Oracle Cloud Always Free VM |
 | Admin host | Vercel |
-| Language | TypeScript everywhere in this repo |
+| Language | TypeScript (API/admin); Dart (customer Flutter) |
 
-## Product surfaces (system-wide)
-1. Customer Flutter app — Android only — separate repo  
-2. Driver Flutter app — Android only — separate repo  
-3. Admin web panel — this repo  
-4. Shared NestJS API — this repo  
+## Product surfaces
+1. Customer Flutter app — Android only — `mobile_apps/customer_app/`
+2. Driver Flutter app — Android only — later / separate
+3. Admin web panel — this repo
+4. Shared NestJS API — this repo
 
 ## In-scope features (do not remove)
 - Admin-mediated driver/truck assignment
@@ -49,7 +50,8 @@ alwaysApply: true
 ## Constraints
 - Prefer free tiers only (FYP budget = $0)
 - Optimize for low latency (no cold-start PaaS for the API)
-- Keep APIs mobile-ready (REST + Socket.IO) for the separate Flutter repos
+- Keep APIs mobile-ready (REST + Socket.IO)
+- Customer app phases gated like backend/admin (`CUSTOMER_PHASE_PLAN.md`)
 
 ## When unsure
-Ask before adding paid services, Firebase (beyond FCM), MongoDB, GraphQL, or a third client in this repo.
+Ask before adding paid services, Firebase (beyond FCM), MongoDB, GraphQL, or a third client beyond customer Flutter + admin.

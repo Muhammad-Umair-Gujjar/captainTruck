@@ -8,8 +8,8 @@ This file preserves locked product/tech decisions from that conversation.
 - Title: Captain Truck — Comprehensive Real-Time Logistics and Dispatch Platform
 - Team: Muhammad Umair, Muhammad Ali, Muhammad Shahzaib (UOG)
 - Clients:
-  1. Customer Flutter app (Android) — separate repo
-  2. Driver Flutter app (Android) — separate repo
+  1. Customer Flutter app (Android) — `mobile_apps/customer_app/`
+  2. Driver Flutter app (Android) — later / separate
   3. Admin web (React + Vite + Tailwind on Vercel) — this repo
   4. NestJS API — this repo (`backend/`)
 
@@ -45,7 +45,8 @@ This file preserves locked product/tech decisions from that conversation.
 - Implement **phase by phase**; previous phase must pass exit checklist and get approval before the next.
 - Plan: `backend/PHASE_PLAN.md` (Phases 0–16)
 - Backend Phases 0–16: **complete**.
-- Admin panel (`admin/`): plan A0–A7 in `admin/ADMIN_PHASE_PLAN.md` — A0–A7 complete; Flutter apps remain separate repos.
+- Admin panel (`admin/`): plan A0–A7 in `admin/ADMIN_PHASE_PLAN.md` — A0–A7 complete.
+- Customer Flutter (`mobile_apps/customer_app/`): plan C0–C9 in `CUSTOMER_PHASE_PLAN.md` — C0 underway; BLoC + vendored `liquid_glass_renderer`.
 
 ## Accounts still needed
 

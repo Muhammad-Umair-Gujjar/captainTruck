@@ -5,8 +5,9 @@ FYP: **Captain Truck — Real-Time Logistics and Dispatch Platform**
 This repository hosts:
 - **NestJS backend** (`backend/`) — custom API (Phases 0–16 complete)
 - **React admin panel** (`admin/`) — Vite + Tailwind → Vercel
+- **Customer Flutter app** (`mobile_apps/customer_app/`) — Android + BLoC (phases C0+)
 
-Flutter Customer and Driver apps live in **separate repositories** (Android only).
+Driver Flutter app remains separate / later.
 
 ## Quick start
 
@@ -44,9 +45,12 @@ npm run dev
 | [backend/docs/DEPLOY.md](backend/docs/DEPLOY.md) | Oracle + Nginx + PM2 |
 | [admin/README.md](admin/README.md) | Admin local + Vercel |
 | [admin/SMOKE.md](admin/SMOKE.md) | Admin SPA smoke checklist |
+| [mobile_apps/customer_app/CUSTOMER_PHASE_PLAN.md](mobile_apps/customer_app/CUSTOMER_PHASE_PLAN.md) | Customer Flutter phases |
 
 ## Current status
 
 - Backend Phases **0–16** complete  
 - Admin: **A0–A7** complete — ready for Vercel deploy  
+- Customer Flutter: **C0** in progress (`mobile_apps/customer_app`)  
+
 
