@@ -17,6 +17,8 @@ dependencies:
   # Vendored from whynotmake-it/flutter_liquid_glass (0.2.0-dev.4)
   liquid_glass_renderer:
     path: ../vendor/flutter_liquid_glass/packages/liquid_glass_renderer
+  flutter_map: ^8.3.2
+  latlong2: ^0.10.1
 
 dev_dependencies:
   flutter_test:

@@ -6,7 +6,11 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/glass_panel.dart';
 import '../../auth/presentation/bloc/auth_bloc.dart';
 import '../../bootstrap/presentation/bootstrap_page.dart';
+import '../../dispatches/data/dispatches_repository.dart';
+import '../../dispatches/presentation/bloc/create_dispatch_bloc.dart';
+import '../../dispatches/presentation/create_dispatch_page.dart';
 import '../../health/presentation/bloc/health_bloc.dart';
+import '../../places/data/places_repository.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/presentation/bloc/profile_bloc.dart';
 import '../../profile/presentation/profile_page.dart';
@@ -114,6 +118,28 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                  const SizedBox(height: 16),
+                  FilledButton(
+                    onPressed: () {
+                      final types =
+                          context.read<TruckTypesBloc>().state.items;
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => BlocProvider(
+                            create: (ctx) => CreateDispatchBloc(
+                              dispatchesRepository:
+                                  context.read<DispatchesRepository>(),
+                              placesRepository:
+                                  context.read<PlacesRepository>(),
+                              truckTypes: types,
+                            ),
+                            child: const CreateDispatchPage(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text('Book a truck'),
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -230,7 +256,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Booking starts in C3.',
+                    'Route options start in C4.',
                     style: TextStyle(color: AppTheme.inkMuted),
                     textAlign: TextAlign.center,
                   ),

@@ -9,6 +9,8 @@ import 'features/auth/presentation/auth_gate.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/health/data/health_repository.dart';
 import 'features/health/presentation/bloc/health_bloc.dart';
+import 'features/dispatches/data/dispatches_repository.dart';
+import 'features/places/data/places_repository.dart';
 import 'features/profile/data/profile_repository.dart';
 import 'features/truck_types/data/truck_types_repository.dart';
 import 'features/truck_types/presentation/bloc/truck_types_bloc.dart';
@@ -47,6 +49,13 @@ class CaptainTruckCustomerApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) =>
               TruckTypesRepository(context.read<ApiClient>()),
+        ),
+        RepositoryProvider(
+          create: (context) => PlacesRepository(context.read<ApiClient>()),
+        ),
+        RepositoryProvider(
+          create: (context) =>
+              DispatchesRepository(context.read<ApiClient>()),
         ),
       ],
       child: MultiBlocProvider(

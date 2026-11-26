@@ -53,8 +53,9 @@
 | C0 | Complete (scaffold, BLoC, glass, health) |
 | C1 | Complete (register / login / refresh / logout) |
 | C2 | Complete (profile `/users/me` + truck types list) |
-| C3–C9 | Not started |
+| C3 | Complete (map pickup/drop → `POST /dispatches`) |
+| C4–C9 | Not started |
 
 ## Next action
 
-Approve to start **C3** (create dispatch: map pickup/drop → `POST /dispatches`).
+Approve to start **C4** (generate + select routes → `pending_admin`).
