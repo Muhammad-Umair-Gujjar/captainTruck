@@ -8,7 +8,9 @@ import '../../auth/presentation/bloc/auth_bloc.dart';
 import '../../bootstrap/presentation/bootstrap_page.dart';
 import '../../dispatches/data/dispatches_repository.dart';
 import '../../dispatches/presentation/bloc/create_dispatch_bloc.dart';
+import '../../dispatches/presentation/bloc/my_requests_bloc.dart';
 import '../../dispatches/presentation/create_dispatch_page.dart';
+import '../../dispatches/presentation/my_requests_page.dart';
 import '../../health/presentation/bloc/health_bloc.dart';
 import '../../places/data/places_repository.dart';
 import '../../profile/data/profile_repository.dart';
@@ -141,6 +143,22 @@ class HomePage extends StatelessWidget {
                     },
                     child: const Text('Book a truck'),
                   ),
+                  const SizedBox(height: 8),
+                  FilledButton.tonal(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => BlocProvider(
+                            create: (ctx) => MyRequestsBloc(
+                              context.read<DispatchesRepository>(),
+                            )..add(const MyRequestsStarted()),
+                            child: const MyRequestsPage(),
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text('My requests'),
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     'Truck types',
@@ -256,7 +274,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'My requests list starts in C5.',
+                    'Live trip tracking starts in C6.',
                     style: TextStyle(color: AppTheme.inkMuted),
                     textAlign: TextAlign.center,
                   ),

@@ -114,6 +114,9 @@ class DispatchRequest extends Equatable {
     this.dropoffLng,
     this.lockedBaseRateCents,
     this.notes,
+    this.rejectionReason,
+    this.createdAt,
+    this.truckTypeName,
     this.routeOptions = const [],
     this.billBreakdown,
   });
@@ -131,12 +134,29 @@ class DispatchRequest extends Equatable {
   final double? dropoffLng;
   final int? lockedBaseRateCents;
   final String? notes;
+  final String? rejectionReason;
+  final DateTime? createdAt;
+  final String? truckTypeName;
   final List<RouteOption> routeOptions;
   final BillBreakdown? billBreakdown;
+
+  bool get canCancel {
+    const allowed = {
+      'DRAFT',
+      'AWAITING_ROUTE_SELECTION',
+      'PENDING_ADMIN',
+    };
+    return allowed.contains(status);
+  }
+
+  bool get needsRouteSelection => status == 'AWAITING_ROUTE_SELECTION';
+
+  bool get isPendingAdmin => status == 'PENDING_ADMIN';
 
   factory DispatchRequest.fromJson(Map<String, dynamic> json) {
     final routesRaw = json['routeOptions'];
     final billRaw = json['billBreakdown'];
+    final truckTypeRaw = json['truckType'];
     return DispatchRequest(
       id: json['id'].toString(),
       truckTypeId: json['truckTypeId'].toString(),
@@ -151,6 +171,13 @@ class DispatchRequest extends Equatable {
       dropoffLng: (json['dropoffLng'] as num?)?.toDouble(),
       lockedBaseRateCents: (json['lockedBaseRateCents'] as num?)?.toInt(),
       notes: json['notes']?.toString(),
+      rejectionReason: json['rejectionReason']?.toString(),
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'].toString())
+          : null,
+      truckTypeName: truckTypeRaw is Map
+          ? truckTypeRaw['name']?.toString()
+          : null,
       routeOptions: routesRaw is List
           ? routesRaw
               .whereType<Map>()
@@ -178,9 +205,56 @@ class DispatchRequest extends Equatable {
         dropoffLng,
         lockedBaseRateCents,
         notes,
+        rejectionReason,
+        createdAt,
+        truckTypeName,
         routeOptions,
         billBreakdown,
       ];
+}
+
+class DispatchListPage extends Equatable {
+  const DispatchListPage({
+    required this.items,
+    required this.page,
+    required this.limit,
+    required this.total,
+    required this.totalPages,
+  });
+
+  final List<DispatchRequest> items;
+  final int page;
+  final int limit;
+  final int total;
+  final int totalPages;
+
+  factory DispatchListPage.fromJson(Map<String, dynamic> json) {
+    final itemsRaw = json['items'];
+    final meta = json['meta'] is Map
+        ? Map<String, dynamic>.from(json['meta'] as Map)
+        : const <String, dynamic>{};
+    return DispatchListPage(
+      items: itemsRaw is List
+          ? itemsRaw
+              .whereType<Map>()
+              .map(
+                (e) => DispatchRequest.fromJson(Map<String, dynamic>.from(e)),
+              )
+              .toList()
+          : const [],
+      page: (meta['page'] as num?)?.toInt() ?? 1,
+      limit: (meta['limit'] as num?)?.toInt() ?? 20,
+      total: (meta['total'] as num?)?.toInt() ?? 0,
+      totalPages: (meta['totalPages'] as num?)?.toInt() ?? 1,
+    );
+  }
+
+  @override
+  List<Object?> get props => [items, page, limit, total, totalPages];
+}
+
+String formatDispatchStatus(String status) {
+  return status.replaceAll('_', ' ').toLowerCase();
 }
 
 class CreateDispatchInput extends Equatable {

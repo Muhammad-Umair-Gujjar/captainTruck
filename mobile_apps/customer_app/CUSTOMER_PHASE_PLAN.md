@@ -55,8 +55,9 @@
 | C2 | Complete (profile `/users/me` + truck types list) |
 | C3 | Complete (map pickup/drop → `POST /dispatches`) |
 | C4 | Complete (generate + select routes → `pending_admin`) |
-| C5–C9 | Not started |
+| C5 | Complete (my requests / wait for admin) |
+| C6–C9 | Not started |
 
 ## Next action
 
-Approve to start **C5** (my requests / wait for admin: `GET /dispatches/mine`).
+Approve to start **C6** (live trip track: Socket.IO `location:updated`).
