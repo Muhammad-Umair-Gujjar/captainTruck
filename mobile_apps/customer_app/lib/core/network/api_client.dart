@@ -115,6 +115,19 @@ class ApiClient {
     }
   }
 
+  Future<ApiEnvelope<T>> patchEnvelope<T>(
+    String path, {
+    Object? data,
+    T Function(Object? raw)? parseData,
+  }) async {
+    try {
+      final response = await _dio.patch<Map<String, dynamic>>(path, data: data);
+      return _parse(response, parseData);
+    } on DioException catch (e) {
+      throw _mapDio(e);
+    }
+  }
+
   ApiEnvelope<T> _parse<T>(
     Response<Map<String, dynamic>> response,
     T Function(Object? raw)? parseData,

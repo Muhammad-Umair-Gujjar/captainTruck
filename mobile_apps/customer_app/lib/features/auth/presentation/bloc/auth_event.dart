@@ -41,3 +41,12 @@ final class AuthRegisterSubmitted extends AuthEvent {
 final class AuthLogoutRequested extends AuthEvent {
   const AuthLogoutRequested();
 }
+
+final class AuthUserSynced extends AuthEvent {
+  const AuthUserSynced(this.user);
+
+  final AuthUser user;
+
+  @override
+  List<Object?> get props => [user];
+}

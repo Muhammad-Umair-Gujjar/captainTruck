@@ -52,8 +52,9 @@
 |------:|--------|
 | C0 | Complete (scaffold, BLoC, glass, health) |
 | C1 | Complete (register / login / refresh / logout) |
-| C2–C9 | Not started |
+| C2 | Complete (profile `/users/me` + truck types list) |
+| C3–C9 | Not started |
 
 ## Next action
 
-Approve to start **C2** (profile + truck types: `/users/me`, `/truck-types`).
+Approve to start **C3** (create dispatch: map pickup/drop → `POST /dispatches`).

@@ -14,6 +14,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthLoginSubmitted>(_onLogin);
     on<AuthRegisterSubmitted>(_onRegister);
     on<AuthLogoutRequested>(_onLogout);
+    on<AuthUserSynced>(_onUserSynced);
   }
 
   final AuthRepository _repository;
@@ -122,6 +123,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         clearUser: true,
       ),
     );
+  }
+
+  void _onUserSynced(AuthUserSynced event, Emitter<AuthState> emit) {
+    if (state.status != AuthStatus.authenticated) return;
+    emit(state.copyWith(user: event.user));
   }
 
   String _msg(Object e) {
