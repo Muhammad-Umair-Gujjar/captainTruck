@@ -4,7 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/money/pkr.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/glass_panel.dart';
+import '../data/dispatches_repository.dart';
 import 'bloc/create_dispatch_bloc.dart';
+import 'bloc/select_routes_bloc.dart';
+import 'select_routes_page.dart';
 import 'widgets/dispatch_map.dart';
 
 class CreateDispatchPage extends StatefulWidget {
@@ -50,15 +53,20 @@ class _CreateDispatchPageState extends State<CreateDispatchPage> {
           SafeArea(
             child: BlocConsumer<CreateDispatchBloc, CreateDispatchState>(
               listener: (context, state) {
-                if (state.status == CreateDispatchStatus.success) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        state.message ?? 'Dispatch created',
+                if (state.status == CreateDispatchStatus.success &&
+                    state.created != null) {
+                  final dispatchId = state.created!.id;
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute<void>(
+                      builder: (_) => BlocProvider(
+                        create: (ctx) => SelectRoutesBloc(
+                          repository: context.read<DispatchesRepository>(),
+                          dispatchId: dispatchId,
+                        )..add(const SelectRoutesStarted()),
+                        child: const SelectRoutesPage(),
                       ),
                     ),
                   );
-                  Navigator.of(context).pop(state.created);
                 } else if (state.message != null &&
                     state.status == CreateDispatchStatus.failure) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -297,7 +305,7 @@ class _CreateDispatchPageState extends State<CreateDispatchPage> {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      'Routes & AI cost come in C4 after create.',
+                      'After create you will pick an OSM route + AI cost.',
                       textAlign: TextAlign.center,
                       style: TextStyle(color: AppTheme.inkMuted),
                     ),

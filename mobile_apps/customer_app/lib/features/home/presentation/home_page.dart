@@ -256,7 +256,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Route options start in C4.',
+                    'My requests list starts in C5.',
                     style: TextStyle(color: AppTheme.inkMuted),
                     textAlign: TextAlign.center,
                   ),

@@ -54,8 +54,9 @@
 | C1 | Complete (register / login / refresh / logout) |
 | C2 | Complete (profile `/users/me` + truck types list) |
 | C3 | Complete (map pickup/drop → `POST /dispatches`) |
-| C4–C9 | Not started |
+| C4 | Complete (generate + select routes → `pending_admin`) |
+| C5–C9 | Not started |
 
 ## Next action
 
-Approve to start **C4** (generate + select routes → `pending_admin`).
+Approve to start **C5** (my requests / wait for admin: `GET /dispatches/mine`).
