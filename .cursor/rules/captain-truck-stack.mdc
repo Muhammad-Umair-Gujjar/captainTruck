@@ -8,7 +8,7 @@ alwaysApply: true
 ## This repository builds
 - NestJS custom backend (TypeScript) — `backend/`
 - React admin dashboard (Vite + Tailwind), hosted on Vercel — `admin/`
-- Flutter **Customer** app (Android) — `mobile_apps/customer_app/`
+- Flutter **Customer** app (Android **and iOS**) — `mobile_apps/customer_app/`
 - Vendored UI deps (e.g. liquid glass) — `mobile_apps/vendor/`
 
 ## Do NOT build in this repo yet
@@ -33,8 +33,8 @@ alwaysApply: true
 | Language | TypeScript (API/admin); Dart (customer Flutter) |
 
 ## Product surfaces
-1. Customer Flutter app — Android only — `mobile_apps/customer_app/`
-2. Driver Flutter app — Android only — later / separate
+1. Customer Flutter app — Android + iOS — `mobile_apps/customer_app/`
+2. Driver Flutter app — later / separate
 3. Admin web panel — this repo
 4. Shared NestJS API — this repo
 

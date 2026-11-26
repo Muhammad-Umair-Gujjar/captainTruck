@@ -1,7 +1,7 @@
 # Captain Truck — Customer Flutter app phase plan
 
 > **Path:** `mobile_apps/customer_app/` (this repo)  
-> **Target:** Android only  
+> **Target:** Android **and iOS**  
 > **State:** flutter_bloc  
 > **UI glass:** `liquid_glass_renderer` vendored from GitHub → `mobile_apps/vendor/flutter_liquid_glass`  
 > **API:** NestJS `backend/` (`/api/v1` + Socket.IO `/realtime`)
@@ -32,7 +32,7 @@
 | **C6** | Live trip track (Socket.IO) | map + `location:updated` |
 | **C7** | Chat (+ media later) | threads / messages |
 | **C8** | Cash + Stripe Test pay | payments APIs |
-| **C9** | FCM + Android polish | token register |
+| **C9** | FCM + Android/iOS polish | token register |
 
 **Process:** implement → smoke → you approve → next phase.
 
@@ -51,8 +51,9 @@
 | Phase | Status |
 |------:|--------|
 | C0 | Complete (scaffold, BLoC, glass, health) |
-| C1–C9 | Not started |
+| C1 | Complete (register / login / refresh / logout) |
+| C2–C9 | Not started |
 
 ## Next action
 
-Approve C0 to start **C1** (auth register / login / refresh).
+Approve to start **C2** (profile + truck types: `/users/me`, `/truck-types`).

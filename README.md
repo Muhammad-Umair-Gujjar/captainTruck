@@ -51,6 +51,7 @@ npm run dev
 
 - Backend Phases **0–16** complete  
 - Admin: **A0–A7** complete — ready for Vercel deploy  
-- Customer Flutter: **C0** in progress (`mobile_apps/customer_app`)  
+- Customer Flutter: **C0–C1** complete (`mobile_apps/customer_app`) — next C2  
+
 
 

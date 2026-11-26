@@ -8,7 +8,7 @@ This file preserves locked product/tech decisions from that conversation.
 - Title: Captain Truck — Comprehensive Real-Time Logistics and Dispatch Platform
 - Team: Muhammad Umair, Muhammad Ali, Muhammad Shahzaib (UOG)
 - Clients:
-  1. Customer Flutter app (Android) — `mobile_apps/customer_app/`
+  1. Customer Flutter app (Android + iOS) — `mobile_apps/customer_app/`
   2. Driver Flutter app (Android) — later / separate
   3. Admin web (React + Vite + Tailwind on Vercel) — this repo
   4. NestJS API — this repo (`backend/`)

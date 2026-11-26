@@ -1,6 +1,6 @@
 # Captain Truck — Customer app
 
-Flutter + **BLoC** customer client (Android). Talks to NestJS in `backend/`.
+Flutter + **BLoC** customer client (**Android + iOS**). Talks to NestJS in `backend/`.
 
 Phase plan: [CUSTOMER_PHASE_PLAN.md](./CUSTOMER_PHASE_PLAN.md)
 
@@ -28,8 +28,16 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
 
 Physical device: use your PC LAN IP instead of `10.0.2.2`.
 
-## C0 smoke
+## Smoke
 
-1. App opens with glass panels + “Captain Truck”
-2. **Ping API** → status ok when Nest is up
-3. `flutter analyze` / `flutter test` clean
+**C0:** glass shell + Ping API health  
+**C1:** register / login / logout (customer role only); session restores after restart
+
+```bash
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
+```
+
+1. Create account → lands on home  
+2. Sign out → login  
+3. Sign in again → home; kill/reopen app → still signed in (secure storage)  
+4. Admin/driver credentials must be rejected
