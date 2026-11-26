@@ -5,6 +5,10 @@ import '../../../core/money/pkr.dart';
 import '../../../core/realtime/realtime_client.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/glass_panel.dart';
+import '../../auth/presentation/bloc/auth_bloc.dart';
+import '../../chat/data/chat_repository.dart';
+import '../../chat/presentation/bloc/chat_thread_bloc.dart';
+import '../../chat/presentation/chat_thread_page.dart';
 import '../../trips/data/trips_repository.dart';
 import '../../trips/presentation/bloc/live_track_bloc.dart';
 import '../../trips/presentation/live_track_page.dart';
@@ -180,6 +184,31 @@ class DispatchDetailPage extends StatelessWidget {
                           child: const Text('Track live trip'),
                         ),
                       if (d.canTrackLive) const SizedBox(height: 8),
+                      if (d.trip != null)
+                        FilledButton.tonal(
+                          onPressed: () {
+                            final me =
+                                context.read<AuthBloc>().state.user?.id;
+                            if (me == null) return;
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => BlocProvider(
+                                  create: (ctx) => ChatThreadBloc(
+                                    repository:
+                                        context.read<ChatRepository>(),
+                                    realtime:
+                                        context.read<RealtimeClient>(),
+                                    myUserId: me,
+                                    tripId: d.trip!.id,
+                                  )..add(const ChatThreadStarted()),
+                                  child: const ChatThreadPage(),
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text('Chat with driver'),
+                        ),
+                      if (d.trip != null) const SizedBox(height: 8),
                       if (d.needsRouteSelection)
                         FilledButton(
                           onPressed: () async {

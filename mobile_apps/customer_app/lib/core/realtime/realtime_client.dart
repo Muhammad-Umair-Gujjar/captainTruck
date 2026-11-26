@@ -2,9 +2,10 @@ import 'dart:async';
 
 import 'package:socket_io_client/socket_io_client.dart' as io;
 
+import '../../features/chat/data/chat_models.dart';
+import '../../features/trips/data/trip_models.dart';
 import '../auth/token_storage.dart';
 import '../config/app_config.dart';
-import '../../features/trips/data/trip_models.dart';
 
 /// Thin Socket.IO wrapper for the Nest `/realtime` namespace.
 abstract class RealtimeClient {
@@ -12,8 +13,11 @@ abstract class RealtimeClient {
   Future<void> disconnect();
   Future<LiveLocation?> joinTrip(String tripId);
   Future<void> leaveTrip(String tripId);
+  Future<void> joinChat(String threadId);
+  Future<void> leaveChat(String threadId);
   Stream<LiveLocation> get locationUpdates;
   Stream<Map<String, dynamic>> get tripStatusUpdates;
+  Stream<ChatMessage> get chatMessages;
   bool get isConnected;
 }
 
@@ -32,12 +36,16 @@ class SocketRealtimeClient implements RealtimeClient {
 
   final _locationCtrl = StreamController<LiveLocation>.broadcast();
   final _statusCtrl = StreamController<Map<String, dynamic>>.broadcast();
+  final _chatCtrl = StreamController<ChatMessage>.broadcast();
 
   @override
   Stream<LiveLocation> get locationUpdates => _locationCtrl.stream;
 
   @override
   Stream<Map<String, dynamic>> get tripStatusUpdates => _statusCtrl.stream;
+
+  @override
+  Stream<ChatMessage> get chatMessages => _chatCtrl.stream;
 
   @override
   bool get isConnected => _socket?.connected == true;
@@ -65,6 +73,7 @@ class SocketRealtimeClient implements RealtimeClient {
     _socket = socket;
     socket.off('location:updated');
     socket.off('trip:status');
+    socket.off('chat:message');
     socket.on('location:updated', (data) {
       if (data is Map) {
         try {
@@ -77,6 +86,13 @@ class SocketRealtimeClient implements RealtimeClient {
     socket.on('trip:status', (data) {
       if (data is Map) {
         _statusCtrl.add(Map<String, dynamic>.from(data));
+      }
+    });
+    socket.on('chat:message', (data) {
+      if (data is Map) {
+        try {
+          _chatCtrl.add(ChatMessage.fromJson(Map<String, dynamic>.from(data)));
+        } catch (_) {}
       }
     });
 
@@ -101,6 +117,7 @@ class SocketRealtimeClient implements RealtimeClient {
     if (socket == null) return;
     socket.off('location:updated');
     socket.off('trip:status');
+    socket.off('chat:message');
     socket.disconnect();
     if (_injected == null) {
       _socket = null;
@@ -140,10 +157,39 @@ class SocketRealtimeClient implements RealtimeClient {
     } catch (_) {}
   }
 
+  @override
+  Future<void> joinChat(String threadId) async {
+    await connect();
+    final socket = _socket!;
+    final raw = await socket
+        .emitWithAckAsync('chat:join', {'threadId': threadId})
+        .timeout(const Duration(seconds: 10));
+    final ack = raw is Map
+        ? Map<String, dynamic>.from(raw)
+        : <String, dynamic>{'ok': false, 'message': 'Bad ack'};
+    if (ack['ok'] != true) {
+      throw StateError(
+        (ack['message'] ?? 'Cannot join chat room').toString(),
+      );
+    }
+  }
+
+  @override
+  Future<void> leaveChat(String threadId) async {
+    final socket = _socket;
+    if (socket == null || !socket.connected) return;
+    try {
+      await socket
+          .emitWithAckAsync('chat:leave', {'threadId': threadId})
+          .timeout(const Duration(seconds: 5));
+    } catch (_) {}
+  }
+
   void dispose() {
     unawaited(disconnect());
     _locationCtrl.close();
     _statusCtrl.close();
+    _chatCtrl.close();
   }
 }
 
@@ -154,13 +200,18 @@ class FakeRealtimeClient implements RealtimeClient {
   LiveLocation? joinLocation;
   final _locationCtrl = StreamController<LiveLocation>.broadcast();
   final _statusCtrl = StreamController<Map<String, dynamic>>.broadcast();
+  final _chatCtrl = StreamController<ChatMessage>.broadcast();
   var connected = false;
   String? joinedTripId;
+  String? joinedThreadId;
   var joinCount = 0;
+  var chatJoinCount = 0;
 
   void pushLocation(LiveLocation location) => _locationCtrl.add(location);
 
   void pushStatus(Map<String, dynamic> status) => _statusCtrl.add(status);
+
+  void pushChatMessage(ChatMessage message) => _chatCtrl.add(message);
 
   @override
   bool get isConnected => connected;
@@ -172,6 +223,9 @@ class FakeRealtimeClient implements RealtimeClient {
   Stream<Map<String, dynamic>> get tripStatusUpdates => _statusCtrl.stream;
 
   @override
+  Stream<ChatMessage> get chatMessages => _chatCtrl.stream;
+
+  @override
   Future<void> connect() async {
     connected = true;
   }
@@ -180,6 +234,7 @@ class FakeRealtimeClient implements RealtimeClient {
   Future<void> disconnect() async {
     connected = false;
     joinedTripId = null;
+    joinedThreadId = null;
   }
 
   @override
@@ -195,8 +250,21 @@ class FakeRealtimeClient implements RealtimeClient {
     if (joinedTripId == tripId) joinedTripId = null;
   }
 
+  @override
+  Future<void> joinChat(String threadId) async {
+    await connect();
+    joinedThreadId = threadId;
+    chatJoinCount++;
+  }
+
+  @override
+  Future<void> leaveChat(String threadId) async {
+    if (joinedThreadId == threadId) joinedThreadId = null;
+  }
+
   void dispose() {
     _locationCtrl.close();
     _statusCtrl.close();
+    _chatCtrl.close();
   }
 }

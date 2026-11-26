@@ -6,6 +6,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/glass_panel.dart';
 import '../../auth/presentation/bloc/auth_bloc.dart';
 import '../../bootstrap/presentation/bootstrap_page.dart';
+import '../../chat/presentation/my_chats_page.dart';
 import '../../dispatches/data/dispatches_repository.dart';
 import '../../dispatches/presentation/bloc/create_dispatch_bloc.dart';
 import '../../dispatches/presentation/bloc/my_requests_bloc.dart';
@@ -159,6 +160,17 @@ class HomePage extends StatelessWidget {
                     },
                     child: const Text('My requests'),
                   ),
+                  const SizedBox(height: 8),
+                  FilledButton.tonal(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const MyChatsPage(),
+                        ),
+                      );
+                    },
+                    child: const Text('Chats'),
+                  ),
                   const SizedBox(height: 16),
                   Text(
                     'Truck types',
@@ -274,7 +286,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Chat starts in C7.',
+                    'Payments start in C8.',
                     style: TextStyle(color: AppTheme.inkMuted),
                     textAlign: TextAlign.center,
                   ),

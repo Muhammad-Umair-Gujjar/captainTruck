@@ -10,6 +10,7 @@ import 'features/auth/presentation/auth_gate.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/health/data/health_repository.dart';
 import 'features/health/presentation/bloc/health_bloc.dart';
+import 'features/chat/data/chat_repository.dart';
 import 'features/dispatches/data/dispatches_repository.dart';
 import 'features/places/data/places_repository.dart';
 import 'features/profile/data/profile_repository.dart';
@@ -63,6 +64,9 @@ class CaptainTruckCustomerApp extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => TripsRepository(context.read<ApiClient>()),
+        ),
+        RepositoryProvider(
+          create: (context) => ChatRepository(context.read<ApiClient>()),
         ),
         RepositoryProvider<RealtimeClient>.value(
           value: realtimeClient ??
