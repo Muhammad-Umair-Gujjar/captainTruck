@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 
+import '../../trips/data/trip_models.dart';
+
 class RouteOption extends Equatable {
   const RouteOption({
     required this.id,
@@ -117,6 +119,7 @@ class DispatchRequest extends Equatable {
     this.rejectionReason,
     this.createdAt,
     this.truckTypeName,
+    this.trip,
     this.routeOptions = const [],
     this.billBreakdown,
   });
@@ -137,6 +140,7 @@ class DispatchRequest extends Equatable {
   final String? rejectionReason;
   final DateTime? createdAt;
   final String? truckTypeName;
+  final TripSummary? trip;
   final List<RouteOption> routeOptions;
   final BillBreakdown? billBreakdown;
 
@@ -153,10 +157,13 @@ class DispatchRequest extends Equatable {
 
   bool get isPendingAdmin => status == 'PENDING_ADMIN';
 
+  bool get canTrackLive => trip != null && trip!.isTrackable;
+
   factory DispatchRequest.fromJson(Map<String, dynamic> json) {
     final routesRaw = json['routeOptions'];
     final billRaw = json['billBreakdown'];
     final truckTypeRaw = json['truckType'];
+    final tripRaw = json['trip'];
     return DispatchRequest(
       id: json['id'].toString(),
       truckTypeId: json['truckTypeId'].toString(),
@@ -177,6 +184,9 @@ class DispatchRequest extends Equatable {
           : null,
       truckTypeName: truckTypeRaw is Map
           ? truckTypeRaw['name']?.toString()
+          : null,
+      trip: tripRaw is Map
+          ? TripSummary.fromJson(Map<String, dynamic>.from(tripRaw))
           : null,
       routeOptions: routesRaw is List
           ? routesRaw
@@ -208,6 +218,7 @@ class DispatchRequest extends Equatable {
         rejectionReason,
         createdAt,
         truckTypeName,
+        trip,
         routeOptions,
         billBreakdown,
       ];

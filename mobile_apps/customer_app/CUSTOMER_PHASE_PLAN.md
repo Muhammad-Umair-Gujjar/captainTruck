@@ -56,8 +56,9 @@
 | C3 | Complete (map pickup/drop → `POST /dispatches`) |
 | C4 | Complete (generate + select routes → `pending_admin`) |
 | C5 | Complete (my requests / wait for admin) |
-| C6–C9 | Not started |
+| C6 | Complete (live trip track via Socket.IO) |
+| C7–C9 | Not started |
 
 ## Next action
 
-Approve to start **C6** (live trip track: Socket.IO `location:updated`).
+Approve to start **C7** (chat: threads / messages).

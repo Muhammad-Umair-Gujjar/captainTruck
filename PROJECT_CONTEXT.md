@@ -46,7 +46,7 @@ This file preserves locked product/tech decisions from that conversation.
 - Plan: `backend/PHASE_PLAN.md` (Phases 0–16)
 - Backend Phases 0–16: **complete**.
 - Admin panel (`admin/`): plan A0–A7 in `admin/ADMIN_PHASE_PLAN.md` — A0–A7 complete.
-- Customer Flutter (`mobile_apps/customer_app/`): plan C0–C9 in `CUSTOMER_PHASE_PLAN.md` — C0–C5 complete (through my requests / pending admin); BLoC + vendored `liquid_glass_renderer`.
+- Customer Flutter (`mobile_apps/customer_app/`): plan C0–C9 in `CUSTOMER_PHASE_PLAN.md` — C0–C6 complete (through live trip Socket.IO track); BLoC + vendored `liquid_glass_renderer`.
 
 ## Accounts still needed
 

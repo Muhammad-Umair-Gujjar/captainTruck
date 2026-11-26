@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/money/pkr.dart';
+import '../../../core/realtime/realtime_client.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/glass_panel.dart';
+import '../../trips/data/trips_repository.dart';
+import '../../trips/presentation/bloc/live_track_bloc.dart';
+import '../../trips/presentation/live_track_page.dart';
 import '../data/dispatch_models.dart';
 import '../data/dispatches_repository.dart';
 import 'bloc/dispatch_detail_bloc.dart';
@@ -142,10 +146,40 @@ class DispatchDetailPage extends StatelessWidget {
                                 style: TextStyle(color: AppTheme.inkMuted),
                               ),
                             ],
+                            if (d.trip != null) ...[
+                              const SizedBox(height: 12),
+                              Text(
+                                'Trip: ${d.trip!.status.replaceAll('_', ' ').toLowerCase()}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ],
                         ),
                       ),
                       const SizedBox(height: 16),
+                      if (d.canTrackLive)
+                        FilledButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => BlocProvider(
+                                  create: (ctx) => LiveTrackBloc(
+                                    repository:
+                                        context.read<TripsRepository>(),
+                                    realtime:
+                                        context.read<RealtimeClient>(),
+                                    tripId: d.trip!.id,
+                                  )..add(const LiveTrackStarted()),
+                                  child: const LiveTrackPage(),
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text('Track live trip'),
+                        ),
+                      if (d.canTrackLive) const SizedBox(height: 8),
                       if (d.needsRouteSelection)
                         FilledButton(
                           onPressed: () async {

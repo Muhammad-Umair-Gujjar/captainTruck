@@ -13,4 +13,7 @@ class AppConfig {
   static const String apiPrefix = '/api/v1';
 
   static String get apiRoot => '$apiBaseUrl$apiPrefix';
+
+  /// Socket.IO namespace root (no `/api/v1`).
+  static String get realtimeUrl => '$apiBaseUrl/realtime';
 }

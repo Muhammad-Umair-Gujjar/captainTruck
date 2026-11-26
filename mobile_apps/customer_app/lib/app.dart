@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/auth/token_storage.dart';
 import 'core/network/api_client.dart';
+import 'core/realtime/realtime_client.dart';
 import 'core/theme/app_theme.dart';
 import 'features/auth/data/auth_repository.dart';
 import 'features/auth/presentation/auth_gate.dart';
@@ -12,6 +13,7 @@ import 'features/health/presentation/bloc/health_bloc.dart';
 import 'features/dispatches/data/dispatches_repository.dart';
 import 'features/places/data/places_repository.dart';
 import 'features/profile/data/profile_repository.dart';
+import 'features/trips/data/trips_repository.dart';
 import 'features/truck_types/data/truck_types_repository.dart';
 import 'features/truck_types/presentation/bloc/truck_types_bloc.dart';
 
@@ -20,10 +22,12 @@ class CaptainTruckCustomerApp extends StatelessWidget {
     super.key,
     this.apiClient,
     this.tokenStorage,
+    this.realtimeClient,
   });
 
   final ApiClient? apiClient;
   final TokenStorage? tokenStorage;
+  final RealtimeClient? realtimeClient;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +60,13 @@ class CaptainTruckCustomerApp extends StatelessWidget {
         RepositoryProvider(
           create: (context) =>
               DispatchesRepository(context.read<ApiClient>()),
+        ),
+        RepositoryProvider(
+          create: (context) => TripsRepository(context.read<ApiClient>()),
+        ),
+        RepositoryProvider<RealtimeClient>.value(
+          value: realtimeClient ??
+              SocketRealtimeClient(tokenStorage: storage),
         ),
       ],
       child: MultiBlocProvider(

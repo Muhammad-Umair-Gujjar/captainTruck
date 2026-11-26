@@ -274,7 +274,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Live trip tracking starts in C6.',
+                    'Chat starts in C7.',
                     style: TextStyle(color: AppTheme.inkMuted),
                     textAlign: TextAlign.center,
                   ),
