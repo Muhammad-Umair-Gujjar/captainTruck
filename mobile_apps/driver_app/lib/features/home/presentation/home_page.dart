@@ -6,6 +6,9 @@ import '../../../core/widgets/glass_panel.dart';
 import '../../auth/presentation/bloc/auth_bloc.dart';
 import '../../bootstrap/presentation/bootstrap_page.dart';
 import '../../health/presentation/bloc/health_bloc.dart';
+import '../../profile/data/profile_repository.dart';
+import '../../profile/presentation/bloc/profile_bloc.dart';
+import '../../profile/presentation/profile_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -13,6 +16,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthBloc>().state.user;
+    final profile = user?.driverProfile;
 
     return Scaffold(
       body: Stack(
@@ -72,7 +76,7 @@ class HomePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Session',
+                        'Profile',
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium
@@ -83,6 +87,28 @@ class HomePage extends StatelessWidget {
                       Text('Status: ${user?.status ?? '—'}'),
                       Text(
                         'Phone: ${user?.phone?.isNotEmpty == true ? user!.phone : '—'}',
+                      ),
+                      Text(
+                        'Plate: ${profile?.vehiclePlate?.isNotEmpty == true ? profile!.vehiclePlate : '—'}',
+                      ),
+                      Text(
+                        'Available: ${profile == null ? '—' : (profile.isAvailable ? 'yes' : 'no')}',
+                      ),
+                      const SizedBox(height: 12),
+                      FilledButton.tonal(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => BlocProvider(
+                                create: (ctx) => ProfileBloc(
+                                  context.read<ProfileRepository>(),
+                                )..add(const ProfileStarted()),
+                                child: const ProfilePage(),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Edit profile'),
                       ),
                     ],
                   ),
@@ -103,7 +129,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Trips and GPS start in D3–D5.',
+                  'Trips start in D3.',
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall
