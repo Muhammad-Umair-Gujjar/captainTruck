@@ -37,7 +37,8 @@ Physical device: use your PC LAN IP instead of `10.0.2.2`.
 **D4:** advance trip status (`ASSIGNED` → … → `COMPLETED`)  
 **D5:** live GPS share (Socket.IO `location:update`, REST fallback, ≥3s)  
 **D6:** on-trip map (pickup / drop / self markers)  
-**D7:** chat text (driver↔customer + driver↔ops)
+**D7:** chat text (driver↔customer + driver↔ops)  
+**D8:** cash collect + commission ledger
 
 ```bash
 flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
@@ -53,4 +54,5 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
 8. Advance status with the primary action button through the trip lifecycle  
 9. On an active trip, **Start GPS sharing** → grant location → coords update  
 10. **Open on-trip map** → pickup/drop/self markers; map follows GPS  
-11. **Chat with customer** / **Chat with ops** → send text + presets; home **Chats** inbox
+11. **Chat with customer** / **Chat with ops** → send text + presets; home **Chats** inbox  
+12. Trip detail **Confirm cash collected** (cash pending) → home **My commissions** ledger

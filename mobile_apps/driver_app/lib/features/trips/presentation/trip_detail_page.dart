@@ -9,6 +9,7 @@ import '../../auth/presentation/bloc/auth_bloc.dart';
 import '../../chat/data/chat_repository.dart';
 import '../../chat/presentation/bloc/chat_thread_bloc.dart';
 import '../../chat/presentation/chat_thread_page.dart';
+import '../../payments/presentation/cash_payment_panel.dart';
 import '../data/trip_models.dart';
 import 'bloc/trip_detail_bloc.dart';
 import 'on_trip_map_page.dart';
@@ -286,6 +287,8 @@ class TripDetailPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
+                      CashPaymentPanel(requestId: trip.requestId),
+                      const SizedBox(height: 16),
                       FilledButton(
                         onPressed: () {
                           Navigator.of(context).push(
@@ -355,7 +358,7 @@ class TripDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Cash / commissions start in D8.',
+                        'FCM polish starts in D9.',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme

@@ -6,6 +6,9 @@ import '../../../core/widgets/glass_panel.dart';
 import '../../auth/presentation/bloc/auth_bloc.dart';
 import '../../bootstrap/presentation/bootstrap_page.dart';
 import '../../chat/presentation/my_chats_page.dart';
+import '../../commissions/data/commissions_repository.dart';
+import '../../commissions/presentation/bloc/commissions_bloc.dart';
+import '../../commissions/presentation/commissions_page.dart';
 import '../../health/presentation/bloc/health_bloc.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/presentation/bloc/profile_bloc.dart';
@@ -149,6 +152,23 @@ class HomePage extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute<void>(
+                        builder: (_) => BlocProvider(
+                          create: (ctx) => CommissionsBloc(
+                            repository:
+                                context.read<CommissionsRepository>(),
+                          )..add(const CommissionsStarted()),
+                          child: const CommissionsPage(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text('My commissions'),
+                ),
+                const SizedBox(height: 8),
+                FilledButton.tonal(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
                         builder: (_) => BlocProvider.value(
                           value: context.read<HealthBloc>(),
                           child: const BootstrapPage(),
@@ -160,7 +180,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Cash / commissions start in D8.',
+                  'FCM polish starts in D9.',
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall

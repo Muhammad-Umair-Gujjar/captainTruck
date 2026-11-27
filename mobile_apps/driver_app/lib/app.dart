@@ -9,8 +9,10 @@ import 'features/auth/data/auth_repository.dart';
 import 'features/auth/presentation/auth_gate.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/chat/data/chat_repository.dart';
+import 'features/commissions/data/commissions_repository.dart';
 import 'features/health/data/health_repository.dart';
 import 'features/health/presentation/bloc/health_bloc.dart';
+import 'features/payments/data/payments_repository.dart';
 import 'features/profile/data/profile_repository.dart';
 import 'features/trips/data/trips_repository.dart';
 
@@ -52,6 +54,13 @@ class CaptainTruckDriverApp extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => ChatRepository(context.read<ApiClient>()),
+        ),
+        RepositoryProvider(
+          create: (context) => PaymentsRepository(context.read<ApiClient>()),
+        ),
+        RepositoryProvider(
+          create: (context) =>
+              CommissionsRepository(context.read<ApiClient>()),
         ),
         RepositoryProvider<RealtimeClient>.value(
           value: realtimeClient ??
