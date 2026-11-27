@@ -58,10 +58,10 @@
 | D4 | Complete (trip status machine) |
 | D5 | Complete (live GPS publish) |
 | D6 | Complete (on-trip map) |
-| D7 | Not started |
+| D7 | Complete (chat text) |
 | D8 | Not started |
 | D9 | Not started |
 
 ## Next action
 
-Approve to start **D7** (chat).
+Approve to start **D8** (cash collect + commissions).

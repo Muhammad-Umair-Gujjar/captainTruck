@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/money/pkr.dart';
+import '../../../core/realtime/realtime_client.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/glass_panel.dart';
+import '../../auth/presentation/bloc/auth_bloc.dart';
+import '../../chat/data/chat_repository.dart';
+import '../../chat/presentation/bloc/chat_thread_bloc.dart';
+import '../../chat/presentation/chat_thread_page.dart';
 import '../data/trip_models.dart';
 import 'bloc/trip_detail_bloc.dart';
 import 'on_trip_map_page.dart';
@@ -294,9 +299,63 @@ class TripDetailPage extends StatelessWidget {
                         },
                         child: const Text('Open on-trip map'),
                       ),
+                      const SizedBox(height: 8),
+                      FilledButton.tonal(
+                        onPressed: () {
+                          final me =
+                              context.read<AuthBloc>().state.user?.id;
+                          if (me == null) return;
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => BlocProvider(
+                                create: (ctx) => ChatThreadBloc(
+                                  repository:
+                                      context.read<ChatRepository>(),
+                                  realtime:
+                                      context.read<RealtimeClient>(),
+                                  myUserId: me,
+                                  tripId: trip.id,
+                                  threadType: 'DRIVER_CUSTOMER',
+                                )..add(const ChatThreadStarted()),
+                                child: const ChatThreadPage(
+                                  title: 'Chat with customer',
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Chat with customer'),
+                      ),
+                      const SizedBox(height: 8),
+                      OutlinedButton(
+                        onPressed: () {
+                          final me =
+                              context.read<AuthBloc>().state.user?.id;
+                          if (me == null) return;
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => BlocProvider(
+                                create: (ctx) => ChatThreadBloc(
+                                  repository:
+                                      context.read<ChatRepository>(),
+                                  realtime:
+                                      context.read<RealtimeClient>(),
+                                  myUserId: me,
+                                  tripId: trip.id,
+                                  threadType: 'DRIVER_ADMIN',
+                                )..add(const ChatThreadStarted()),
+                                child: const ChatThreadPage(
+                                  title: 'Chat with ops',
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Chat with ops'),
+                      ),
                       const SizedBox(height: 12),
                       Text(
-                        'Chat starts in D7.',
+                        'Cash / commissions start in D8.',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
