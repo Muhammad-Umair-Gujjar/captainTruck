@@ -249,3 +249,26 @@ class TripListPage extends Equatable {
 
 String formatTripStatus(String status) =>
     status.replaceAll('_', ' ').toLowerCase();
+
+/// Forward-only next status for drivers (no cancel — admin only).
+String? nextDriverStatus(String current) {
+  const map = <String, String>{
+    'ASSIGNED': 'EN_ROUTE_PICKUP',
+    'EN_ROUTE_PICKUP': 'ARRIVED_PICKUP',
+    'ARRIVED_PICKUP': 'IN_TRANSIT',
+    'IN_TRANSIT': 'DELIVERED',
+    'DELIVERED': 'COMPLETED',
+  };
+  return map[current];
+}
+
+String driverAdvanceLabel(String nextStatus) {
+  return switch (nextStatus) {
+    'EN_ROUTE_PICKUP' => 'Start en route to pickup',
+    'ARRIVED_PICKUP' => 'Arrived at pickup',
+    'IN_TRANSIT' => 'Start transit to dropoff',
+    'DELIVERED' => 'Mark delivered',
+    'COMPLETED' => 'Complete trip',
+    _ => 'Advance to ${formatTripStatus(nextStatus)}',
+  };
+}

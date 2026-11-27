@@ -55,7 +55,7 @@
 | D1 | Complete (login / refresh / logout; driver role only) |
 | D2 | Complete (profile `/users/me` + driver-profile) |
 | D3 | Complete (my assignments list + detail) |
-| D4 | Not started |
+| D4 | Complete (trip status machine) |
 | D5 | Not started |
 | D6 | Not started |
 | D7 | Not started |
@@ -64,4 +64,4 @@
 
 ## Next action
 
-Approve to start **D4** (trip status machine).
+Approve to start **D5** (live GPS publish).

@@ -31,13 +31,27 @@ class TripsRepository {
   Future<TripAssignment> getById(String tripId) async {
     final envelope = await _client.getEnvelope<TripAssignment>(
       '/trips/$tripId',
-      parseData: (raw) {
-        if (raw is! Map) {
-          throw const FormatException('trip payload invalid');
-        }
-        return TripAssignment.fromJson(Map<String, dynamic>.from(raw));
-      },
+      parseData: _parseTrip,
     );
     return envelope.data!;
+  }
+
+  Future<TripAssignment> updateStatus({
+    required String tripId,
+    required String status,
+  }) async {
+    final envelope = await _client.postEnvelope<TripAssignment>(
+      '/trips/$tripId/status',
+      data: {'status': status},
+      parseData: _parseTrip,
+    );
+    return envelope.data!;
+  }
+
+  TripAssignment _parseTrip(Object? raw) {
+    if (raw is! Map) {
+      throw const FormatException('trip payload invalid');
+    }
+    return TripAssignment.fromJson(Map<String, dynamic>.from(raw));
   }
 }

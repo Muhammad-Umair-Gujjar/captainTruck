@@ -31,13 +31,28 @@ class TripDetailPage extends StatelessWidget {
             ),
           ),
           SafeArea(
-            child: BlocBuilder<TripDetailBloc, TripDetailState>(
+            child: BlocConsumer<TripDetailBloc, TripDetailState>(
+              listenWhen: (prev, next) =>
+                  next.message != null &&
+                  next.message != prev.message &&
+                  !next.busy,
+              listener: (context, state) {
+                final looksSuccess =
+                    state.message!.startsWith('Status');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message!),
+                    backgroundColor:
+                        looksSuccess ? AppTheme.ok : AppTheme.danger,
+                  ),
+                );
+              },
               builder: (context, state) {
                 if (state.status == TripDetailStatus.loading ||
                     state.status == TripDetailStatus.initial) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                if (state.status == TripDetailStatus.failure ||
+                if (state.status == TripDetailStatus.failure &&
                     state.trip == null) {
                   return Center(
                     child: Column(
@@ -58,6 +73,7 @@ class TripDetailPage extends StatelessWidget {
 
                 final trip = state.trip!;
                 final request = trip.request;
+                final next = nextDriverStatus(trip.status);
                 return RefreshIndicator(
                   onRefresh: () async {
                     context
@@ -94,6 +110,46 @@ class TripDetailPage extends StatelessWidget {
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
+                            if (next != null) ...[
+                              const SizedBox(height: 16),
+                              FilledButton(
+                                onPressed: state.busy
+                                    ? null
+                                    : () => context.read<TripDetailBloc>().add(
+                                          TripDetailAdvanceRequested(next),
+                                        ),
+                                child: state.busy
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : Text(driverAdvanceLabel(next)),
+                              ),
+                              if (next == 'COMPLETED') ...[
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Complete requires settled payment on the request.',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(color: AppTheme.inkMuted),
+                                ),
+                              ],
+                            ] else ...[
+                              const SizedBox(height: 12),
+                              Text(
+                                trip.status == 'COMPLETED'
+                                    ? 'Trip finished.'
+                                    : 'No further driver actions for this status.',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(color: AppTheme.inkMuted),
+                              ),
+                            ],
                           ],
                         ),
                       ),
@@ -158,7 +214,7 @@ class TripDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Status advances start in D4. Live GPS in D5.',
+                        'Live GPS publish starts in D5.',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme

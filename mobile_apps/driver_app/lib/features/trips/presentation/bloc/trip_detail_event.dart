@@ -14,3 +14,12 @@ final class TripDetailStarted extends TripDetailEvent {
 final class TripDetailRefreshed extends TripDetailEvent {
   const TripDetailRefreshed();
 }
+
+final class TripDetailAdvanceRequested extends TripDetailEvent {
+  const TripDetailAdvanceRequested(this.nextStatus);
+
+  final String nextStatus;
+
+  @override
+  List<Object?> get props => [nextStatus];
+}

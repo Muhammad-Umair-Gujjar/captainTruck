@@ -15,6 +15,7 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
   }) : super(const TripDetailState()) {
     on<TripDetailStarted>(_onLoad);
     on<TripDetailRefreshed>(_onLoad);
+    on<TripDetailAdvanceRequested>(_onAdvance);
   }
 
   final TripsRepository repository;
@@ -42,6 +43,34 @@ class TripDetailBloc extends Bloc<TripDetailEvent, TripDetailState> {
       emit(
         state.copyWith(
           status: TripDetailStatus.failure,
+          message: _msg(e),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onAdvance(
+    TripDetailAdvanceRequested event,
+    Emitter<TripDetailState> emit,
+  ) async {
+    emit(state.copyWith(busy: true, clearMessage: true));
+    try {
+      final trip = await repository.updateStatus(
+        tripId: tripId,
+        status: event.nextStatus,
+      );
+      emit(
+        state.copyWith(
+          status: TripDetailStatus.ready,
+          trip: trip,
+          busy: false,
+          message: 'Status → ${formatTripStatus(trip.status)}',
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          busy: false,
           message: _msg(e),
         ),
       );
