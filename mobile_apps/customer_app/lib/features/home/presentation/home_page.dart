@@ -286,7 +286,7 @@ class HomePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Payments start in C8.',
+                    'FCM polish starts in C9.',
                     style: TextStyle(color: AppTheme.inkMuted),
                     textAlign: TextAlign.center,
                   ),

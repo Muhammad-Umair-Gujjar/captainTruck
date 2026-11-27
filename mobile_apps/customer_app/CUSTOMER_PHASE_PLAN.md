@@ -58,8 +58,9 @@
 | C5 | Complete (my requests / wait for admin) |
 | C6 | Complete (live trip track via Socket.IO) |
 | C7 | Complete (chat threads / text + presets; media later) |
-| C8–C9 | Not started |
+| C8 | Complete (Cash + Stripe Test Mode pay) |
+| C9 | Not started |
 
 ## Next action
 
-Approve to start **C8** (Cash + Stripe Test pay).
+Approve to start **C9** (FCM + Android/iOS polish).

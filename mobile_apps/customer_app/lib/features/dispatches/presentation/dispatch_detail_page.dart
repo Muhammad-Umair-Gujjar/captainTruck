@@ -9,6 +9,9 @@ import '../../auth/presentation/bloc/auth_bloc.dart';
 import '../../chat/data/chat_repository.dart';
 import '../../chat/presentation/bloc/chat_thread_bloc.dart';
 import '../../chat/presentation/chat_thread_page.dart';
+import '../../payments/data/payments_repository.dart';
+import '../../payments/presentation/bloc/payment_bloc.dart';
+import '../../payments/presentation/payment_page.dart';
 import '../../trips/data/trips_repository.dart';
 import '../../trips/presentation/bloc/live_track_bloc.dart';
 import '../../trips/presentation/live_track_page.dart';
@@ -163,8 +166,32 @@ class DispatchDetailPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      if (d.canTrackLive)
+                      if (d.canPay && d.payableAmountCents != null)
                         FilledButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => BlocProvider(
+                                  create: (ctx) => PaymentBloc(
+                                    repository:
+                                        context.read<PaymentsRepository>(),
+                                    requestId: d.id,
+                                    expectedAmountCents:
+                                        d.payableAmountCents!,
+                                  )..add(const PaymentStarted()),
+                                  child: const PaymentPage(),
+                                ),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'Pay ${formatPkrCents(d.payableAmountCents)}',
+                          ),
+                        ),
+                      if (d.canPay && d.payableAmountCents != null)
+                        const SizedBox(height: 8),
+                      if (d.canTrackLive)
+                        FilledButton.tonal(
                           onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute<void>(

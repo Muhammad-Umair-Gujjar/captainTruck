@@ -159,6 +159,30 @@ class DispatchRequest extends Equatable {
 
   bool get canTrackLive => trip != null && trip!.isTrackable;
 
+  /// After route select the server bill exists; pay anytime before cancel/reject.
+  bool get canPay {
+    if (status == 'CANCELLED' ||
+        status == 'REJECTED' ||
+        status == 'DRAFT' ||
+        status == 'AWAITING_ROUTE_SELECTION') {
+      return false;
+    }
+    if (billBreakdown != null && billBreakdown!.totalBillCents > 0) {
+      return true;
+    }
+    return routeOptions.any((r) => r.isSelected);
+  }
+
+  int? get payableAmountCents {
+    if (billBreakdown != null && billBreakdown!.totalBillCents > 0) {
+      return billBreakdown!.totalBillCents;
+    }
+    final selected = routeOptions.where((r) => r.isSelected).toList();
+    if (selected.isEmpty || lockedBaseRateCents == null) return null;
+    final ai = selected.first.aiCostCents;
+    return (lockedBaseRateCents! + ai) * truckCount;
+  }
+
   factory DispatchRequest.fromJson(Map<String, dynamic> json) {
     final routesRaw = json['routeOptions'];
     final billRaw = json['billBreakdown'];
