@@ -10,6 +10,7 @@ import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/health/data/health_repository.dart';
 import 'features/health/presentation/bloc/health_bloc.dart';
 import 'features/profile/data/profile_repository.dart';
+import 'features/trips/data/trips_repository.dart';
 
 class CaptainTruckDriverApp extends StatelessWidget {
   const CaptainTruckDriverApp({
@@ -41,6 +42,9 @@ class CaptainTruckDriverApp extends StatelessWidget {
         ),
         RepositoryProvider(
           create: (context) => ProfileRepository(context.read<ApiClient>()),
+        ),
+        RepositoryProvider(
+          create: (context) => TripsRepository(context.read<ApiClient>()),
         ),
       ],
       child: MultiBlocProvider(

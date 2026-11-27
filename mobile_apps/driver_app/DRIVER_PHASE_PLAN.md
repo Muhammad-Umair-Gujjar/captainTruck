@@ -54,7 +54,7 @@
 | D0 | Complete (scaffold, BLoC, glass, health) |
 | D1 | Complete (login / refresh / logout; driver role only) |
 | D2 | Complete (profile `/users/me` + driver-profile) |
-| D3 | Not started |
+| D3 | Complete (my assignments list + detail) |
 | D4 | Not started |
 | D5 | Not started |
 | D6 | Not started |
@@ -64,4 +64,4 @@
 
 ## Next action
 
-Approve to start **D3** (my trip assignments).
+Approve to start **D4** (trip status machine).

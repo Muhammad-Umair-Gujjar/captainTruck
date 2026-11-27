@@ -9,6 +9,9 @@ import '../../health/presentation/bloc/health_bloc.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/presentation/bloc/profile_bloc.dart';
 import '../../profile/presentation/profile_page.dart';
+import '../../trips/data/trips_repository.dart';
+import '../../trips/presentation/bloc/my_trips_bloc.dart';
+import '../../trips/presentation/my_trips_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -114,6 +117,22 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
+                FilledButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => BlocProvider(
+                          create: (ctx) => MyTripsBloc(
+                            context.read<TripsRepository>(),
+                          )..add(const MyTripsStarted()),
+                          child: const MyTripsPage(),
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text('My assignments'),
+                ),
+                const SizedBox(height: 8),
                 FilledButton.tonal(
                   onPressed: () {
                     Navigator.of(context).push(
@@ -129,7 +148,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Trips start in D3.',
+                  'Status machine starts in D4.',
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall

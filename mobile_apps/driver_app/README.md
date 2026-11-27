@@ -32,7 +32,8 @@ Physical device: use your PC LAN IP instead of `10.0.2.2`.
 
 **D0:** glass shell + Ping API health  
 **D1:** driver login / logout (admin-created accounts only)  
-**D2:** edit account + driver profile (license / plate / availability)
+**D2:** edit account + driver profile (license / plate / availability)  
+**D3:** my assignments list + trip detail
 
 ```bash
 flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
@@ -43,4 +44,5 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
 3. Customer/admin credentials must show role forbidden  
 4. Sign out → back to login; kill/reopen with valid session → still signed in  
 5. From home, **API health check** still works  
-6. **Edit profile** → save account + driver plate/availability
+6. **Edit profile** → save account + driver plate/availability  
+7. **My assignments** → open a trip detail (pickup/drop/customer)

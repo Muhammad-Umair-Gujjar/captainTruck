@@ -47,7 +47,7 @@ This file preserves locked product/tech decisions from that conversation.
 - Backend Phases 0–16: **complete**.
 - Admin panel (`admin/`): plan A0–A7 in `admin/ADMIN_PHASE_PLAN.md` — A0–A7 complete.
 - Customer Flutter (`mobile_apps/customer_app/`): plan C0–C9 in `CUSTOMER_PHASE_PLAN.md` — C0–C9 complete (FCM token sync + Android/iOS polish); BLoC + vendored `liquid_glass_renderer`.
-- Driver Flutter (`mobile_apps/driver_app/`): plan D0–D9 in `DRIVER_PHASE_PLAN.md` — D0–D2 complete (profile + driver-profile); same glass + BLoC stack; Android + iOS.
+- Driver Flutter (`mobile_apps/driver_app/`): plan D0–D9 in `DRIVER_PHASE_PLAN.md` — D0–D3 complete (my trip assignments); same glass + BLoC stack; Android + iOS.
 
 ## Accounts still needed
 
