@@ -153,6 +153,73 @@ class TripDetailPage extends StatelessWidget {
                           ],
                         ),
                       ),
+                      if (trip.allowsGps) ...[
+                        const SizedBox(height: 16),
+                        GlassPanel(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                'Live GPS',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(fontWeight: FontWeight.w600),
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'Publishes ≥ every ${kLocationThrottleSeconds}s via Socket.IO (REST fallback).',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(color: AppTheme.inkMuted),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                state.gpsSharing
+                                    ? 'Sharing · socket ${state.socketConnected ? 'up' : 'down'} · sent ${state.publishCount}'
+                                    : 'Not sharing',
+                              ),
+                              if (state.lastPublished != null) ...[
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${state.lastPublished!.lat.toStringAsFixed(5)}, '
+                                  '${state.lastPublished!.lng.toStringAsFixed(5)}',
+                                  style: const TextStyle(
+                                    fontFamily: 'monospace',
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ],
+                              const SizedBox(height: 12),
+                              FilledButton.tonal(
+                                onPressed: state.gpsBusy
+                                    ? null
+                                    : () {
+                                        context.read<TripDetailBloc>().add(
+                                              state.gpsSharing
+                                                  ? const TripDetailGpsStopRequested()
+                                                  : const TripDetailGpsStartRequested(),
+                                            );
+                                      },
+                                child: state.gpsBusy
+                                    ? const SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : Text(
+                                        state.gpsSharing
+                                            ? 'Stop GPS sharing'
+                                            : 'Start GPS sharing',
+                                      ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                       const SizedBox(height: 16),
                       GlassPanel(
                         child: Column(
@@ -214,7 +281,7 @@ class TripDetailPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        'Live GPS publish starts in D5.',
+                        'On-trip map starts in D6.',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme

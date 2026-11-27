@@ -126,6 +126,46 @@ class TripRequestSummary extends Equatable {
       ];
 }
 
+class LiveLocation extends Equatable {
+  const LiveLocation({
+    required this.tripId,
+    required this.lat,
+    required this.lng,
+    required this.updatedAt,
+    this.heading,
+    this.speedMps,
+    this.stale = false,
+    this.sealed = false,
+  });
+
+  final String tripId;
+  final double lat;
+  final double lng;
+  final DateTime updatedAt;
+  final double? heading;
+  final double? speedMps;
+  final bool stale;
+  final bool sealed;
+
+  factory LiveLocation.fromJson(Map<String, dynamic> json) {
+    return LiveLocation(
+      tripId: json['tripId'].toString(),
+      lat: (json['lat'] as num).toDouble(),
+      lng: (json['lng'] as num).toDouble(),
+      heading: (json['heading'] as num?)?.toDouble(),
+      speedMps: (json['speedMps'] as num?)?.toDouble(),
+      updatedAt: DateTime.tryParse(json['updatedAt']?.toString() ?? '') ??
+          DateTime.fromMillisecondsSinceEpoch(0),
+      stale: json['stale'] == true,
+      sealed: json['sealed'] == true,
+    );
+  }
+
+  @override
+  List<Object?> get props =>
+      [tripId, lat, lng, heading, speedMps, updatedAt, stale, sealed];
+}
+
 class TripAssignment extends Equatable {
   const TripAssignment({
     required this.id,
@@ -140,6 +180,7 @@ class TripAssignment extends Equatable {
     this.completedAt,
     this.createdAt,
     this.request,
+    this.liveLocation,
   });
 
   final String id;
@@ -154,6 +195,7 @@ class TripAssignment extends Equatable {
   final DateTime? completedAt;
   final DateTime? createdAt;
   final TripRequestSummary? request;
+  final LiveLocation? liveLocation;
 
   bool get isActive {
     const active = {
@@ -166,8 +208,11 @@ class TripAssignment extends Equatable {
     return active.contains(status);
   }
 
+  bool get allowsGps => isActive;
+
   factory TripAssignment.fromJson(Map<String, dynamic> json) {
     final requestRaw = json['request'];
+    final liveRaw = json['liveLocation'];
     return TripAssignment(
       id: json['id'].toString(),
       requestId: json['requestId'].toString(),
@@ -183,6 +228,34 @@ class TripAssignment extends Equatable {
       request: requestRaw is Map
           ? TripRequestSummary.fromJson(Map<String, dynamic>.from(requestRaw))
           : null,
+      liveLocation: liveRaw is Map
+          ? LiveLocation.fromJson(Map<String, dynamic>.from(liveRaw))
+          : null,
+    );
+  }
+
+  TripAssignment copyWith({
+    String? status,
+    double? lastLat,
+    double? lastLng,
+    DateTime? lastLocationAt,
+    LiveLocation? liveLocation,
+    int? finalBillCents,
+  }) {
+    return TripAssignment(
+      id: id,
+      requestId: requestId,
+      driverId: driverId,
+      status: status ?? this.status,
+      finalBillCents: finalBillCents ?? this.finalBillCents,
+      lastLat: lastLat ?? this.lastLat,
+      lastLng: lastLng ?? this.lastLng,
+      lastLocationAt: lastLocationAt ?? this.lastLocationAt,
+      startedAt: startedAt,
+      completedAt: completedAt,
+      createdAt: createdAt,
+      request: request,
+      liveLocation: liveLocation ?? this.liveLocation,
     );
   }
 
@@ -205,6 +278,7 @@ class TripAssignment extends Equatable {
         completedAt,
         createdAt,
         request,
+        liveLocation,
       ];
 }
 

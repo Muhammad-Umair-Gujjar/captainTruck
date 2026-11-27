@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:driver_app/core/location/device_location_source.dart';
 import 'package:driver_app/core/network/api_client.dart';
+import 'package:driver_app/core/realtime/realtime_client.dart';
 import 'package:driver_app/features/trips/data/trips_repository.dart';
 import 'package:driver_app/features/trips/presentation/bloc/my_trips_bloc.dart';
 import 'package:driver_app/features/trips/presentation/bloc/trip_detail_bloc.dart';
@@ -103,6 +105,8 @@ void main() {
     final bloc = TripDetailBloc(
       repository: TripsRepository(ApiClient(dio: dio)),
       tripId: 't1',
+      realtime: FakeRealtimeClient(),
+      locationSource: FakeDeviceLocationSource(),
     );
     bloc.add(const TripDetailStarted());
     await expectLater(

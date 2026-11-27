@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../core/location/device_location_source.dart';
 import '../../../core/money/pkr.dart';
+import '../../../core/realtime/realtime_client.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/glass_panel.dart';
 import '../data/trip_models.dart';
@@ -153,6 +155,8 @@ class MyTripsPage extends StatelessWidget {
                       create: (ctx) => TripDetailBloc(
                         repository: context.read<TripsRepository>(),
                         tripId: trip.id,
+                        realtime: context.read<RealtimeClient>(),
+                        locationSource: GeolocatorLocationSource(),
                       )..add(const TripDetailStarted()),
                       child: const TripDetailPage(),
                     ),

@@ -34,7 +34,8 @@ Physical device: use your PC LAN IP instead of `10.0.2.2`.
 **D1:** driver login / logout (admin-created accounts only)  
 **D2:** edit account + driver profile (license / plate / availability)  
 **D3:** my assignments list + trip detail  
-**D4:** advance trip status (`ASSIGNED` → … → `COMPLETED`)
+**D4:** advance trip status (`ASSIGNED` → … → `COMPLETED`)  
+**D5:** live GPS share (Socket.IO `location:update`, REST fallback, ≥3s)
 
 ```bash
 flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
@@ -47,4 +48,5 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
 5. From home, **API health check** still works  
 6. **Edit profile** → save account + driver plate/availability  
 7. **My assignments** → open a trip detail (pickup/drop/customer)  
-8. Advance status with the primary action button through the trip lifecycle
+8. Advance status with the primary action button through the trip lifecycle  
+9. On an active trip, **Start GPS sharing** → grant location → coords update

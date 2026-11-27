@@ -23,3 +23,20 @@ final class TripDetailAdvanceRequested extends TripDetailEvent {
   @override
   List<Object?> get props => [nextStatus];
 }
+
+final class TripDetailGpsStartRequested extends TripDetailEvent {
+  const TripDetailGpsStartRequested();
+}
+
+final class TripDetailGpsStopRequested extends TripDetailEvent {
+  const TripDetailGpsStopRequested();
+}
+
+final class TripDetailGpsPositionReceived extends TripDetailEvent {
+  const TripDetailGpsPositionReceived(this.position);
+
+  final DevicePosition position;
+
+  @override
+  List<Object?> get props => [position];
+}

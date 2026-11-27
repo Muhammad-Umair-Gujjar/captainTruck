@@ -148,7 +148,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'Live GPS starts in D5.',
+                  'On-trip map starts in D6.',
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall

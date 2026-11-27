@@ -48,6 +48,31 @@ class TripsRepository {
     return envelope.data!;
   }
 
+  Future<LiveLocation> updateLocation({
+    required String tripId,
+    required double lat,
+    required double lng,
+    double? heading,
+    double? speedMps,
+  }) async {
+    final envelope = await _client.postEnvelope<LiveLocation>(
+      '/trips/$tripId/location',
+      data: {
+        'lat': lat,
+        'lng': lng,
+        'heading': ?heading,
+        'speedMps': ?speedMps,
+      },
+      parseData: (raw) {
+        if (raw is! Map) {
+          throw const FormatException('location payload invalid');
+        }
+        return LiveLocation.fromJson(Map<String, dynamic>.from(raw));
+      },
+    );
+    return envelope.data!;
+  }
+
   TripAssignment _parseTrip(Object? raw) {
     if (raw is! Map) {
       throw const FormatException('trip payload invalid');
