@@ -6,6 +6,7 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/widgets/glass_panel.dart';
 import '../data/trip_models.dart';
 import 'bloc/trip_detail_bloc.dart';
+import 'on_trip_map_page.dart';
 
 class TripDetailPage extends StatelessWidget {
   const TripDetailPage({super.key});
@@ -280,8 +281,22 @@ class TripDetailPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
+                      FilledButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (_) => BlocProvider.value(
+                                value: context.read<TripDetailBloc>(),
+                                child: const OnTripMapPage(),
+                              ),
+                            ),
+                          );
+                        },
+                        child: const Text('Open on-trip map'),
+                      ),
+                      const SizedBox(height: 12),
                       Text(
-                        'On-trip map starts in D6.',
+                        'Chat starts in D7.',
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme

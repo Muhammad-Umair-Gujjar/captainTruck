@@ -35,7 +35,8 @@ Physical device: use your PC LAN IP instead of `10.0.2.2`.
 **D2:** edit account + driver profile (license / plate / availability)  
 **D3:** my assignments list + trip detail  
 **D4:** advance trip status (`ASSIGNED` → … → `COMPLETED`)  
-**D5:** live GPS share (Socket.IO `location:update`, REST fallback, ≥3s)
+**D5:** live GPS share (Socket.IO `location:update`, REST fallback, ≥3s)  
+**D6:** on-trip map (pickup / drop / self markers)
 
 ```bash
 flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
@@ -49,4 +50,5 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
 6. **Edit profile** → save account + driver plate/availability  
 7. **My assignments** → open a trip detail (pickup/drop/customer)  
 8. Advance status with the primary action button through the trip lifecycle  
-9. On an active trip, **Start GPS sharing** → grant location → coords update
+9. On an active trip, **Start GPS sharing** → grant location → coords update  
+10. **Open on-trip map** → pickup/drop/self markers; map follows GPS

@@ -148,7 +148,7 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'On-trip map starts in D6.',
+                  'Chat starts in D7.',
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall
