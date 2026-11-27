@@ -12,6 +12,9 @@ import 'features/health/data/health_repository.dart';
 import 'features/health/presentation/bloc/health_bloc.dart';
 import 'features/chat/data/chat_repository.dart';
 import 'features/dispatches/data/dispatches_repository.dart';
+import 'features/notifications/data/device_push_token_source.dart';
+import 'features/notifications/data/notifications_repository.dart';
+import 'features/notifications/data/push_sync_service.dart';
 import 'features/payments/data/payments_repository.dart';
 import 'features/places/data/places_repository.dart';
 import 'features/profile/data/profile_repository.dart';
@@ -25,11 +28,15 @@ class CaptainTruckCustomerApp extends StatelessWidget {
     this.apiClient,
     this.tokenStorage,
     this.realtimeClient,
+    this.pushTokenSource,
+    this.pushSyncService,
   });
 
   final ApiClient? apiClient;
   final TokenStorage? tokenStorage;
   final RealtimeClient? realtimeClient;
+  final DevicePushTokenSource? pushTokenSource;
+  final PushSyncService? pushSyncService;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +48,26 @@ class CaptainTruckCustomerApp extends StatelessWidget {
     );
     client.setRefreshHandler(authRepository.tryRefresh);
 
+    final notificationsRepository = NotificationsRepository(client);
+    final pushSync = pushSyncService ??
+        PushSyncService(
+          repository: notificationsRepository,
+          tokenSource: pushTokenSource ??
+              FakeDevicePushTokenSource(
+                token: null,
+                permissionGranted: false,
+              ),
+        );
+
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider<TokenStorage>.value(value: storage),
         RepositoryProvider<ApiClient>.value(value: client),
         RepositoryProvider<AuthRepository>.value(value: authRepository),
+        RepositoryProvider<NotificationsRepository>.value(
+          value: notificationsRepository,
+        ),
+        RepositoryProvider<PushSyncService>.value(value: pushSync),
         RepositoryProvider(
           create: (context) => HealthRepository(context.read<ApiClient>()),
         ),
@@ -81,9 +103,10 @@ class CaptainTruckCustomerApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) =>
-                AuthBloc(context.read<AuthRepository>())
-                  ..add(const AuthStarted()),
+            create: (context) => AuthBloc(
+              context.read<AuthRepository>(),
+              pushSync: context.read<PushSyncService>(),
+            )..add(const AuthStarted()),
           ),
           BlocProvider(
             create: (context) => HealthBloc(context.read<HealthRepository>()),

@@ -13,6 +13,7 @@ import '../../dispatches/presentation/bloc/my_requests_bloc.dart';
 import '../../dispatches/presentation/create_dispatch_page.dart';
 import '../../dispatches/presentation/my_requests_page.dart';
 import '../../health/presentation/bloc/health_bloc.dart';
+import '../../notifications/data/push_sync_service.dart';
 import '../../places/data/places_repository.dart';
 import '../../profile/data/profile_repository.dart';
 import '../../profile/presentation/bloc/profile_bloc.dart';
@@ -284,18 +285,72 @@ class HomePage extends StatelessWidget {
                     },
                     child: const Text('API health check'),
                   ),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'FCM polish starts in C9.',
-                    style: TextStyle(color: AppTheme.inkMuted),
-                    textAlign: TextAlign.center,
-                  ),
+                  const SizedBox(height: 16),
+                  const _PushStatusCard(),
                 ],
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _PushStatusCard extends StatelessWidget {
+  const _PushStatusCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final push = context.read<PushSyncService>();
+    return StreamBuilder<PushSyncStatus>(
+      stream: push.statusStream,
+      initialData: push.status,
+      builder: (context, snapshot) {
+        final status = snapshot.data ?? push.status;
+        final label = switch (status) {
+          PushSyncStatus.idle => 'Idle',
+          PushSyncStatus.syncing => 'Syncing…',
+          PushSyncStatus.registered => 'Token registered',
+          PushSyncStatus.unavailable => 'Unavailable',
+          PushSyncStatus.failed => 'Failed',
+        };
+        final server = push.serverConfigured == null
+            ? 'unknown'
+            : (push.serverConfigured! ? 'yes' : 'no');
+        return GlassPanel(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Push notifications',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 8),
+              Text('Status: $label'),
+              Text('Server FCM configured: $server'),
+              if (push.lastError != null) ...[
+                const SizedBox(height: 4),
+                Text(
+                  push.lastError!,
+                  style: const TextStyle(
+                    color: AppTheme.inkMuted,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+              const SizedBox(height: 12),
+              FilledButton.tonal(
+                onPressed: () => context.read<PushSyncService>().start(),
+                child: const Text('Retry push sync'),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -59,8 +59,8 @@
 | C6 | Complete (live trip track via Socket.IO) |
 | C7 | Complete (chat threads / text + presets; media later) |
 | C8 | Complete (Cash + Stripe Test Mode pay) |
-| C9 | Not started |
+| C9 | Complete (FCM token register/unregister + Android/iOS polish) |
 
 ## Next action
 
-Approve to start **C9** (FCM + Android/iOS polish).
+Customer phases **C0–C9** complete. Approve before any post-phase polish or driver-app work.

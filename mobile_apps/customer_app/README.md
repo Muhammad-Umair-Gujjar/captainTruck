@@ -28,10 +28,22 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
 
 Physical device: use your PC LAN IP instead of `10.0.2.2`.
 
+## FCM (C9)
+
+Push uses **FCM only** (`firebase_messaging`) → Nest `POST/DELETE /notifications/tokens`.
+
+1. Create a Firebase project and add Android (`com.example.customer_app`) + iOS (`com.example.customerApp`) apps.
+2. Replace placeholders:
+   - `android/app/google-services.json`
+   - `ios/Runner/GoogleService-Info.plist`
+   - `lib/firebase_options.dart` (or run `flutterfire configure`)
+3. Put the same service-account JSON on the Nest host (`FCM_*` env) so the API can send.
+4. Until those files are real, the app still boots; push sync shows **Unavailable** and no-ops.
+
 ## Smoke
 
-**C0:** glass shell + Ping API health  
-**C1:** register / login / logout (customer role only); session restores after restart
+**C0–C8:** auth → book → routes → track → chat → pay  
+**C9:** after login, home **Push notifications** card; with real Firebase, status becomes **Token registered**; sign-out unregisters
 
 ```bash
 flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
@@ -40,4 +52,5 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
 1. Create account → lands on home  
 2. Sign out → login  
 3. Sign in again → home; kill/reopen app → still signed in (secure storage)  
-4. Admin/driver credentials must be rejected
+4. Admin/driver credentials must be rejected  
+5. With Firebase configured: grant notification permission → token registers with API

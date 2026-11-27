@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/network/api_exception.dart';
+import '../../../notifications/data/push_sync_service.dart';
 import '../../data/auth_models.dart';
 import '../../data/auth_repository.dart';
 
@@ -9,7 +12,7 @@ part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  AuthBloc(this._repository) : super(const AuthState()) {
+  AuthBloc(this._repository, {this._pushSync}) : super(const AuthState()) {
     on<AuthStarted>(_onStarted);
     on<AuthLoginSubmitted>(_onLogin);
     on<AuthRegisterSubmitted>(_onRegister);
@@ -18,6 +21,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   final AuthRepository _repository;
+  final PushSyncService? _pushSync;
 
   Future<void> _onStarted(AuthStarted event, Emitter<AuthState> emit) async {
     emit(state.copyWith(busy: true, clearMessage: true));
@@ -40,6 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           busy: false,
         ),
       );
+      unawaited(_pushSync?.start());
     } catch (e) {
       emit(
         state.copyWith(
@@ -69,6 +74,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           busy: false,
         ),
       );
+      unawaited(_pushSync?.start());
     } catch (e) {
       emit(
         state.copyWith(
@@ -99,6 +105,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           busy: false,
         ),
       );
+      unawaited(_pushSync?.start());
     } catch (e) {
       emit(
         state.copyWith(
@@ -115,6 +122,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     emit(state.copyWith(busy: true, clearMessage: true));
+    // Unregister FCM while JWT is still present.
+    try {
+      await _pushSync?.stop();
+    } catch (_) {}
     await _repository.logout();
     emit(
       state.copyWith(
