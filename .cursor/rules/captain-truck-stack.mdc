@@ -1,5 +1,5 @@
 ---
-description: Captain Truck FYP — locked stack; NestJS + admin + customer Flutter in this repo
+description: Captain Truck FYP — locked stack; NestJS + admin + customer/driver Flutter in this repo
 alwaysApply: true
 ---
 
@@ -9,10 +9,8 @@ alwaysApply: true
 - NestJS custom backend (TypeScript) — `backend/`
 - React admin dashboard (Vite + Tailwind), hosted on Vercel — `admin/`
 - Flutter **Customer** app (Android **and iOS**) — `mobile_apps/customer_app/`
+- Flutter **Driver** app (Android **and iOS**) — `mobile_apps/driver_app/`
 - Vendored UI deps (e.g. liquid glass) — `mobile_apps/vendor/`
-
-## Do NOT build in this repo yet
-- Flutter **Driver** app (separate folder/repo later)
 
 ## Locked technologies (do not substitute)
 | Layer | Choice |
@@ -27,14 +25,15 @@ alwaysApply: true
 | Maps/routing | OSM: Nominatim, Photon, OSRM (mobile: flutter_map) |
 | On-device AI | TFLite cost prediction + ML Kit Smart Reply (mobile) |
 | Customer UI | Flutter + **BLoC** + `liquid_glass_renderer` (vendored from GitHub) |
+| Driver UI | Flutter + **BLoC** + same vendored `liquid_glass_renderer` |
 | Payments | Cash-on-Pickup **and** Stripe **Test Mode** |
 | API host | Oracle Cloud Always Free VM |
 | Admin host | Vercel |
-| Language | TypeScript (API/admin); Dart (customer Flutter) |
+| Language | TypeScript (API/admin); Dart (customer/driver Flutter) |
 
 ## Product surfaces
 1. Customer Flutter app — Android + iOS — `mobile_apps/customer_app/`
-2. Driver Flutter app — later / separate
+2. Driver Flutter app — Android + iOS — `mobile_apps/driver_app/`
 3. Admin web panel — this repo
 4. Shared NestJS API — this repo
 
@@ -52,6 +51,7 @@ alwaysApply: true
 - Optimize for low latency (no cold-start PaaS for the API)
 - Keep APIs mobile-ready (REST + Socket.IO)
 - Customer app phases gated like backend/admin (`CUSTOMER_PHASE_PLAN.md`)
+- Driver app phases gated (`DRIVER_PHASE_PLAN.md`); approve before each next phase
 
 ## When unsure
-Ask before adding paid services, Firebase (beyond FCM), MongoDB, GraphQL, or a third client beyond customer Flutter + admin.
+Ask before adding paid services, Firebase (beyond FCM), MongoDB, GraphQL, or a fourth client beyond customer Flutter + driver Flutter + admin.

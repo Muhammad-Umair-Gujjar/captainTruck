@@ -1,30 +1,50 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
+import 'package:driver_app/app.dart';
+import 'package:driver_app/core/auth/token_storage.dart';
+import 'package:driver_app/core/network/api_client.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:driver_app/main.dart';
-
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('shows driver login when no session', (tester) async {
+    final storage = MemoryTokenStorage();
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: 'http://test/api/v1',
+        connectTimeout: const Duration(milliseconds: 50),
+        receiveTimeout: const Duration(milliseconds: 50),
+      ),
+    );
+    dio.httpClientAdapter = _FailAdapter();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.pumpWidget(
+      CaptainTruckDriverApp(
+        apiClient: ApiClient(dio: dio, tokenStorage: storage),
+        tokenStorage: storage,
+      ),
+    );
     await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.textContaining('Driver sign in'), findsOneWidget);
+    expect(find.text('Sign in'), findsOneWidget);
+    expect(find.textContaining('No self-register'), findsOneWidget);
   });
+}
+
+class _FailAdapter implements HttpClientAdapter {
+  @override
+  void close({bool force = false}) {}
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<List<int>>? requestStream,
+    Future<void>? cancelFuture,
+  ) async {
+    throw DioException(
+      requestOptions: options,
+      type: DioExceptionType.connectionError,
+      message: 'offline',
+    );
+  }
 }

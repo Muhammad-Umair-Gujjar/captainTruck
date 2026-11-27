@@ -1,17 +1,44 @@
-# driver_app
+# Captain Truck — Driver app
 
-A new Flutter project.
+Flutter + **BLoC** driver client (**Android + iOS**). Talks to NestJS in `backend/`.
 
-## Getting Started
+Phase plan: [DRIVER_PHASE_PLAN.md](./DRIVER_PHASE_PLAN.md)
 
-This project is a starting point for a Flutter application.
+Drivers are **admin-created** (`POST /auth/drivers`); this app only supports login (no self-register).
 
-A few resources to get you started if this is your first Flutter project:
+## Glass UI
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+`liquid_glass_renderer` **0.2.0-dev.4** is vendored at:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+`mobile_apps/vendor/flutter_liquid_glass/packages/liquid_glass_renderer`
+
+Same pin as the customer app.
+
+## Run
+
+```bash
+# Terminal 1 — API
+cd ../../backend && npm run start:dev
+
+# Terminal 2 — Driver (emulator)
+cd ../mobile_apps/driver_app
+flutter pub get
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
+```
+
+Physical device: use your PC LAN IP instead of `10.0.2.2`.
+
+## Smoke
+
+**D0:** glass shell + Ping API health  
+**D1:** driver login / logout (admin-created accounts only)
+
+```bash
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
+```
+
+1. App opens on **Driver sign in**  
+2. Sign in with a DRIVER account → home with role/status  
+3. Customer/admin credentials must show role forbidden  
+4. Sign out → back to login; kill/reopen with valid session → still signed in  
+5. From home, **API health check** still works

@@ -63,4 +63,4 @@
 
 ## Next action
 
-Customer phases **C0–C9** complete. Approve before any post-phase polish or driver-app work.
+Customer phases **C0–C9** complete. Driver app work is gated in `mobile_apps/driver_app/DRIVER_PHASE_PLAN.md`.
